@@ -189,6 +189,7 @@
             Controls.Add(label1);
             Name = "FrmPedidoClientes";
             Text = "FrmPedidoClientes";
+            Load += FrmPedidoClientes_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);

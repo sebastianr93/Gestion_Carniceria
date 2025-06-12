@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gestion_Carniceria.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,11 @@ namespace Gestion_Carniceria
         public FrmPedidoClientes()
         {
             InitializeComponent();
+        }
+
+        private void FrmPedidoClientes_Load(object sender, EventArgs e)
+        {
+            TemaApp.AplicarTema(this);
         }
     }
 }

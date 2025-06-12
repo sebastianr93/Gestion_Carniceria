@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Gestion_Carniceria;
+using Gestion_Carniceria.Entities;
 
 namespace Gestion_Carniceria
 {
@@ -22,7 +22,7 @@ namespace Gestion_Carniceria
 
         private void FrmClientes_Load(object sender, EventArgs e)
         {
-            //TemaApp.AplicarTema(this);
+            TemaApp.AplicarTema(this);
         }
 
         private void label6_Click(object sender, EventArgs e)
