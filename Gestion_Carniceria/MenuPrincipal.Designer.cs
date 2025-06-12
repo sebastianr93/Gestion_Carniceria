@@ -43,13 +43,14 @@
             btnSalir = new Button();
             cbModoOscuro = new CheckBox();
             btnAbout = new Button();
+            btnMediosDePago = new Button();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label1.Location = new Point(12, 26);
+            label1.Location = new Point(13, 248);
             label1.Name = "label1";
             label1.Size = new Size(68, 21);
             label1.TabIndex = 0;
@@ -59,7 +60,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label2.Location = new Point(122, 26);
+            label2.Location = new Point(123, 248);
             label2.Name = "label2";
             label2.Size = new Size(98, 21);
             label2.TabIndex = 0;
@@ -69,7 +70,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label3.Location = new Point(288, 26);
+            label3.Location = new Point(289, 248);
             label3.Name = "label3";
             label3.Size = new Size(48, 21);
             label3.TabIndex = 1;
@@ -79,7 +80,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label4.Location = new Point(425, 26);
+            label4.Location = new Point(426, 248);
             label4.Name = "label4";
             label4.Size = new Size(73, 21);
             label4.TabIndex = 2;
@@ -87,9 +88,9 @@
             // 
             // btnDatosClientes
             // 
-            btnDatosClientes.Location = new Point(12, 50);
+            btnDatosClientes.Location = new Point(13, 272);
             btnDatosClientes.Name = "btnDatosClientes";
-            btnDatosClientes.Size = new Size(75, 23);
+            btnDatosClientes.Size = new Size(101, 23);
             btnDatosClientes.TabIndex = 3;
             btnDatosClientes.Text = "Datos";
             btnDatosClientes.UseVisualStyleBackColor = true;
@@ -97,9 +98,9 @@
             // 
             // btnPedidosClientes
             // 
-            btnPedidosClientes.Location = new Point(12, 79);
+            btnPedidosClientes.Location = new Point(13, 301);
             btnPedidosClientes.Name = "btnPedidosClientes";
-            btnPedidosClientes.Size = new Size(75, 23);
+            btnPedidosClientes.Size = new Size(101, 23);
             btnPedidosClientes.TabIndex = 4;
             btnPedidosClientes.Text = "Pedidos";
             btnPedidosClientes.UseVisualStyleBackColor = true;
@@ -107,16 +108,17 @@
             // 
             // btnDatosProveedores
             // 
-            btnDatosProveedores.Location = new Point(145, 50);
+            btnDatosProveedores.Location = new Point(123, 272);
             btnDatosProveedores.Name = "btnDatosProveedores";
             btnDatosProveedores.Size = new Size(75, 23);
             btnDatosProveedores.TabIndex = 5;
             btnDatosProveedores.Text = "Datos";
             btnDatosProveedores.UseVisualStyleBackColor = true;
+            btnDatosProveedores.Click += btnDatosProveedores_Click;
             // 
             // btnPedidosProveedores
             // 
-            btnPedidosProveedores.Location = new Point(145, 79);
+            btnPedidosProveedores.Location = new Point(123, 301);
             btnPedidosProveedores.Name = "btnPedidosProveedores";
             btnPedidosProveedores.Size = new Size(75, 23);
             btnPedidosProveedores.TabIndex = 6;
@@ -126,7 +128,7 @@
             // 
             // btnInventario
             // 
-            btnInventario.Location = new Point(288, 50);
+            btnInventario.Location = new Point(289, 272);
             btnInventario.Name = "btnInventario";
             btnInventario.Size = new Size(75, 23);
             btnInventario.TabIndex = 7;
@@ -136,7 +138,7 @@
             // 
             // btnCierreDelDia
             // 
-            btnCierreDelDia.Location = new Point(425, 50);
+            btnCierreDelDia.Location = new Point(426, 272);
             btnCierreDelDia.Name = "btnCierreDelDia";
             btnCierreDelDia.Size = new Size(97, 23);
             btnCierreDelDia.TabIndex = 8;
@@ -145,7 +147,7 @@
             // 
             // btnDeudores
             // 
-            btnDeudores.Location = new Point(425, 79);
+            btnDeudores.Location = new Point(426, 301);
             btnDeudores.Name = "btnDeudores";
             btnDeudores.Size = new Size(133, 23);
             btnDeudores.TabIndex = 9;
@@ -154,7 +156,7 @@
             // 
             // btnTotales
             // 
-            btnTotales.Location = new Point(425, 108);
+            btnTotales.Location = new Point(426, 330);
             btnTotales.Name = "btnTotales";
             btnTotales.Size = new Size(75, 23);
             btnTotales.TabIndex = 10;
@@ -163,7 +165,7 @@
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(12, 203);
+            btnSalir.Location = new Point(13, 425);
             btnSalir.Name = "btnSalir";
             btnSalir.Size = new Size(75, 23);
             btnSalir.TabIndex = 11;
@@ -174,7 +176,7 @@
             // cbModoOscuro
             // 
             cbModoOscuro.AutoSize = true;
-            cbModoOscuro.Location = new Point(482, 207);
+            cbModoOscuro.Location = new Point(483, 429);
             cbModoOscuro.Name = "cbModoOscuro";
             cbModoOscuro.Size = new Size(99, 19);
             cbModoOscuro.TabIndex = 12;
@@ -184,7 +186,7 @@
             // 
             // btnAbout
             // 
-            btnAbout.Location = new Point(112, 203);
+            btnAbout.Location = new Point(113, 425);
             btnAbout.Name = "btnAbout";
             btnAbout.Size = new Size(75, 23);
             btnAbout.TabIndex = 13;
@@ -192,11 +194,22 @@
             btnAbout.UseVisualStyleBackColor = true;
             btnAbout.Click += btnAbout_Click;
             // 
+            // btnMediosDePago
+            // 
+            btnMediosDePago.Location = new Point(13, 330);
+            btnMediosDePago.Name = "btnMediosDePago";
+            btnMediosDePago.Size = new Size(101, 23);
+            btnMediosDePago.TabIndex = 14;
+            btnMediosDePago.Text = "Medios de Pago";
+            btnMediosDePago.UseVisualStyleBackColor = true;
+            btnMediosDePago.Click += btnMediosDePago_Click;
+            // 
             // MenuPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(593, 238);
+            ClientSize = new Size(593, 467);
+            Controls.Add(btnMediosDePago);
             Controls.Add(btnAbout);
             Controls.Add(cbModoOscuro);
             Controls.Add(btnSalir);
@@ -235,5 +248,6 @@
         private Button btnSalir;
         private CheckBox cbModoOscuro;
         private Button btnAbout;
+        private Button btnMediosDePago;
     }
 }

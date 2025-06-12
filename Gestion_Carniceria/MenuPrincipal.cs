@@ -93,6 +93,12 @@ namespace Gestion_Carniceria
             FrmAbout frmAbout = new FrmAbout();
             frmAbout.Show();
         }
+
+        private void btnMediosDePago_Click(object sender, EventArgs e)
+        {
+            FrmMediosDePago frmMediosDePago = new FrmMediosDePago();
+            frmMediosDePago.Show();
+        }
     }
 
 }
