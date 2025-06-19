@@ -57,4 +57,45 @@ public class ClienteDAO
             return filasAfectadas > 0;
         }
     }
+
+    public List<Cliente> BuscarClientes(string termino)
+    {
+        List<Cliente> lista = new List<Cliente>();
+
+        using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+        {
+            string query = @"SELECT * FROM cliente 
+                         WHERE Nombre LIKE @Termino OR 
+                               Apellido LIKE @Termino OR 
+                               Telefono LIKE @Termino OR 
+                               Correo LIKE @Termino OR 
+                               DNI LIKE @Termino";
+
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@Termino", "%" + termino + "%");
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Cliente c = new Cliente
+                {
+                    ID = Convert.ToInt32(reader["ID"]),
+                    Nombre = reader["Nombre"].ToString(),
+                    Apellido = reader["Apellido"].ToString(),
+                    Telefono = reader["Telefono"].ToString(),
+                    Correo = reader["Correo"].ToString(),
+                    DNI = reader["DNI"].ToString()
+                };
+
+                c.AgregarDeuda(Convert.ToDecimal(reader["Deuda"]));
+                lista.Add(c);
+            }
+
+            reader.Close();
+        }
+
+        return lista;
+    }
+
 }
