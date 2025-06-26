@@ -94,7 +94,6 @@ namespace Gestion_Carniceria.Data
                     categoria = new Categoria
                     {
                         Nombre = reader["Nombre"].ToString(),
-                        Tipo = reader["Tipo"].ToString()
                     };
                 }
             }

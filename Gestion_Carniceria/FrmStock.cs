@@ -1,5 +1,6 @@
 ﻿using Gestion_Carniceria.Data;
 using Gestion_Carniceria.Entities;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Gestion_Carniceria
 {
@@ -24,6 +25,9 @@ namespace Gestion_Carniceria
         {
             CargarProductosEnGrilla();
             CargarCategorias();
+            LimpiarInfoProducto();
+
+            lblDescripcionProducto.TextAlign = ContentAlignment.TopLeft;
 
         }
 
@@ -33,21 +37,11 @@ namespace Gestion_Carniceria
         private void CargarProductosEnGrilla()
         {
             ProductoDAO dao = new ProductoDAO();
-            productosOriginales = dao.ObtenerTodosLosProductos(); // guardás la lista real
-
-            var productosParaMostrar = productosOriginales.Select(p => new
-            {
-                p.ID,
-                p.Nombre,
-                p.Descripcion,
-                p.Peso,
-                p.Cantidad,
-                p.Precio,
-                Categoria = p.Categoria?.Nombre ?? "(Sin categoría)"
-            }).ToList();
+            productosOriginales = dao.ObtenerTodosLosProductos();
 
             dgvProductos.DataSource = null;
-            dgvProductos.DataSource = productosParaMostrar;
+            dgvProductos.DataSource = productosOriginales;
+
         }
 
 
@@ -70,6 +64,25 @@ namespace Gestion_Carniceria
             cbCategoriaProducto.SelectedIndex = -1;
         }
 
+        private void LimpiarInfoProducto()
+        {
+            lblIDProducto.Text = "";
+            lblNombreProducto.Text = "";
+            lblDescripcionProducto.Text = "";
+            lblCategoriaProducto.Text = "";
+            lblStockProducto.Text = "";
+            lblPrecioProducto.Text = "";
+
+            // Opcional: ocultar todos los labels
+            lblIDProducto.Visible = false;
+            lblNombreProducto.Visible = false;
+            lblDescripcionProducto.Visible = false;
+            lblCategoriaProducto.Visible = false;
+            lblStockProducto.Visible = false;
+            lblPrecioProducto.Visible = false;
+        }
+
+
         private void LimpiarCampos()
         {
             txtNombreProducto.Text = "";
@@ -80,46 +93,90 @@ namespace Gestion_Carniceria
             cbCategoriaProducto.SelectedIndex = -1;
         }
 
+
         private void btnCrearProducto_Click(object sender, EventArgs e)
         {
-            // Obtener valores de los controles
-            string nombre = txtNombreProducto.Text;
-            string descripcion = txtDescripcionProducto.Text;
+            // Validaciones de campos obligatorios
+            if (string.IsNullOrWhiteSpace(txtNombreProducto.Text) ||
+                string.IsNullOrWhiteSpace(txtDescripcionProducto.Text) ||
+                string.IsNullOrWhiteSpace(txtPrecioProducto.Text) ||
+                cbCategoriaProducto.SelectedItem == null ||
+                (!rbTipoUnidad.Checked && !rbTipoPeso.Checked))
+            {
+                MessageBox.Show("Por favor, complete todos los campos obligatorios y seleccione un tipo de conteo (Peso o Unidad).");
+                return;
+            }
+
+
+
+            // Declaración de variables
             decimal peso = 0;
             int cantidad = 0;
-            decimal precio = 0;
-            int categoriaId = 0;
+            TipoProducto tipo;
 
-            // Validar y convertir números (puedes mejorar con try/catch o TryParse)
-            decimal.TryParse(txtPesoProducto.Text, out peso);
-            int.TryParse(txtCantidadProducto.Text, out cantidad);
-            decimal.TryParse(txtPrecioProducto.Text, out precio);
-            int.TryParse(cbCategoriaProducto.SelectedValue?.ToString(), out categoriaId);
+            // Validación según el tipo seleccionado
+            if (rbTipoPeso.Checked)
+            {
+                tipo = TipoProducto.Peso;
 
-            // Crear objeto Categoria con el ID ya asignado
+
+                if (string.IsNullOrWhiteSpace(txtPesoProducto.Text) || !decimal.TryParse(txtPesoProducto.Text, out peso) || peso <= 0)
+                {
+                    MessageBox.Show("Ingrese un peso válido mayor a 0.");
+                    return;
+                }
+
+                cantidad = 0; // Por peso, cantidad no aplica
+            }
+            else // rbTipoUnidad.Checked
+            {
+                tipo = TipoProducto.Unidad;
+
+
+                if (string.IsNullOrWhiteSpace(txtCantidadProducto.Text) || !int.TryParse(txtCantidadProducto.Text, out cantidad) || cantidad <= 0)
+                {
+                    MessageBox.Show("Ingrese una cantidad válida mayor a 0.");
+                    return;
+                }
+
+                peso = 0; // Por unidad, peso no aplica
+            }
+
+            // Validación del precio
+            if (!decimal.TryParse(txtPrecioProducto.Text, out decimal precio) || precio <= 0)
+            {
+                MessageBox.Show("Ingrese un precio válido mayor a 0.");
+                return;
+            }
+
+            // Validación de categoría
+            if (!int.TryParse(cbCategoriaProducto.SelectedValue?.ToString(), out int categoriaId) || categoriaId <= 0)
+            {
+                MessageBox.Show("Seleccione una categoría válida.");
+                return;
+            }
+
+            // Crear objeto Categoria y Producto
             Categoria cat = new Categoria { ID = categoriaId };
 
-            // Crear objeto Producto
             Producto nuevoProducto = new Producto
             {
-                Nombre = nombre,
-                Descripcion = descripcion,
+                Nombre = txtNombreProducto.Text.Trim(),
+                Descripcion = txtDescripcionProducto.Text.Trim(),
                 Peso = peso,
                 Cantidad = cantidad,
                 Precio = precio,
-                Categoria = cat
+                Categoria = cat,
+                Tipo = tipo
             };
 
-            // DAO para guardar
             ProductoDAO dao = new ProductoDAO();
             bool exito = dao.CrearProducto(nuevoProducto);
 
             if (exito)
             {
                 MessageBox.Show("Producto creado con éxito");
-                CargarProductosEnGrilla(); // Recarga la grilla con datos actualizados
-
-                // Limpiar campos
+                CargarProductosEnGrilla();
                 LimpiarCampos();
             }
             else
@@ -127,6 +184,8 @@ namespace Gestion_Carniceria
                 MessageBox.Show("Error al crear el producto");
             }
         }
+
+
 
         private void btnEliminarProducto_Click(object sender, EventArgs e)
         {
@@ -191,37 +250,93 @@ namespace Gestion_Carniceria
                 return;
             }
 
-            // Obtener datos modificados
-            productoSeleccionado.Nombre = txtNombreProducto.Text;
-            productoSeleccionado.Descripcion = txtDescripcionProducto.Text;
-            decimal.TryParse(txtPesoProducto.Text, out decimal peso);
-            productoSeleccionado.Peso = peso;
-            int.TryParse(txtCantidadProducto.Text, out int cantidad);
-            productoSeleccionado.Cantidad = cantidad;
-            decimal.TryParse(txtPrecioProducto.Text, out decimal precio);
-            productoSeleccionado.Precio = precio;
-
-            // Asignar nueva categoría
-            int.TryParse(cbCategoriaProducto.SelectedValue?.ToString(), out int categoriaId);
-            productoSeleccionado.Categoria = new Categoria { ID = categoriaId };
-
-            // Llamar al DAO
-            ProductoDAO dao = new ProductoDAO();
-            bool exito = dao.ModificarProducto(productoSeleccionado);
-
-            if (exito)
+            try
             {
-                MessageBox.Show("Producto modificado con éxito.");
-                CargarProductosEnGrilla();
-                LimpiarCampos();
-            }
-            else
-            {
-                MessageBox.Show("Error al modificar el producto.");
-            }
+                // Validaciones básicas
+                if (string.IsNullOrWhiteSpace(txtNombreProducto.Text) ||
+                    string.IsNullOrWhiteSpace(txtDescripcionProducto.Text) ||
+                    string.IsNullOrWhiteSpace(txtPrecioProducto.Text) ||
+                    cbCategoriaProducto.SelectedItem == null ||
+                    (!rbTipoUnidad.Checked && !rbTipoPeso.Checked))
+                {
+                    MessageBox.Show("Por favor, complete todos los campos obligatorios y seleccione un tipo (Unidad o Peso).");
+                    return;
+                }
 
-            productoSeleccionado = null; // limpiar selección
+                // Tipo de producto
+                TipoProducto tipo = rbTipoPeso.Checked ? TipoProducto.Peso : TipoProducto.Unidad;
+                productoSeleccionado.Tipo = tipo;
+
+                // Nombre y descripción
+                productoSeleccionado.Nombre = txtNombreProducto.Text.Trim();
+                productoSeleccionado.Descripcion = txtDescripcionProducto.Text.Trim();
+
+                // Cantidad/Peso según tipo
+                if (tipo == TipoProducto.Peso)
+                {
+                    if (!decimal.TryParse(txtPesoProducto.Text, out decimal peso) || peso <= 0)
+                    {
+                        MessageBox.Show("Ingrese un peso válido mayor a 0.");
+                        return;
+                    }
+
+                    productoSeleccionado.Peso = peso;
+                    productoSeleccionado.Cantidad = 0;
+                }
+                else // Unidad
+                {
+                    if (!int.TryParse(txtCantidadProducto.Text, out int cantidad) || cantidad <= 0)
+                    {
+                        MessageBox.Show("Ingrese una cantidad válida mayor a 0.");
+                        return;
+                    }
+
+                    productoSeleccionado.Cantidad = cantidad;
+                    productoSeleccionado.Peso = 0;
+                }
+
+                // Precio
+                if (!decimal.TryParse(txtPrecioProducto.Text, out decimal precio) || precio <= 0)
+                {
+                    MessageBox.Show("Ingrese un precio válido mayor a 0.");
+                    return;
+                }
+                productoSeleccionado.Precio = precio;
+
+                // Categoría
+                if (!int.TryParse(cbCategoriaProducto.SelectedValue?.ToString(), out int categoriaId) || categoriaId <= 0)
+                {
+                    MessageBox.Show("Seleccione una categoría válida.");
+                    return;
+                }
+                productoSeleccionado.Categoria = new Categoria { ID = categoriaId };
+
+                // Modificar en base de datos
+                ProductoDAO dao = new ProductoDAO();
+                bool exito = dao.ModificarProducto(productoSeleccionado);
+
+                if (exito)
+                {
+                    MessageBox.Show("Producto modificado con éxito.");
+                    CargarProductosEnGrilla();
+                    LimpiarCampos();
+                    productoSeleccionado = null;
+                }
+                else
+                {
+                    MessageBox.Show("Error al modificar el producto.");
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Error de base de datos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void dgvProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -259,10 +374,108 @@ namespace Gestion_Carniceria
             MessageBox.Show("Producto cargado para modificación.");
         }
 
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string textoBusqueda = txtBuscarProducto.Text.Trim().ToLower();
+
+            if (string.IsNullOrWhiteSpace(textoBusqueda))
+            {
+                MessageBox.Show("Ingrese un nombre para buscar.");
+                return;
+            }
+
+            bool alMenosUnoEncontrado = false;
+
+            foreach (DataGridViewRow fila in dgvProductos.Rows)
+            {
+                if (fila.Cells["Nombre"].Value != null &&
+                    fila.Cells["Nombre"].Value.ToString().ToLower().Contains(textoBusqueda))
+                {
+                    fila.Selected = true;
+                    alMenosUnoEncontrado = true;
+                }
+                else
+                {
+                    fila.Selected = false;
+                }
+            }
+
+            if (!alMenosUnoEncontrado)
+            {
+                MessageBox.Show("No se encontraron productos con ese nombre.");
+            }
+        }
+
+        private void dgvProductos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+           
+
+            if (e.RowIndex >= 0)
+            {
+                var producto = (Producto)dgvProductos.Rows[e.RowIndex].DataBoundItem;
+
+                lblIDProducto.Text = producto.ID.ToString();
+                lblNombreProducto.Text = producto.Nombre;
+                lblDescripcionProducto.Text = FormatearDescripcion(producto.Descripcion);
+                lblCategoriaProducto.Text = producto.Categoria?.Nombre ?? "";
+
+                if (producto.Tipo == TipoProducto.Peso)
+                {
+                    lblStockProducto.Text = $"{producto.Peso} kg";
+                    lblPrecioProducto.Text = $"${producto.Precio} por kg";
+                }
+                else
+                {
+                    lblStockProducto.Text = $"{producto.Cantidad} unidades";
+                    lblPrecioProducto.Text = $"${producto.Precio} por unidad";
+                }
+
+                MostrarLabelsInfo();
+            }
+        }
+
+
+        private void MostrarLabelsInfo()
+        {
+            lblIDProducto.Visible = true;
+            lblNombreProducto.Visible = true;
+            lblDescripcionProducto.Visible = true;
+            lblCategoriaProducto.Visible = true;
+            lblStockProducto.Visible = true;
+            lblPrecioProducto.Visible = true;
+        }
+
+        private string FormatearDescripcion(string descripcion)
+        {
+            // Si ya contiene saltos de línea, los respeta
+            if (descripcion.Contains("\n")) return descripcion;
+
+            // Cada 80 caracteres aprox., insertamos un salto
+            const int maxLineLength = 80;
+            StringBuilder resultado = new StringBuilder();
+
+            int contador = 0;
+            foreach (string palabra in descripcion.Split(' '))
+            {
+                if (contador + palabra.Length > maxLineLength)
+                {
+                    resultado.AppendLine();
+                    contador = 0;
+                }
+
+                resultado.Append(palabra + " ");
+                contador += palabra.Length + 1;
+            }
+
+            return resultado.ToString().TrimEnd();
+        }
+
+
+
         private void btnCrearCategoria_Click(object sender, EventArgs e)
         {
             string nombre = txtNombreCategoria.Text.Trim();
-            string tipo = cbTipoCategoria.SelectedItem?.ToString();
 
             if (string.IsNullOrWhiteSpace(nombre))
             {
@@ -270,16 +483,9 @@ namespace Gestion_Carniceria
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(tipo))
-            {
-                MessageBox.Show("Por favor, seleccione si la categoría será por peso o cantidad.", "Campo obligatorio", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             Categoria nuevaCategoria = new Categoria
             {
                 Nombre = nombre,
-                Tipo = tipo.Contains("Peso") ? "Peso" : "Cantidad"
             };
 
             CategoriaDAO dao = new CategoriaDAO();
@@ -289,7 +495,6 @@ namespace Gestion_Carniceria
             {
                 MessageBox.Show("Categoría creada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtNombreCategoria.Clear();
-                cbTipoCategoria.SelectedIndex = -1;
                 txtNombreCategoria.Focus();
 
                 CargarCategorias();
@@ -348,23 +553,6 @@ namespace Gestion_Carniceria
 
         private void cbCategoriaProducto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbCategoriaProducto.SelectedItem is Categoria categoria)
-            {
-                // Cargar la categoría seleccionada
-                string tipoCategoria = categoria.Tipo;
-
-                // Deshabilitar y habilitar los campos según la categoría
-                if (tipoCategoria == "Peso")
-                {
-                    txtPesoProducto.Enabled = true;
-                    txtCantidadProducto.Enabled = false;
-                }
-                else if (tipoCategoria == "Cantidad")
-                {
-                    txtPesoProducto.Enabled = false;
-                    txtCantidadProducto.Enabled = true;
-                }
-            }
         }
 
         private void btnEliminarCategoria_Click(object sender, EventArgs e)
@@ -425,6 +613,38 @@ namespace Gestion_Carniceria
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rbTipoUnidad_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbTipoUnidad.Checked)
+            {
+                txtCantidadProducto.Enabled = true;
+                txtPesoProducto.Enabled = false;
+                txtPesoProducto.Text = ""; // limpiar campo inhabilitado
+                lblPrecioTipo.Text = "Precio por unidad:";
+            }
+        }
+
+        private void rbTipoPeso_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbTipoPeso.Checked)
+            {
+                txtPesoProducto.Enabled = true;
+                txtCantidadProducto.Enabled = false;
+                txtCantidadProducto.Text = ""; // limpiar campo inhabilitado
+                lblPrecioTipo.Text = "Precio por kilogramo:";
+            }
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void lblDescripcionProducto_Click(object sender, EventArgs e)
         {
 
         }
