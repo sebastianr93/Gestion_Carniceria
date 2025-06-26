@@ -16,5 +16,10 @@ namespace Gestion_Carniceria
         {
             InitializeComponent();
         }
+
+        private void FrmMediosDePago_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

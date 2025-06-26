@@ -37,6 +37,7 @@
             ClientSize = new Size(450, 235);
             Name = "FrmMediosDePago";
             Text = "FrmMediosDePago";
+            Load += FrmMediosDePago_Load;
             ResumeLayout(false);
         }
 

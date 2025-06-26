@@ -28,19 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
-            comboBox1 = new ComboBox();
-            textBox4 = new TextBox();
-            textBox5 = new TextBox();
-            button1 = new Button();
-            dataGridView1 = new DataGridView();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
-            textBox6 = new TextBox();
-            comboBox2 = new ComboBox();
+            components = new System.ComponentModel.Container();
+            txtNombreProducto = new TextBox();
+            txtDescripcionProducto = new TextBox();
+            txtPesoProducto = new TextBox();
+            cbCategoriaProducto = new ComboBox();
+            categoriaBindingSource = new BindingSource(components);
+            txtCantidadProducto = new TextBox();
+            txtPrecioProducto = new TextBox();
+            btnCrearProducto = new Button();
+            dgvProductos = new DataGridView();
+            iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            nombreDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            descripcionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            pesoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            categoriaDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            cantidadDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            precioDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            productoBindingSource = new BindingSource(components);
+            btnEliminarProducto = new Button();
+            btnModificarProducto = new Button();
+            btnVolver = new Button();
+            txtNombreCategoria = new TextBox();
+            cbListaCategorias = new ComboBox();
+            categoriaDAOBindingSource = new BindingSource(components);
             label4 = new Label();
             label5 = new Label();
             label6 = new Label();
@@ -48,204 +59,289 @@
             label8 = new Label();
             label9 = new Label();
             label10 = new Label();
-            button5 = new Button();
-            button6 = new Button();
+            btnModificarCategoría = new Button();
+            btnEliminarCategoria = new Button();
             groupBox1 = new GroupBox();
             label11 = new Label();
             groupBox2 = new GroupBox();
+            btnCrearCategoria = new Button();
             label1 = new Label();
             groupBox3 = new GroupBox();
             label3 = new Label();
-            button7 = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            proveedorDAOBindingSource = new BindingSource(components);
+            categoriaBindingSource1 = new BindingSource(components);
+            radioButton1 = new RadioButton();
+            radioButton2 = new RadioButton();
+            ((System.ComponentModel.ISupportInitialize)categoriaBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)productoBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)categoriaDAOBindingSource).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)proveedorDAOBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)categoriaBindingSource1).BeginInit();
             SuspendLayout();
             // 
-            // textBox1
+            // txtNombreProducto
             // 
-            textBox1.Location = new Point(10, 36);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(147, 23);
-            textBox1.TabIndex = 0;
+            txtNombreProducto.Location = new Point(10, 36);
+            txtNombreProducto.Name = "txtNombreProducto";
+            txtNombreProducto.Size = new Size(147, 23);
+            txtNombreProducto.TabIndex = 0;
             // 
-            // textBox2
+            // txtDescripcionProducto
             // 
-            textBox2.Location = new Point(10, 80);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(147, 23);
-            textBox2.TabIndex = 4;
+            txtDescripcionProducto.Location = new Point(10, 80);
+            txtDescripcionProducto.Name = "txtDescripcionProducto";
+            txtDescripcionProducto.Size = new Size(147, 23);
+            txtDescripcionProducto.TabIndex = 4;
             // 
-            // textBox3
+            // txtPesoProducto
             // 
-            textBox3.Location = new Point(10, 124);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(147, 23);
-            textBox3.TabIndex = 5;
+            txtPesoProducto.Location = new Point(10, 168);
+            txtPesoProducto.Name = "txtPesoProducto";
+            txtPesoProducto.Size = new Size(147, 23);
+            txtPesoProducto.TabIndex = 5;
             // 
-            // comboBox1
+            // cbCategoriaProducto
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(10, 168);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(147, 23);
-            comboBox1.TabIndex = 6;
+            cbCategoriaProducto.DataSource = categoriaBindingSource;
+            cbCategoriaProducto.DisplayMember = "Nombre";
+            cbCategoriaProducto.FormattingEnabled = true;
+            cbCategoriaProducto.Location = new Point(10, 124);
+            cbCategoriaProducto.Name = "cbCategoriaProducto";
+            cbCategoriaProducto.Size = new Size(147, 23);
+            cbCategoriaProducto.TabIndex = 6;
+            cbCategoriaProducto.ValueMember = "ID";
             // 
-            // textBox4
+            // categoriaBindingSource
             // 
-            textBox4.Location = new Point(10, 212);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(147, 23);
-            textBox4.TabIndex = 7;
+            categoriaBindingSource.DataSource = typeof(Entities.Categoria);
             // 
-            // textBox5
+            // txtCantidadProducto
             // 
-            textBox5.Location = new Point(10, 256);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(147, 23);
-            textBox5.TabIndex = 8;
+            txtCantidadProducto.Location = new Point(10, 212);
+            txtCantidadProducto.Name = "txtCantidadProducto";
+            txtCantidadProducto.Size = new Size(147, 23);
+            txtCantidadProducto.TabIndex = 7;
             // 
-            // button1
+            // txtPrecioProducto
             // 
-            button1.Location = new Point(10, 285);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 9;
-            button1.Text = "Crear";
-            button1.UseVisualStyleBackColor = true;
+            txtPrecioProducto.Location = new Point(10, 256);
+            txtPrecioProducto.Name = "txtPrecioProducto";
+            txtPrecioProducto.Size = new Size(147, 23);
+            txtPrecioProducto.TabIndex = 8;
             // 
-            // dataGridView1
+            // btnCrearProducto
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 22);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(493, 448);
-            dataGridView1.TabIndex = 10;
+            btnCrearProducto.Location = new Point(10, 285);
+            btnCrearProducto.Name = "btnCrearProducto";
+            btnCrearProducto.Size = new Size(75, 23);
+            btnCrearProducto.TabIndex = 9;
+            btnCrearProducto.Text = "Crear";
+            btnCrearProducto.UseVisualStyleBackColor = true;
+            btnCrearProducto.Click += btnCrearProducto_Click;
             // 
-            // button2
+            // dgvProductos
             // 
-            button2.Location = new Point(12, 476);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 11;
-            button2.Text = "Eliminar";
-            button2.UseVisualStyleBackColor = true;
+            dgvProductos.AutoGenerateColumns = false;
+            dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProductos.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, nombreDataGridViewTextBoxColumn, descripcionDataGridViewTextBoxColumn, pesoDataGridViewTextBoxColumn, categoriaDataGridViewTextBoxColumn, cantidadDataGridViewTextBoxColumn, precioDataGridViewTextBoxColumn });
+            dgvProductos.DataSource = productoBindingSource;
+            dgvProductos.Location = new Point(12, 22);
+            dgvProductos.Name = "dgvProductos";
+            dgvProductos.ReadOnly = true;
+            dgvProductos.Size = new Size(743, 448);
+            dgvProductos.TabIndex = 10;
+            dgvProductos.CellDoubleClick += dgvProductos_CellDoubleClick;
             // 
-            // button3
+            // iDDataGridViewTextBoxColumn
             // 
-            button3.Location = new Point(93, 476);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 23);
-            button3.TabIndex = 12;
-            button3.Text = "Modificar";
-            button3.UseVisualStyleBackColor = true;
+            iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            iDDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // button4
+            // nombreDataGridViewTextBoxColumn
             // 
-            button4.Location = new Point(430, 476);
-            button4.Name = "button4";
-            button4.Size = new Size(75, 23);
-            button4.TabIndex = 13;
-            button4.Text = "Volver";
-            button4.UseVisualStyleBackColor = true;
+            nombreDataGridViewTextBoxColumn.DataPropertyName = "Nombre";
+            nombreDataGridViewTextBoxColumn.HeaderText = "Nombre";
+            nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
+            nombreDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // textBox6
+            // descripcionDataGridViewTextBoxColumn
             // 
-            textBox6.Location = new Point(10, 35);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(142, 23);
-            textBox6.TabIndex = 14;
+            descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
+            descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
+            descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
+            descripcionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // comboBox2
+            // pesoDataGridViewTextBoxColumn
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(10, 93);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(142, 23);
-            comboBox2.TabIndex = 15;
-            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
+            pesoDataGridViewTextBoxColumn.DataPropertyName = "Peso";
+            pesoDataGridViewTextBoxColumn.HeaderText = "Peso";
+            pesoDataGridViewTextBoxColumn.Name = "pesoDataGridViewTextBoxColumn";
+            pesoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // categoriaDataGridViewTextBoxColumn
+            // 
+            categoriaDataGridViewTextBoxColumn.DataPropertyName = "Categoria";
+            categoriaDataGridViewTextBoxColumn.HeaderText = "Categoria";
+            categoriaDataGridViewTextBoxColumn.Name = "categoriaDataGridViewTextBoxColumn";
+            categoriaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // cantidadDataGridViewTextBoxColumn
+            // 
+            cantidadDataGridViewTextBoxColumn.DataPropertyName = "Cantidad";
+            cantidadDataGridViewTextBoxColumn.HeaderText = "Cantidad";
+            cantidadDataGridViewTextBoxColumn.Name = "cantidadDataGridViewTextBoxColumn";
+            cantidadDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // precioDataGridViewTextBoxColumn
+            // 
+            precioDataGridViewTextBoxColumn.DataPropertyName = "Precio";
+            precioDataGridViewTextBoxColumn.HeaderText = "Precio";
+            precioDataGridViewTextBoxColumn.Name = "precioDataGridViewTextBoxColumn";
+            precioDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // productoBindingSource
+            // 
+            productoBindingSource.DataSource = typeof(Producto);
+            // 
+            // btnEliminarProducto
+            // 
+            btnEliminarProducto.Location = new Point(12, 476);
+            btnEliminarProducto.Name = "btnEliminarProducto";
+            btnEliminarProducto.Size = new Size(75, 23);
+            btnEliminarProducto.TabIndex = 11;
+            btnEliminarProducto.Text = "Eliminar";
+            btnEliminarProducto.UseVisualStyleBackColor = true;
+            btnEliminarProducto.Click += btnEliminarProducto_Click;
+            // 
+            // btnModificarProducto
+            // 
+            btnModificarProducto.Location = new Point(93, 476);
+            btnModificarProducto.Name = "btnModificarProducto";
+            btnModificarProducto.Size = new Size(75, 23);
+            btnModificarProducto.TabIndex = 12;
+            btnModificarProducto.Text = "Modificar";
+            btnModificarProducto.UseVisualStyleBackColor = true;
+            btnModificarProducto.Click += btnModificarProducto_Click;
+            // 
+            // btnVolver
+            // 
+            btnVolver.Location = new Point(680, 476);
+            btnVolver.Name = "btnVolver";
+            btnVolver.Size = new Size(75, 23);
+            btnVolver.TabIndex = 13;
+            btnVolver.Text = "Volver";
+            btnVolver.UseVisualStyleBackColor = true;
+            // 
+            // txtNombreCategoria
+            // 
+            txtNombreCategoria.Location = new Point(10, 35);
+            txtNombreCategoria.Name = "txtNombreCategoria";
+            txtNombreCategoria.Size = new Size(142, 23);
+            txtNombreCategoria.TabIndex = 14;
+            // 
+            // cbListaCategorias
+            // 
+            cbListaCategorias.DataSource = categoriaBindingSource;
+            cbListaCategorias.DisplayMember = "Nombre";
+            cbListaCategorias.FormattingEnabled = true;
+            cbListaCategorias.Location = new Point(10, 122);
+            cbListaCategorias.Name = "cbListaCategorias";
+            cbListaCategorias.Size = new Size(142, 23);
+            cbListaCategorias.TabIndex = 15;
+            // 
+            // categoriaDAOBindingSource
+            // 
+            categoriaDAOBindingSource.DataSource = typeof(Data.CategoriaDAO);
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Location = new Point(10, 18);
             label4.Name = "label4";
-            label4.Size = new Size(54, 15);
+            label4.Size = new Size(69, 15);
             label4.TabIndex = 16;
-            label4.Text = "Nombre:";
+            label4.Text = "📦 Nombre:";
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Location = new Point(10, 62);
             label5.Name = "label5";
-            label5.Size = new Size(72, 15);
+            label5.Size = new Size(87, 15);
             label5.TabIndex = 17;
-            label5.Text = "Descripción:";
+            label5.Text = "📝 Descripción:";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(10, 106);
+            label6.Location = new Point(14, 150);
             label6.Name = "label6";
-            label6.Size = new Size(60, 15);
+            label6.Size = new Size(129, 15);
             label6.TabIndex = 18;
-            label6.Text = "Peso (Kg):";
+            label6.Text = "⚖️ Peso por Kilogramo:";
+            label6.Click += label6_Click;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(10, 150);
+            label7.Location = new Point(10, 106);
             label7.Name = "label7";
-            label7.Size = new Size(61, 15);
+            label7.Size = new Size(76, 15);
             label7.TabIndex = 19;
-            label7.Text = "Categoría:";
+            label7.Text = "📁 Categoría:";
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Location = new Point(10, 194);
             label8.Name = "label8";
-            label8.Size = new Size(58, 15);
+            label8.Size = new Size(73, 15);
             label8.TabIndex = 20;
-            label8.Text = "Cantidad:";
+            label8.Text = "🔢 Cantidad:";
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Location = new Point(10, 238);
             label9.Name = "label9";
-            label9.Size = new Size(43, 15);
+            label9.Size = new Size(53, 15);
             label9.TabIndex = 21;
-            label9.Text = "Precio:";
+            label9.Text = "💲 Precio:";
             // 
             // label10
             // 
             label10.AutoSize = true;
             label10.Location = new Point(10, 17);
             label10.Name = "label10";
-            label10.Size = new Size(54, 15);
+            label10.Size = new Size(69, 15);
             label10.TabIndex = 22;
-            label10.Text = "Nombre:";
+            label10.Text = "📁 Nombre:";
             // 
-            // button5
+            // btnModificarCategoría
             // 
-            button5.Location = new Point(10, 122);
-            button5.Name = "button5";
-            button5.Size = new Size(75, 23);
-            button5.TabIndex = 23;
-            button5.Text = "Modificar";
-            button5.UseVisualStyleBackColor = true;
+            btnModificarCategoría.Location = new Point(10, 151);
+            btnModificarCategoría.Name = "btnModificarCategoría";
+            btnModificarCategoría.Size = new Size(69, 23);
+            btnModificarCategoría.TabIndex = 23;
+            btnModificarCategoría.Text = "Modificar";
+            btnModificarCategoría.UseVisualStyleBackColor = true;
+            btnModificarCategoría.Click += btnModificarCategoria_Click;
             // 
-            // button6
+            // btnEliminarCategoria
             // 
-            button6.Location = new Point(10, 151);
-            button6.Name = "button6";
-            button6.Size = new Size(75, 23);
-            button6.TabIndex = 24;
-            button6.Text = "Eliminar";
-            button6.UseVisualStyleBackColor = true;
+            btnEliminarCategoria.Location = new Point(85, 151);
+            btnEliminarCategoria.Name = "btnEliminarCategoria";
+            btnEliminarCategoria.Size = new Size(67, 23);
+            btnEliminarCategoria.TabIndex = 24;
+            btnEliminarCategoria.Text = "Eliminar";
+            btnEliminarCategoria.UseVisualStyleBackColor = true;
+            btnEliminarCategoria.Click += btnEliminarCategoria_Click;
             // 
             // groupBox1
             // 
@@ -254,15 +350,15 @@
             groupBox1.Controls.Add(label8);
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(txtPesoProducto);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(label4);
-            groupBox1.Controls.Add(button1);
-            groupBox1.Controls.Add(textBox5);
-            groupBox1.Controls.Add(textBox4);
-            groupBox1.Controls.Add(comboBox1);
-            groupBox1.Controls.Add(textBox3);
-            groupBox1.Controls.Add(textBox2);
-            groupBox1.Controls.Add(textBox1);
+            groupBox1.Controls.Add(btnCrearProducto);
+            groupBox1.Controls.Add(txtPrecioProducto);
+            groupBox1.Controls.Add(txtCantidadProducto);
+            groupBox1.Controls.Add(cbCategoriaProducto);
+            groupBox1.Controls.Add(txtDescripcionProducto);
+            groupBox1.Controls.Add(txtNombreProducto);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(168, 319);
@@ -273,47 +369,60 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label11.Location = new Point(10, -3);
+            label11.Location = new Point(-1, -3);
             label11.Name = "label11";
-            label11.Size = new Size(125, 21);
+            label11.Size = new Size(175, 21);
             label11.TabIndex = 26;
-            label11.Text = "Crear Productos";
+            label11.Text = "Crear/Editar Productos";
+            label11.Click += label11_Click;
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(button7);
+            groupBox2.Controls.Add(radioButton2);
+            groupBox2.Controls.Add(radioButton1);
+            groupBox2.Controls.Add(btnCrearCategoria);
             groupBox2.Controls.Add(label1);
-            groupBox2.Controls.Add(button6);
-            groupBox2.Controls.Add(button5);
+            groupBox2.Controls.Add(btnEliminarCategoria);
+            groupBox2.Controls.Add(btnModificarCategoría);
             groupBox2.Controls.Add(label10);
-            groupBox2.Controls.Add(comboBox2);
-            groupBox2.Controls.Add(textBox6);
+            groupBox2.Controls.Add(cbListaCategorias);
+            groupBox2.Controls.Add(txtNombreCategoria);
             groupBox2.Location = new Point(12, 337);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(168, 184);
             groupBox2.TabIndex = 26;
             groupBox2.TabStop = false;
             // 
+            // btnCrearCategoria
+            // 
+            btnCrearCategoria.Location = new Point(10, 93);
+            btnCrearCategoria.Name = "btnCrearCategoria";
+            btnCrearCategoria.Size = new Size(69, 23);
+            btnCrearCategoria.TabIndex = 27;
+            btnCrearCategoria.Text = "Crear";
+            btnCrearCategoria.UseVisualStyleBackColor = true;
+            btnCrearCategoria.Click += btnCrearCategoria_Click;
+            // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label1.Location = new Point(10, -4);
+            label1.Location = new Point(0, -4);
             label1.Name = "label1";
-            label1.Size = new Size(131, 21);
+            label1.Size = new Size(181, 21);
             label1.TabIndex = 27;
-            label1.Text = "Crear Categorías";
+            label1.Text = "Crear/Editar Categorías";
             // 
             // groupBox3
             // 
             groupBox3.Controls.Add(label3);
-            groupBox3.Controls.Add(button4);
-            groupBox3.Controls.Add(button3);
-            groupBox3.Controls.Add(button2);
-            groupBox3.Controls.Add(dataGridView1);
+            groupBox3.Controls.Add(btnVolver);
+            groupBox3.Controls.Add(btnModificarProducto);
+            groupBox3.Controls.Add(btnEliminarProducto);
+            groupBox3.Controls.Add(dgvProductos);
             groupBox3.Location = new Point(186, 12);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(511, 509);
+            groupBox3.Size = new Size(766, 509);
             groupBox3.TabIndex = 27;
             groupBox3.TabStop = false;
             // 
@@ -327,51 +436,77 @@
             label3.TabIndex = 14;
             label3.Text = "Lista";
             // 
-            // button7
+            // proveedorDAOBindingSource
             // 
-            button7.Location = new Point(10, 64);
-            button7.Name = "button7";
-            button7.Size = new Size(75, 23);
-            button7.TabIndex = 27;
-            button7.Text = "Crear";
-            button7.UseVisualStyleBackColor = true;
+            proveedorDAOBindingSource.DataSource = typeof(ProveedorDAO);
+            // 
+            // categoriaBindingSource1
+            // 
+            categoriaBindingSource1.DataSource = typeof(Entities.Categoria);
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Location = new Point(10, 68);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(50, 19);
+            radioButton1.TabIndex = 29;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "Peso";
+            radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(79, 68);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(73, 19);
+            radioButton2.TabIndex = 30;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "Cantidad";
+            radioButton2.UseVisualStyleBackColor = true;
             // 
             // FrmStock
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(709, 533);
+            ClientSize = new Size(967, 533);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "FrmStock";
             Text = "Stock de Productos";
             Load += FrmStock_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)categoriaBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)productoBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)categoriaDAOBindingSource).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)proveedorDAOBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)categoriaBindingSource1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
-        private ComboBox comboBox1;
-        private TextBox textBox4;
-        private TextBox textBox5;
-        private Button button1;
-        private DataGridView dataGridView1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
-        private TextBox textBox6;
-        private ComboBox comboBox2;
+        private TextBox txtNombreProducto;
+        private TextBox txtDescripcionProducto;
+        private TextBox txtPesoProducto;
+        private ComboBox cbCategoriaProducto;
+        private TextBox txtCantidadProducto;
+        private TextBox txtPrecioProducto;
+        private Button btnCrearProducto;
+        private DataGridView dgvProductos;
+        private Button btnEliminarProducto;
+        private Button btnModificarProducto;
+        private Button btnVolver;
+        private TextBox txtNombreCategoria;
+        private ComboBox cbListaCategorias;
         private Label label4;
         private Label label5;
         private Label label6;
@@ -379,14 +514,28 @@
         private Label label8;
         private Label label9;
         private Label label10;
-        private Button button5;
-        private Button button6;
+        private Button btnModificarCategoría;
+        private Button btnEliminarCategoria;
         private GroupBox groupBox1;
         private Label label11;
         private GroupBox groupBox2;
         private Label label1;
         private GroupBox groupBox3;
         private Label label3;
-        private Button button7;
+        private Button btnCrearCategoria;
+        private BindingSource categoriaDAOBindingSource;
+        private DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn descripcionDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn pesoDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn categoriaDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn cantidadDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn precioDataGridViewTextBoxColumn;
+        private BindingSource productoBindingSource;
+        private BindingSource categoriaBindingSource;
+        private BindingSource proveedorDAOBindingSource;
+        private BindingSource categoriaBindingSource1;
+        private RadioButton radioButton1;
+        private RadioButton radioButton2;
     }
 }

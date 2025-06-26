@@ -20,7 +20,6 @@ namespace Gestion_Carniceria
 
         private void FrmPedidoClientes_Load(object sender, EventArgs e)
         {
-            TemaApp.AplicarTema(this);
         }
     }
 }
