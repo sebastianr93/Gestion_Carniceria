@@ -95,7 +95,7 @@
             btnPedidosClientes.Name = "btnPedidosClientes";
             btnPedidosClientes.Size = new Size(101, 23);
             btnPedidosClientes.TabIndex = 4;
-            btnPedidosClientes.Text = "Nuevo Pedido";
+            btnPedidosClientes.Text = "Nueva Venta";
             btnPedidosClientes.UseVisualStyleBackColor = true;
             btnPedidosClientes.Click += btnPedidosClientes_Click;
             // 

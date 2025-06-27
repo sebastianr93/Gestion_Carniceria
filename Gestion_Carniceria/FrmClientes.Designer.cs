@@ -88,7 +88,7 @@
             dgvClientes.Name = "dgvClientes";
             dgvClientes.ReadOnly = true;
             dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvClientes.Size = new Size(684, 237);
+            dgvClientes.Size = new Size(743, 237);
             dgvClientes.TabIndex = 0;
             // 
             // iDDataGridViewTextBoxColumn
@@ -266,7 +266,7 @@
             // 
             // btnEliminarCliente
             // 
-            btnEliminarCliente.Location = new Point(278, 54);
+            btnEliminarCliente.Location = new Point(310, 37);
             btnEliminarCliente.Name = "btnEliminarCliente";
             btnEliminarCliente.Size = new Size(149, 23);
             btnEliminarCliente.TabIndex = 15;
@@ -276,7 +276,7 @@
             // 
             // btnEditarCliente
             // 
-            btnEditarCliente.Location = new Point(278, 98);
+            btnEditarCliente.Location = new Point(310, 73);
             btnEditarCliente.Name = "btnEditarCliente";
             btnEditarCliente.Size = new Size(149, 23);
             btnEditarCliente.TabIndex = 16;
@@ -297,7 +297,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label8.Location = new Point(456, 16);
+            label8.Location = new Point(515, 16);
             label8.Name = "label8";
             label8.Size = new Size(113, 21);
             label8.TabIndex = 18;
@@ -316,7 +316,7 @@
             groupBox2.Controls.Add(txtTelefonoBuscar);
             groupBox2.Controls.Add(txtApellidoBuscar);
             groupBox2.Controls.Add(txtNombreBuscar);
-            groupBox2.Location = new Point(448, 24);
+            groupBox2.Location = new Point(507, 24);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(248, 154);
             groupBox2.TabIndex = 17;
@@ -405,7 +405,7 @@
             // 
             // btnVolverAlMenu
             // 
-            btnVolverAlMenu.Location = new Point(278, 142);
+            btnVolverAlMenu.Location = new Point(310, 143);
             btnVolverAlMenu.Name = "btnVolverAlMenu";
             btnVolverAlMenu.Size = new Size(149, 23);
             btnVolverAlMenu.TabIndex = 19;
@@ -421,7 +421,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(708, 433);
+            ClientSize = new Size(766, 433);
             Controls.Add(btnVolverAlMenu);
             Controls.Add(label8);
             Controls.Add(groupBox2);

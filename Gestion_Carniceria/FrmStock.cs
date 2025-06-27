@@ -530,6 +530,8 @@ namespace Gestion_Carniceria
             {
                 MessageBox.Show("Categoría modificada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtNombreCategoria.Clear();
+                CargarProductosEnGrilla();
+                CargarCategorias();
 
                 // Recargar ComboBox
                 cbListaCategorias.DataSource = null;
@@ -565,6 +567,16 @@ namespace Gestion_Carniceria
 
             Categoria categoriaSeleccionada = (Categoria)cbListaCategorias.SelectedItem;
 
+            CategoriaDAO dao = new CategoriaDAO();
+
+            // Verificar si la categoría tiene productos asociados
+            int cantidadProductos = dao.ContarProductosPorCategoria(categoriaSeleccionada.ID);
+            if (cantidadProductos > 0)
+            {
+                MessageBox.Show("No se puede eliminar la categoría porque tiene productos asociados.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             var confirmacion = MessageBox.Show(
                 $"¿Está seguro que desea eliminar la categoría '{categoriaSeleccionada.Nombre}'?",
                 "Confirmar eliminación",
@@ -574,7 +586,6 @@ namespace Gestion_Carniceria
 
             if (confirmacion == DialogResult.Yes)
             {
-                CategoriaDAO dao = new CategoriaDAO();
                 bool resultado = dao.EliminarCategoria(categoriaSeleccionada.ID);
 
                 if (resultado)
@@ -592,14 +603,15 @@ namespace Gestion_Carniceria
                     cbCategoriaProducto.DisplayMember = "Nombre";
                     cbCategoriaProducto.ValueMember = "ID";
 
-                    txtNombreCategoria.Clear(); // Limpiar si estás usando este TextBox
+                    txtNombreCategoria.Clear();
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo eliminar la categoría. Puede que esté en uso por productos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("No se pudo eliminar la categoría. Intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
+
 
 
         private void label6_Click(object sender, EventArgs e)

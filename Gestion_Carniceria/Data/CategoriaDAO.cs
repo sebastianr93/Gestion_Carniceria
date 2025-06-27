@@ -101,6 +101,25 @@ namespace Gestion_Carniceria.Data
             return categoria;
         }
 
+        public int ContarProductosPorCategoria(int categoriaId)
+        {
+            int cantidad = 0;
+
+            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            {
+                string query = "SELECT COUNT(*) FROM producto WHERE CategoriaID = @categoriaId";
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@categoriaId", categoriaId);
+                    cantidad = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+
+            return cantidad;
+        }
+
+
+
     }
 
 
