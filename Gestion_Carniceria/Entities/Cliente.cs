@@ -8,7 +8,7 @@ public class Cliente
     public string Telefono { get; set; }
     public string Correo { get; set; }
     public string DNI { get; set; }
-    public decimal Deuda { get; private set; }
+    public decimal Deuda { get; set; }
 
     public void AgregarDeuda(decimal monto) => Deuda += monto;
 

@@ -24,8 +24,8 @@ namespace Gestion_Carniceria
             CargarProductosEnGrilla();
             CargarClientes();
             CargarMediosDePago();
-            ActualizarGrillaVenta();
             ConfigurarGrillaItemsVenta();
+            ActualizarGrillaVenta();
 
             txtPagoParcial.Enabled = false;
         }
@@ -47,20 +47,17 @@ namespace Gestion_Carniceria
         {
             dgvItemsVenta.Columns.Clear();
 
+            // Agregar columna ProductoNombre al inicio, con nombre "ProductoNombre"
             dgvItemsVenta.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Producto",
-                DataPropertyName = "ProductoNombre", // propiedad que vamos a agregar abajo
-                Name = "Producto"
+                DataPropertyName = "ProductoNombre",
+                Name = "ProductoNombre"
             });
 
-            dgvItemsVenta.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Tipo",
-                DataPropertyName = "ProductoTipo",
-                Name = "Tipo"
-            });
+            // No agregamos columna ProductoTipo, la quitamos (punto 2)
 
+            // Continuar con las demás columnas (sin ProductoTipo)
             dgvItemsVenta.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Cantidad",
@@ -84,10 +81,15 @@ namespace Gestion_Carniceria
         }
 
 
+
         private void ActualizarGrillaVenta()
         {
+            var bindingList = new BindingList<ItemVenta>(itemsVenta);
+            var source = new BindingSource(bindingList, null);
+
             dgvItemsVenta.DataSource = null;
-            dgvItemsVenta.DataSource = itemsVenta;
+            dgvItemsVenta.DataSource = source;
+
             CalcularMontoTotal();
         }
 
@@ -158,6 +160,36 @@ namespace Gestion_Carniceria
 
             Producto producto = (Producto)dgvProductos.CurrentRow.DataBoundItem;
 
+            // Verificar y descontar stock
+            if (producto.Tipo == TipoProducto.Unidad)
+            {
+                if (producto.Cantidad < (int)cantidad)
+                {
+                    MessageBox.Show("No hay suficiente stock de unidades.");
+                    return;
+                }
+                producto.RestarStock((int)cantidad);
+            }
+            else
+            {
+                if (producto.Peso < cantidad)
+                {
+                    MessageBox.Show("No hay suficiente stock en kilos.");
+                    return;
+                }
+                producto.Peso -= cantidad;
+            }
+
+            // Guardar el nuevo stock en la base
+            ProductoDAO dao = new ProductoDAO();
+            bool actualizado = dao.ActualizarStock(producto);
+            if (!actualizado)
+            {
+                MessageBox.Show("No se pudo actualizar el stock en la base de datos.");
+                return;
+            }
+
+            // Agregar ítem a la venta
             itemsVenta.Add(new ItemVenta
             {
                 Producto = producto,
@@ -165,8 +197,10 @@ namespace Gestion_Carniceria
             });
 
             ActualizarGrillaVenta();
+            CargarProductosEnGrilla(); // Mostrar stock actualizado
             txtAgregarProducto.Clear();
         }
+
 
 
         private void cbMediosDePago_SelectedIndexChanged(object sender, EventArgs e)
@@ -178,13 +212,160 @@ namespace Gestion_Carniceria
         {
             if (dgvItemsVenta.CurrentRow?.DataBoundItem is ItemVenta item)
             {
-                itemsVenta.Remove(item);
-                ActualizarGrillaVenta();
+                var productoEnLista = productosOriginales.FirstOrDefault(p => p.ID == item.Producto.ID);
+
+                if (productoEnLista != null)
+                {
+                    ProductoDAO productoDAO = new ProductoDAO();
+
+                    bool exito = productoDAO.AumentarStock(productoEnLista, item.Cantidad);
+
+                    if (!exito)
+                    {
+                        MessageBox.Show("Error al reponer stock en la base de datos.");
+                        return;
+                    }
+
+                    // Quitar item de la lista y refrescar
+                    itemsVenta.Remove(item);
+                    ActualizarGrillaVenta();
+
+                    // Refrescar la grilla de productos para mostrar stock actualizado
+                    dgvProductos.Refresh();
+                }
+                else
+                {
+                    MessageBox.Show("Producto no encontrado.");
+                }
             }
             else
             {
                 MessageBox.Show("Seleccione un ítem válido para quitar.");
             }
         }
+
+
+
+        private void dgvItemsVenta_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvItemsVenta.Rows.Count)
+                return;
+
+            if (dgvItemsVenta.Rows[e.RowIndex].DataBoundItem is ItemVenta item)
+            {
+                MessageBox.Show($"Seleccionaste: {item.ProductoNombre} x {item.Cantidad} = ${item.Subtotal}");
+            }
+        }
+
+        private void FrmPedidoClientes_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (itemsVenta.Count > 0)
+            {
+                DialogResult result = MessageBox.Show(
+                    "¿Estás seguro de que deseas cerrar el formulario? Los cambios de la venta no se guardarán.",
+                    "Confirmar cierre",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result == DialogResult.No)
+                {
+                    e.Cancel = true; // Cancela el cierre
+                    return;
+                }
+
+                // Si confirmó que sí, devolver stock de los ítems
+                ProductoDAO dao = new ProductoDAO();
+                foreach (var item in itemsVenta)
+                {
+                    dao.AumentarStock(item.Producto, item.Cantidad);
+                }
+            }
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close(); // Triggea el FormClosing
+        }
+
+        private void btnConfirmarVenta_Click(object sender, EventArgs e)
+        {
+            if (itemsVenta.Count == 0)
+            {
+                MessageBox.Show("No hay productos agregados para la venta.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            decimal pagoParcial = 0m;
+            if (checkPagoParcial.Checked)
+            {
+                if (!decimal.TryParse(txtPagoParcial.Text, out pagoParcial) || pagoParcial < 0)
+                {
+                    MessageBox.Show("Ingrese un monto válido para el pago parcial.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                decimal total = itemsVenta.Sum(i => i.Subtotal);
+                if (pagoParcial > total)
+                {
+                    MessageBox.Show("El pago parcial no puede ser mayor al total de la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            try
+            {
+                Venta venta = new Venta
+                {
+                    Fecha = DateTime.Now,
+                    Cliente = (Cliente)cbClientes.SelectedItem,
+                    ValorTotal = itemsVenta.Sum(i => i.Subtotal),
+                    PagoParcial = pagoParcial,
+                    FormatoPago = cbMediosDePago.SelectedItem is MedioDePago mp ? mp.Nombre : "No especificado",
+                    Items = new List<ItemVenta>(itemsVenta)
+                };
+
+                VentaDAO dao = new VentaDAO();
+                int ventaID = dao.InsertarVenta(venta);
+
+                if (ventaID > 0)
+                {
+                    dao.InsertarItemsVenta(ventaID, venta.Items);
+
+                    // Actualizar deuda del cliente si hubo pago parcial
+                    decimal deuda = venta.ValorTotal - venta.PagoParcial;
+
+                    if (deuda > 0)
+                    {
+                        ClienteDAO clienteDAO = new ClienteDAO();
+                        var cliente = venta.Cliente;
+                        cliente.Deuda += deuda;
+                        clienteDAO.ActualizarDeuda(cliente);
+                    }
+
+                    MessageBox.Show("Venta confirmada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Limpiar todo para nueva venta
+                    itemsVenta.Clear();
+                    ActualizarGrillaVenta();
+                    txtPagoParcial.Clear();
+                    checkPagoParcial.Checked = false;
+                }
+                else
+                {
+                    MessageBox.Show("Error al guardar la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al confirmar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
-    }
+
+
+}

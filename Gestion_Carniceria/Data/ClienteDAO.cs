@@ -137,6 +137,18 @@ public class ClienteDAO
         }
     }
 
+    public bool ActualizarDeuda(Cliente cliente)
+    {
+        using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+        {
+            string query = @"UPDATE cliente SET Deuda = @Deuda WHERE ID = @ID";
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@Deuda", cliente.Deuda);
+            cmd.Parameters.AddWithValue("@ID", cliente.ID);
 
+            int filasAfectadas = cmd.ExecuteNonQuery();
+            return filasAfectadas > 0;
+        }
+    }
 
 }

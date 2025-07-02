@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gestion_Carniceria.Entities;
+using System;
 
 public class Venta
 {
@@ -6,7 +7,8 @@ public class Venta
     public DateTime Fecha { get; set; }
     public string FormatoPago { get; set; }
     public decimal ValorTotal { get; set; }
+    public decimal PagoParcial { get; set; }
     public Cliente Cliente { get; set; }
-    public List<Producto> ProductosVendidos { get; set; } = new List<Producto>();
+    public List<ItemVenta> Items { get; set; } = new List<ItemVenta>();
 }
 

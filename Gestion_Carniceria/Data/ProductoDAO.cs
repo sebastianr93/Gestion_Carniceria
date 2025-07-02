@@ -160,5 +160,50 @@ namespace Gestion_Carniceria.Data
             return lista;
         }
 
+        public bool ActualizarStock(Producto p)
+        {
+            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            {
+                string query = @"UPDATE producto
+                         SET Peso = @Peso,
+                             Cantidad = @Cantidad
+                         WHERE ID = @ID";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@ID", p.ID);
+                cmd.Parameters.AddWithValue("@Peso", p.Peso);
+                cmd.Parameters.AddWithValue("@Cantidad", p.Cantidad);
+
+                int filas = cmd.ExecuteNonQuery();
+                return filas > 0;
+            }
+        }
+
+        public bool AumentarStock(Producto p, decimal cantidadAumentar)
+        {
+            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            {
+
+                // Dependiendo del tipo, sumar cantidad o peso
+                if (p.Tipo == TipoProducto.Unidad)
+                    p.Cantidad += (int)cantidadAumentar;
+                else
+                    p.Peso += cantidadAumentar;
+
+                string query = @"UPDATE producto
+                         SET Peso = @Peso,
+                             Cantidad = @Cantidad
+                         WHERE ID = @ID";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@ID", p.ID);
+                cmd.Parameters.AddWithValue("@Peso", p.Peso);
+                cmd.Parameters.AddWithValue("@Cantidad", p.Cantidad);
+
+                int filas = cmd.ExecuteNonQuery();
+                return filas > 0;
+            }
+        }
+
     }
 }

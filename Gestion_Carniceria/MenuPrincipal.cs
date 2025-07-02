@@ -46,15 +46,6 @@ namespace Gestion_Carniceria
             formularioPedidoProveedores.Show();
         }
 
-        private void cbModoOscuro_CheckedChanged(object sender, EventArgs e)
-        {
-            {
-                if (cbModoOscuro.Checked)
-                    ActivarModoOscuro();
-                else
-                    ActivarModoClaro();
-            }
-        }
         private void ActivarModoOscuro()
         {
             this.BackColor = Color.FromArgb(30, 30, 30);
