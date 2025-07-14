@@ -268,9 +268,9 @@
             // 
             btnEliminarCliente.Location = new Point(12, 184);
             btnEliminarCliente.Name = "btnEliminarCliente";
-            btnEliminarCliente.Size = new Size(149, 23);
+            btnEliminarCliente.Size = new Size(100, 23);
             btnEliminarCliente.TabIndex = 15;
-            btnEliminarCliente.Text = "Eliminar Seleccionado";
+            btnEliminarCliente.Text = "Eliminar";
             btnEliminarCliente.UseVisualStyleBackColor = true;
             btnEliminarCliente.Click += btnEliminarCliente_Click;
             // 
@@ -395,11 +395,11 @@
             // 
             // btnVolverAlMenu
             // 
-            btnVolverAlMenu.Location = new Point(12, 414);
+            btnVolverAlMenu.Location = new Point(138, 414);
             btnVolverAlMenu.Name = "btnVolverAlMenu";
-            btnVolverAlMenu.Size = new Size(149, 23);
+            btnVolverAlMenu.Size = new Size(100, 23);
             btnVolverAlMenu.TabIndex = 19;
-            btnVolverAlMenu.Text = "Volver al Menú";
+            btnVolverAlMenu.Text = "Volver";
             btnVolverAlMenu.UseVisualStyleBackColor = true;
             btnVolverAlMenu.Click += btnVolverAlMenu_Click;
             // 
@@ -422,7 +422,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1021, 447);
+            ClientSize = new Size(1021, 446);
             Controls.Add(label13);
             Controls.Add(btnVolverAlMenu);
             Controls.Add(groupBox2);

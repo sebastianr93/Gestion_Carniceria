@@ -64,6 +64,7 @@
             linkLabel1.TabIndex = 2;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "solucionesprogramables.com.ar ";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // button1
             // 
@@ -73,6 +74,7 @@
             button1.TabIndex = 3;
             button1.Text = "Volver";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // groupBox1
             // 

@@ -8,10 +8,10 @@ namespace Gestion_Carniceria.Entities
 {
     public class MedioDePago
     {
+        public int ID { get; set; }
         public string Nombre { get; set; }
-        public decimal PorcentajeAjuste { get; set; } // Porcentaje de ajuste de recargo o descuento
+        public int PorcentajeAjuste { get; set; } // entero: -100 a 100
 
-        // Método estático que devuelve los medios de pago por defecto
         public static List<MedioDePago> ObtenerMediosPorDefecto()
         {
             return new List<MedioDePago>
@@ -22,9 +22,7 @@ namespace Gestion_Carniceria.Entities
         };
         }
 
-        public override string ToString()
-        {
-            return Nombre;
-        }
+        public override string ToString() => Nombre;
     }
+
 }

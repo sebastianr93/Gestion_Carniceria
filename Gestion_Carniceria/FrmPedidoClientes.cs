@@ -104,8 +104,14 @@ namespace Gestion_Carniceria
 
         private void CargarMediosDePago()
         {
-            cbMediosDePago.DataSource = MedioDePago.ObtenerMediosPorDefecto();
+            MedioDePagoDAO dao = new MedioDePagoDAO();
+            var medios = dao.ObtenerTodos();
+
+            cbMediosDePago.DataSource = medios;
+            cbMediosDePago.DisplayMember = "Nombre";
+            cbMediosDePago.ValueMember = "Nombre"; // o "ID" si lo implementaste así
         }
+
 
         private void CalcularMontoTotal()
         {
@@ -189,17 +195,26 @@ namespace Gestion_Carniceria
                 return;
             }
 
-            // Agregar ítem a la venta
-            itemsVenta.Add(new ItemVenta
+            // Buscar si el producto ya está en la lista
+            var itemExistente = itemsVenta.FirstOrDefault(i => i.Producto.ID == producto.ID);
+            if (itemExistente != null)
             {
-                Producto = producto,
-                Cantidad = cantidad
-            });
+                itemExistente.Cantidad += cantidad;
+            }
+            else
+            {
+                itemsVenta.Add(new ItemVenta
+                {
+                    Producto = producto,
+                    Cantidad = cantidad
+                });
+            }
 
             ActualizarGrillaVenta();
             CargarProductosEnGrilla(); // Mostrar stock actualizado
             txtAgregarProducto.Clear();
         }
+
 
 
 

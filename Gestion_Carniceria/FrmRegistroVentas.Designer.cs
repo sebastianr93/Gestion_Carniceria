@@ -21,13 +21,9 @@ namespace Gestion_Carniceria
 
         private void InitializeComponent()
         {
+
             components = new System.ComponentModel.Container();
             dgvVentas = new DataGridView();
-            iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            fechaDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            formatoPagoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            valorTotalDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            pagoParcialDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             ventaBindingSource = new BindingSource(components);
             btnBuscar = new Button();
             btnVolverAlMenu = new Button();
@@ -37,6 +33,7 @@ namespace Gestion_Carniceria
             cantidadDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             precioUnitarioDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             subtotalDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            nombreClienteDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             itemVentaBindingSource = new BindingSource(components);
             ventaProductoDAOBindingSource = new BindingSource(components);
             label1 = new Label();
@@ -46,6 +43,11 @@ namespace Gestion_Carniceria
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
+            iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            fechaDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            formatoPagoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            valorTotalDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            pagoParcialDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ventaBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ventaDAOBindingSource).BeginInit();
@@ -58,7 +60,7 @@ namespace Gestion_Carniceria
             // 
             dgvVentas.AutoGenerateColumns = false;
             dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, fechaDataGridViewTextBoxColumn, formatoPagoDataGridViewTextBoxColumn, valorTotalDataGridViewTextBoxColumn, pagoParcialDataGridViewTextBoxColumn });
+            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, fechaDataGridViewTextBoxColumn, formatoPagoDataGridViewTextBoxColumn, nombreClienteDataGridViewTextBoxColumn, valorTotalDataGridViewTextBoxColumn, pagoParcialDataGridViewTextBoxColumn });
             dgvVentas.DataSource = ventaBindingSource;
             dgvVentas.Location = new Point(20, 131);
             dgvVentas.Name = "dgvVentas";
@@ -66,36 +68,6 @@ namespace Gestion_Carniceria
             dgvVentas.TabIndex = 0;
             dgvVentas.CellContentClick += dgvVentas_CellContentClick;
             dgvVentas.SelectionChanged += dgvVentas_SelectionChanged;
-            // 
-            // iDDataGridViewTextBoxColumn
-            // 
-            iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            // 
-            // fechaDataGridViewTextBoxColumn
-            // 
-            fechaDataGridViewTextBoxColumn.DataPropertyName = "Fecha";
-            fechaDataGridViewTextBoxColumn.HeaderText = "Fecha";
-            fechaDataGridViewTextBoxColumn.Name = "fechaDataGridViewTextBoxColumn";
-            // 
-            // formatoPagoDataGridViewTextBoxColumn
-            // 
-            formatoPagoDataGridViewTextBoxColumn.DataPropertyName = "FormatoPago";
-            formatoPagoDataGridViewTextBoxColumn.HeaderText = "FormatoPago";
-            formatoPagoDataGridViewTextBoxColumn.Name = "formatoPagoDataGridViewTextBoxColumn";
-            // 
-            // valorTotalDataGridViewTextBoxColumn
-            // 
-            valorTotalDataGridViewTextBoxColumn.DataPropertyName = "ValorTotal";
-            valorTotalDataGridViewTextBoxColumn.HeaderText = "ValorTotal";
-            valorTotalDataGridViewTextBoxColumn.Name = "valorTotalDataGridViewTextBoxColumn";
-            // 
-            // pagoParcialDataGridViewTextBoxColumn
-            // 
-            pagoParcialDataGridViewTextBoxColumn.DataPropertyName = "PagoParcial";
-            pagoParcialDataGridViewTextBoxColumn.HeaderText = "PagoParcial";
-            pagoParcialDataGridViewTextBoxColumn.Name = "pagoParcialDataGridViewTextBoxColumn";
             // 
             // ventaBindingSource
             // 
@@ -149,6 +121,11 @@ namespace Gestion_Carniceria
             cantidadDataGridViewTextBoxColumn.HeaderText = "Cantidad";
             cantidadDataGridViewTextBoxColumn.Name = "cantidadDataGridViewTextBoxColumn";
             // 
+
+            //columna cliente
+            nombreClienteDataGridViewTextBoxColumn.DataPropertyName = "NombreCliente";
+            nombreClienteDataGridViewTextBoxColumn.HeaderText = "Cliente";
+            nombreClienteDataGridViewTextBoxColumn.Name = "nombreClienteDataGridViewTextBoxColumn";
             // precioUnitarioDataGridViewTextBoxColumn
             // 
             precioUnitarioDataGridViewTextBoxColumn.DataPropertyName = "PrecioUnitario";
@@ -166,6 +143,10 @@ namespace Gestion_Carniceria
             // itemVentaBindingSource
             // 
             itemVentaBindingSource.DataSource = typeof(Entities.ItemVenta);
+            // 
+            // ventaProductoDAOBindingSource
+            // 
+            ventaProductoDAOBindingSource.DataSource = typeof(Data.VentaProductoDAO);
             // 
             // label1
             // 
@@ -224,6 +205,36 @@ namespace Gestion_Carniceria
             label4.Size = new Size(82, 15);
             label4.TabIndex = 11;
             label4.Text = "Formato Pago";
+            // 
+            // iDDataGridViewTextBoxColumn
+            // 
+            iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            iDDataGridViewTextBoxColumn.Name = "ID";
+            // 
+            // fechaDataGridViewTextBoxColumn
+            // 
+            fechaDataGridViewTextBoxColumn.DataPropertyName = "Fecha";
+            fechaDataGridViewTextBoxColumn.HeaderText = "Fecha";
+            fechaDataGridViewTextBoxColumn.Name = "fechaDataGridViewTextBoxColumn";
+            // 
+            // formatoPagoDataGridViewTextBoxColumn
+            // 
+            formatoPagoDataGridViewTextBoxColumn.DataPropertyName = "FormatoPago";
+            formatoPagoDataGridViewTextBoxColumn.HeaderText = "FormatoPago";
+            formatoPagoDataGridViewTextBoxColumn.Name = "formatoPagoDataGridViewTextBoxColumn";
+            // 
+            // valorTotalDataGridViewTextBoxColumn
+            // 
+            valorTotalDataGridViewTextBoxColumn.DataPropertyName = "ValorTotal";
+            valorTotalDataGridViewTextBoxColumn.HeaderText = "ValorTotal";
+            valorTotalDataGridViewTextBoxColumn.Name = "valorTotalDataGridViewTextBoxColumn";
+            // 
+            // pagoParcialDataGridViewTextBoxColumn
+            // 
+            pagoParcialDataGridViewTextBoxColumn.DataPropertyName = "PagoParcial";
+            pagoParcialDataGridViewTextBoxColumn.HeaderText = "PagoParcial";
+            pagoParcialDataGridViewTextBoxColumn.Name = "pagoParcialDataGridViewTextBoxColumn";
             // 
             // FrmRegistroVentas
             // 
