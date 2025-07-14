@@ -139,7 +139,7 @@ namespace Gestion_Carniceria
 
             foreach (DataGridViewRow row in dgvProductos.Rows)
             {
-                string nombreProducto = row.Cells["Nombre"].Value.ToString().ToLower();
+                string nombreProducto = row.Cells["nombreDataGridViewTextBoxColumn"].Value.ToString().ToLower();
                 row.Selected = nombreProducto.Contains(textoBusqueda);
             }
         }

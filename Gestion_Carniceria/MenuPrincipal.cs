@@ -118,6 +118,14 @@ namespace Gestion_Carniceria
             }
         }
 
+        private void btnRegistroVentas_Click(object sender, EventArgs e)
+        {
+            FrmRegistroVentas registroVentasForm = new FrmRegistroVentas();
+            registroVentasForm.Show(); // Esto abre el formulario de forma no modal
+                                       // Si querés que sea modal (bloquea el formulario padre), usá:
+                                       // registroVentasForm.ShowDialog();
+        }
+
     }
 
 }

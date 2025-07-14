@@ -236,6 +236,7 @@
             btnRegistroVentas.TabIndex = 17;
             btnRegistroVentas.Text = "Registro de Ventas";
             btnRegistroVentas.UseVisualStyleBackColor = true;
+            btnRegistroVentas.Click += btnRegistroVentas_Click;
             // 
             // groupBox2
             // 

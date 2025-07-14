@@ -135,4 +135,22 @@ public class ProveedorDAO
             return filasAfectadas > 0;
         }
     }
+
+    public bool ActualizarCuentaCorriente(Proveedor proveedor)
+    {
+        using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+        {
+            string query = @"UPDATE proveedor
+                         SET CuentaCorriente = @CuentaCorriente
+                         WHERE ID = @ID";
+
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@CuentaCorriente", proveedor.CuentaCorriente);
+            cmd.Parameters.AddWithValue("@ID", proveedor.ID);
+
+            int filas = cmd.ExecuteNonQuery();
+            return filas > 0;
+        }
+    }
+
 }
