@@ -155,6 +155,7 @@
             btnDeudores.TabIndex = 9;
             btnDeudores.Text = "Clientes con Deuda";
             btnDeudores.UseVisualStyleBackColor = true;
+            btnDeudores.Click += btnDeudores_Click;
             // 
             // btnTotales
             // 
