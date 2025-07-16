@@ -19,13 +19,16 @@ namespace Gestion_Carniceria
 
             dgvClientes.DataSource = null;
             dgvClientes.DataSource = clientesConDeuda;
+            comboBoxDeuda.DropDownStyle = ComboBoxStyle.DropDownList;
+            textBoxPagoParcial.Enabled = false;
+            buttonPagarDeuda.Enabled = false;
         }
 
 
         private void CargarClientesEnGrilla()
         {
             ClienteDAO dao = new ClienteDAO();
-            List<Cliente> lista = dao.ObtenerTodosLosClientes(); // Cambiar a ObtenerClientesConDeuda() si lo tenés
+            List<Cliente> lista = dao.ObtenerClientesConDeuda(); // Cambiar a ObtenerClientesConDeuda() si lo tenés
             dgvClientes.DataSource = null;
             dgvClientes.DataSource = lista;
         }
@@ -102,5 +105,126 @@ namespace Gestion_Carniceria
         {
             this.Close();
         }
+
+        private void comboBoxDeuda_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxDeuda.SelectedItem == null)
+                return; // No hacer nada si no hay selección
+
+            string seleccion = comboBoxDeuda.SelectedItem.ToString();
+
+            if (seleccion == "Parcial")
+            {
+                textBoxPagoParcial.Enabled = true;
+                buttonPagarDeuda.Enabled = true;
+            }
+            else if (seleccion == "Total")
+            {
+                textBoxPagoParcial.Enabled = false;
+                textBoxPagoParcial.Text = ""; // opcional
+                buttonPagarDeuda.Enabled = true;
+            }
+        }
+
+
+        private void textBoxPagoParcial_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonPagarDeuda_Click(object sender, EventArgs e)
+        {
+            if (dgvClientes.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccioná un cliente primero.");
+                return;
+            }
+
+            if (comboBoxDeuda.SelectedIndex == -1)
+            {
+                MessageBox.Show("Seleccioná un tipo de pago (Parcial o Total).");
+                return;
+            }
+
+            string tipoPago = comboBoxDeuda.SelectedItem.ToString();
+            Cliente clienteSeleccionado = (Cliente)dgvClientes.SelectedRows[0].DataBoundItem;
+
+            decimal nuevaDeuda = clienteSeleccionado.Deuda;
+
+            if (tipoPago == "Total")
+            {
+                nuevaDeuda = 0;
+            }
+            else if (tipoPago == "Parcial")
+            {
+                if (!decimal.TryParse(textBoxPagoParcial.Text, out decimal montoParcial))
+                {
+                    MessageBox.Show("Ingresá un valor numérico válido.");
+                    return;
+                }
+
+                if (montoParcial <= 0)
+                {
+                    MessageBox.Show("El monto debe ser mayor a 0.");
+                    return;
+                }
+
+                if (montoParcial > clienteSeleccionado.Deuda)
+                {
+                    MessageBox.Show("El monto ingresado es mayor a la deuda del cliente.");
+                    return;
+                }
+
+                nuevaDeuda -= montoParcial;
+            }
+
+            // 🔔 Confirmación con detalle
+            string mensajeConfirmacion = "";
+
+            if (tipoPago == "Total")
+            {
+                mensajeConfirmacion = $"Vas a saldar la deuda total del cliente ({clienteSeleccionado.Deuda:C}).\n¿Deseás continuar?";
+            }
+            else if (tipoPago == "Parcial")
+            {
+                mensajeConfirmacion = $"Vas a descontar {textBoxPagoParcial.Text} de una deuda de {clienteSeleccionado.Deuda:C}.\n" +
+                                      $"La nueva deuda será de {nuevaDeuda:C}.\n¿Deseás continuar?";
+            }
+
+            DialogResult confirmacion = MessageBox.Show(
+                mensajeConfirmacion,
+                "Confirmar pago",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (confirmacion != DialogResult.Yes)
+            {
+                return; // Cancela si el usuario responde "No"
+            }
+
+            // 🧾 Guardar nueva deuda
+            clienteSeleccionado.Deuda = nuevaDeuda;
+
+            ClienteDAO dao = new ClienteDAO();
+            bool actualizado = dao.ActualizarDeuda(clienteSeleccionado);
+
+            if (actualizado)
+            {
+                MessageBox.Show("La deuda fue actualizada correctamente.");
+                CargarClientesEnGrilla();
+                comboBoxDeuda.SelectedIndex = -1;
+                textBoxPagoParcial.Text = "";
+                textBoxPagoParcial.Enabled = false;
+                buttonPagarDeuda.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Hubo un error al actualizar la deuda.");
+            }
+        }
+
+
+
     }
 }

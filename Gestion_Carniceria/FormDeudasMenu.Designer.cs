@@ -38,15 +38,15 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 20F);
-            label1.Location = new Point(273, 46);
+            label1.Location = new Point(102, 32);
             label1.Name = "label1";
-            label1.Size = new Size(181, 37);
+            label1.Size = new Size(332, 37);
             label1.TabIndex = 0;
-            label1.Text = "Menu Deudas";
+            label1.Text = "Deudas - Cuenta Corriente";
             // 
             // buttonClientesD
             // 
-            buttonClientesD.Location = new Point(134, 145);
+            buttonClientesD.Location = new Point(74, 115);
             buttonClientesD.Name = "buttonClientesD";
             buttonClientesD.Size = new Size(139, 46);
             buttonClientesD.TabIndex = 1;
@@ -56,7 +56,7 @@
             // 
             // buttonProveedoresD
             // 
-            buttonProveedoresD.Location = new Point(427, 145);
+            buttonProveedoresD.Location = new Point(315, 115);
             buttonProveedoresD.Name = "buttonProveedoresD";
             buttonProveedoresD.Size = new Size(143, 46);
             buttonProveedoresD.TabIndex = 2;
@@ -66,7 +66,7 @@
             // 
             // buttonVolverD
             // 
-            buttonVolverD.Location = new Point(290, 279);
+            buttonVolverD.Location = new Point(191, 208);
             buttonVolverD.Name = "buttonVolverD";
             buttonVolverD.Size = new Size(142, 52);
             buttonVolverD.TabIndex = 3;
@@ -78,7 +78,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(561, 331);
             Controls.Add(buttonVolverD);
             Controls.Add(buttonProveedoresD);
             Controls.Add(buttonClientesD);

@@ -42,8 +42,10 @@
             btnVolverAlMenu = new Button();
             label13 = new Label();
             label1 = new Label();
-            button1 = new Button();
-            button2 = new Button();
+            comboBoxDeuda = new ComboBox();
+            mySqlCommand1 = new MySqlConnector.MySqlCommand();
+            textBoxPagoParcial = new TextBox();
+            buttonPagarDeuda = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
             groupBox2.SuspendLayout();
@@ -251,37 +253,56 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
-            label1.Location = new Point(19, 264);
+            label1.Location = new Point(19, 263);
             label1.Name = "label1";
             label1.Size = new Size(98, 21);
             label1.TabIndex = 18;
             label1.Text = "Pago Deuda";
             // 
-            // button1
+            // comboBoxDeuda
             // 
-            button1.Location = new Point(12, 306);
-            button1.Name = "button1";
-            button1.Size = new Size(87, 30);
-            button1.TabIndex = 19;
-            button1.Text = "Parcial";
-            button1.UseVisualStyleBackColor = true;
+            comboBoxDeuda.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxDeuda.FormattingEnabled = true;
+            comboBoxDeuda.Items.AddRange(new object[] { "Total", "Parcial" });
+            comboBoxDeuda.Location = new Point(19, 298);
+            comboBoxDeuda.Name = "comboBoxDeuda";
+            comboBoxDeuda.Size = new Size(140, 23);
+            comboBoxDeuda.TabIndex = 21;
+            comboBoxDeuda.SelectedIndexChanged += comboBoxDeuda_SelectedIndexChanged;
             // 
-            // button2
+            // mySqlCommand1
             // 
-            button2.Location = new Point(138, 306);
-            button2.Name = "button2";
-            button2.Size = new Size(91, 30);
-            button2.TabIndex = 20;
-            button2.Text = "Total";
-            button2.UseVisualStyleBackColor = true;
+            mySqlCommand1.CommandTimeout = 0;
+            mySqlCommand1.Connection = null;
+            mySqlCommand1.Transaction = null;
+            mySqlCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
+            // 
+            // textBoxPagoParcial
+            // 
+            textBoxPagoParcial.Location = new Point(19, 339);
+            textBoxPagoParcial.Name = "textBoxPagoParcial";
+            textBoxPagoParcial.Size = new Size(140, 23);
+            textBoxPagoParcial.TabIndex = 22;
+            textBoxPagoParcial.TextChanged += textBoxPagoParcial_TextChanged;
+            // 
+            // buttonPagarDeuda
+            // 
+            buttonPagarDeuda.Location = new Point(171, 339);
+            buttonPagarDeuda.Name = "buttonPagarDeuda";
+            buttonPagarDeuda.Size = new Size(75, 23);
+            buttonPagarDeuda.TabIndex = 23;
+            buttonPagarDeuda.Text = "Pagar";
+            buttonPagarDeuda.UseVisualStyleBackColor = true;
+            buttonPagarDeuda.Click += buttonPagarDeuda_Click;
             // 
             // FrmClientesDeuda
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1021, 447);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(buttonPagarDeuda);
+            Controls.Add(textBoxPagoParcial);
+            Controls.Add(comboBoxDeuda);
             Controls.Add(label1);
             Controls.Add(label13);
             Controls.Add(btnVolverAlMenu);
@@ -324,7 +345,9 @@
         private Label label13;
         private BindingSource clienteBindingSource;
         private Label label1;
-        private Button button1;
-        private Button button2;
+        private ComboBox comboBoxDeuda;
+        private MySqlConnector.MySqlCommand mySqlCommand1;
+        private TextBox textBoxPagoParcial;
+        private Button buttonPagarDeuda;
     }
 }
