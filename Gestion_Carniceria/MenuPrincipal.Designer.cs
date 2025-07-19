@@ -165,6 +165,7 @@
             btnTotales.TabIndex = 10;
             btnTotales.Text = "Totales";
             btnTotales.UseVisualStyleBackColor = true;
+            btnTotales.Click += btnTotales_Click;
             // 
             // btnSalir
             // 

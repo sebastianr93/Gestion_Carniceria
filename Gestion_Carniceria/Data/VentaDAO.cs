@@ -190,5 +190,26 @@ namespace Gestion_Carniceria.Data
             }
             return lista;
         }
+
+        public decimal ObtenerTotalVentas()
+        {
+            decimal totalVentas = 0;
+
+            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            {
+                string query = "SELECT IFNULL(SUM(ValorTotal), 0) FROM venta";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                object result = cmd.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                {
+                    totalVentas = Convert.ToDecimal(result);
+                }
+            }
+
+            return totalVentas;
+        }
     }
 }

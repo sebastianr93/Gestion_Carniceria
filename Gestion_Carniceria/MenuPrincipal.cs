@@ -131,6 +131,13 @@ namespace Gestion_Carniceria
             FormDeudasMenu formDeudasMenu = new FormDeudasMenu();
             formDeudasMenu.ShowDialog(); // o .Show() si querés que sea no modal
         }
+
+        private void btnTotales_Click(object sender, EventArgs e)
+        {
+            FrmTotales frmTotales = new FrmTotales();
+            frmTotales.Show();  // Muestra el formulario sin bloquear el actual
+                                // Si querés que se abra modal (bloqueando hasta cerrar), usá frmTotales.ShowDialog();
+        }
     }
 
 }
