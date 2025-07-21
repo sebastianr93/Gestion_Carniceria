@@ -155,6 +155,7 @@
             btnDeudores.TabIndex = 9;
             btnDeudores.Text = "Registro de Deudas";
             btnDeudores.UseVisualStyleBackColor = true;
+            btnDeudores.Click += btnDeudores_Click;
             // 
             // btnTotales
             // 
@@ -164,6 +165,7 @@
             btnTotales.TabIndex = 10;
             btnTotales.Text = "Totales";
             btnTotales.UseVisualStyleBackColor = true;
+            btnTotales.Click += btnTotales_Click;
             // 
             // btnSalir
             // 

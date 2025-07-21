@@ -123,6 +123,26 @@ public class ProveedorDAO
         }
     }
 
+    public decimal ObtenerDeudaTotalProveedores()
+    {
+        decimal totalDeuda = 0;
+
+        using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+        {
+            string query = "SELECT IFNULL(SUM(CuentaCorriente), 0) FROM proveedor";
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+
+            object result = cmd.ExecuteScalar();
+
+            if (result != null && result != DBNull.Value)
+            {
+                totalDeuda = Convert.ToDecimal(result);
+            }
+        }
+
+        return totalDeuda;
+    }
+
     public bool EliminarProveedor(int id)
     {
         using (MySqlConnection conn = ConexionBD.ObtenerConexion())

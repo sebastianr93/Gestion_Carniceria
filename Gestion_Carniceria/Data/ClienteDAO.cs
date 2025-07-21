@@ -151,4 +151,37 @@ public class ClienteDAO
         }
     }
 
+
+    public List<Cliente> ObtenerClientesConDeuda()
+    {
+        List<Cliente> lista = new List<Cliente>();
+
+        using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+        {
+            string query = "SELECT * FROM cliente WHERE Deuda > 0";
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Cliente c = new Cliente
+                {
+                    ID = Convert.ToInt32(reader["ID"]),
+                    Nombre = reader["Nombre"].ToString(),
+                    Apellido = reader["Apellido"].ToString(),
+                    Telefono = reader["Telefono"].ToString(),
+                    Correo = reader["Correo"].ToString(),
+                    DNI = reader["DNI"].ToString()
+                };
+
+                c.AgregarDeuda(Convert.ToDecimal(reader["Deuda"]));
+                lista.Add(c);
+            }
+
+            reader.Close();
+        }
+
+        return lista;
+    }
+
 }
