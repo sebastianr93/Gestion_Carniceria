@@ -211,5 +211,62 @@ namespace Gestion_Carniceria.Data
 
             return totalVentas;
         }
+
+
+        public decimal ObtenerTotalVentasPorFechas(DateTime desde, DateTime hasta)
+        {
+            decimal total = 0;
+            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            {
+                string query = "SELECT IFNULL(SUM(ValorTotal), 0) FROM venta WHERE Fecha BETWEEN @Desde AND @Hasta";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Desde", desde);
+                cmd.Parameters.AddWithValue("@Hasta", hasta);
+                object result = cmd.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                    total = Convert.ToDecimal(result);
+            }
+            return total;
+        }
+
+        public decimal ObtenerTotalCobradoPorFechas(DateTime desde, DateTime hasta)
+        {
+            decimal total = 0;
+            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            {
+                string query = "SELECT IFNULL(SUM(PagoParcial), 0) FROM venta WHERE Fecha BETWEEN @Desde AND @Hasta";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Desde", desde);
+                cmd.Parameters.AddWithValue("@Hasta", hasta);
+                object result = cmd.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                    total = Convert.ToDecimal(result);
+            }
+            return total;
+        }
+        public decimal ObtenerDeudaClientesPorFechas(DateTime desde, DateTime hasta)
+        {
+            decimal deuda = 0;
+
+            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            {
+                string query = "SELECT IFNULL(SUM(ValorTotal - PagoParcial), 0) FROM venta WHERE Fecha BETWEEN @Desde AND @Hasta";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Desde", desde);
+                cmd.Parameters.AddWithValue("@Hasta", hasta);
+
+                object result = cmd.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                    deuda = Convert.ToDecimal(result);
+            }
+
+            return deuda;
+        }
+
+
+
+
     }
 }
