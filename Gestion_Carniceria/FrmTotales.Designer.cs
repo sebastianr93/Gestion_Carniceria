@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTotales));
             totalesventastext = new Label();
-            titulo = new Label();
             costoproductostext = new Label();
             labelTotalVentasValor = new Label();
             labelTotalCobradoValor = new Label();
@@ -40,148 +40,137 @@
             dateTimePicker1Inicio = new DateTimePicker();
             dateTimePicker2Final = new DateTimePicker();
             ButtonBuscarEntreFechas = new Button();
+            label3 = new Label();
+            label4 = new Label();
+            groupBox1 = new GroupBox();
+            label5 = new Label();
+            groupBox2 = new GroupBox();
             button1 = new Button();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // totalesventastext
             // 
-            totalesventastext.AutoSize = true;
-            totalesventastext.Location = new Point(195, 183);
+            resources.ApplyResources(totalesventastext, "totalesventastext");
             totalesventastext.Name = "totalesventastext";
-            totalesventastext.Size = new Size(96, 15);
-            totalesventastext.TabIndex = 0;
-            totalesventastext.Text = "Totales de Ventas";
-            // 
-            // titulo
-            // 
-            titulo.AutoSize = true;
-            titulo.Font = new Font("Segoe UI", 20F);
-            titulo.Location = new Point(367, 21);
-            titulo.Name = "titulo";
-            titulo.Size = new Size(119, 37);
-            titulo.TabIndex = 1;
-            titulo.Text = "TOTALES";
             // 
             // costoproductostext
             // 
-            costoproductostext.AutoSize = true;
-            costoproductostext.Location = new Point(195, 214);
+            resources.ApplyResources(costoproductostext, "costoproductostext");
             costoproductostext.Name = "costoproductostext";
-            costoproductostext.Size = new Size(81, 15);
-            costoproductostext.TabIndex = 2;
-            costoproductostext.Text = "Total Cobrado";
             // 
             // labelTotalVentasValor
             // 
-            labelTotalVentasValor.AutoSize = true;
-            labelTotalVentasValor.Location = new Point(588, 183);
+            resources.ApplyResources(labelTotalVentasValor, "labelTotalVentasValor");
             labelTotalVentasValor.Name = "labelTotalVentasValor";
-            labelTotalVentasValor.Size = new Size(38, 15);
-            labelTotalVentasValor.TabIndex = 3;
-            labelTotalVentasValor.Text = "label1";
             // 
             // labelTotalCobradoValor
             // 
-            labelTotalCobradoValor.AutoSize = true;
-            labelTotalCobradoValor.Location = new Point(590, 215);
+            resources.ApplyResources(labelTotalCobradoValor, "labelTotalCobradoValor");
             labelTotalCobradoValor.Name = "labelTotalCobradoValor";
-            labelTotalCobradoValor.Size = new Size(38, 15);
-            labelTotalCobradoValor.TabIndex = 4;
-            labelTotalCobradoValor.Text = "label1";
             // 
             // labelTotalACobrarValor
             // 
-            labelTotalACobrarValor.AutoSize = true;
+            resources.ApplyResources(labelTotalACobrarValor, "labelTotalACobrarValor");
             labelTotalACobrarValor.ForeColor = Color.Red;
-            labelTotalACobrarValor.Location = new Point(590, 244);
             labelTotalACobrarValor.Name = "labelTotalACobrarValor";
-            labelTotalACobrarValor.Size = new Size(38, 15);
-            labelTotalACobrarValor.TabIndex = 5;
-            labelTotalACobrarValor.Text = "label1";
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(195, 244);
+            resources.ApplyResources(label1, "label1");
             label1.Name = "label1";
-            label1.Size = new Size(114, 15);
-            label1.TabIndex = 6;
-            label1.Text = "Deuda Total Clientes";
             // 
             // labelDeudaProveedoresValor
             // 
-            labelDeudaProveedoresValor.AutoSize = true;
+            resources.ApplyResources(labelDeudaProveedoresValor, "labelDeudaProveedoresValor");
             labelDeudaProveedoresValor.ForeColor = Color.Red;
-            labelDeudaProveedoresValor.Location = new Point(590, 272);
             labelDeudaProveedoresValor.Name = "labelDeudaProveedoresValor";
-            labelDeudaProveedoresValor.Size = new Size(38, 15);
-            labelDeudaProveedoresValor.TabIndex = 7;
-            labelDeudaProveedoresValor.Text = "label2";
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(195, 272);
+            resources.ApplyResources(label2, "label2");
             label2.Name = "label2";
-            label2.Size = new Size(197, 15);
-            label2.TabIndex = 8;
-            label2.Text = "Cuenta Corttiente Total Proveedores";
             // 
             // dateTimePicker1Inicio
             // 
-            dateTimePicker1Inicio.Location = new Point(195, 102);
+            resources.ApplyResources(dateTimePicker1Inicio, "dateTimePicker1Inicio");
             dateTimePicker1Inicio.Name = "dateTimePicker1Inicio";
-            dateTimePicker1Inicio.Size = new Size(231, 23);
-            dateTimePicker1Inicio.TabIndex = 9;
             dateTimePicker1Inicio.ValueChanged += dateTimePicker1Inicio_ValueChanged;
             // 
             // dateTimePicker2Final
             // 
-            dateTimePicker2Final.Location = new Point(446, 102);
+            resources.ApplyResources(dateTimePicker2Final, "dateTimePicker2Final");
             dateTimePicker2Final.Name = "dateTimePicker2Final";
-            dateTimePicker2Final.Size = new Size(227, 23);
-            dateTimePicker2Final.TabIndex = 10;
             dateTimePicker2Final.ValueChanged += dateTimePicker2Final_ValueChanged;
             // 
             // ButtonBuscarEntreFechas
             // 
-            ButtonBuscarEntreFechas.Location = new Point(703, 102);
+            resources.ApplyResources(ButtonBuscarEntreFechas, "ButtonBuscarEntreFechas");
             ButtonBuscarEntreFechas.Name = "ButtonBuscarEntreFechas";
-            ButtonBuscarEntreFechas.Size = new Size(75, 23);
-            ButtonBuscarEntreFechas.TabIndex = 11;
-            ButtonBuscarEntreFechas.Text = "Buscar";
             ButtonBuscarEntreFechas.UseVisualStyleBackColor = true;
             ButtonBuscarEntreFechas.Click += ButtonBuscarEntreFechas_Click;
             // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(label4);
+            groupBox1.Controls.Add(label3);
+            groupBox1.Controls.Add(ButtonBuscarEntreFechas);
+            groupBox1.Controls.Add(dateTimePicker2Final);
+            groupBox1.Controls.Add(dateTimePicker1Inicio);
+            resources.ApplyResources(groupBox1, "groupBox1");
+            groupBox1.Name = "groupBox1";
+            groupBox1.TabStop = false;
+            // 
+            // label5
+            // 
+            resources.ApplyResources(label5, "label5");
+            label5.Name = "label5";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(label2);
+            groupBox2.Controls.Add(label1);
+            groupBox2.Controls.Add(costoproductostext);
+            groupBox2.Controls.Add(totalesventastext);
+            groupBox2.Controls.Add(labelDeudaProveedoresValor);
+            groupBox2.Controls.Add(labelTotalVentasValor);
+            groupBox2.Controls.Add(labelTotalACobrarValor);
+            groupBox2.Controls.Add(labelTotalCobradoValor);
+            resources.ApplyResources(groupBox2, "groupBox2");
+            groupBox2.Name = "groupBox2";
+            groupBox2.TabStop = false;
+            // 
             // button1
             // 
-            button1.Location = new Point(808, 312);
+            resources.ApplyResources(button1, "button1");
             button1.Name = "button1";
-            button1.Size = new Size(8, 8);
-            button1.TabIndex = 12;
-            button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // FrmTotales
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(967, 585);
             Controls.Add(button1);
-            Controls.Add(ButtonBuscarEntreFechas);
-            Controls.Add(dateTimePicker2Final);
-            Controls.Add(dateTimePicker1Inicio);
-            Controls.Add(label2);
-            Controls.Add(labelDeudaProveedoresValor);
-            Controls.Add(label1);
-            Controls.Add(labelTotalACobrarValor);
-            Controls.Add(labelTotalCobradoValor);
-            Controls.Add(labelTotalVentasValor);
-            Controls.Add(costoproductostext);
-            Controls.Add(titulo);
-            Controls.Add(totalesventastext);
+            Controls.Add(groupBox2);
+            Controls.Add(label5);
+            Controls.Add(groupBox1);
             Name = "FrmTotales";
-            Text = "FrmTotales";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -189,7 +178,6 @@
         #endregion
 
         private Label totalesventastext;
-        private Label titulo;
         private Label costoproductostext;
         private Label labelTotalVentasValor;
         private Label labelTotalCobradoValor;
@@ -200,6 +188,11 @@
         private DateTimePicker dateTimePicker1Inicio;
         private DateTimePicker dateTimePicker2Final;
         private Button ButtonBuscarEntreFechas;
+        private Label label3;
+        private Label label4;
+        private GroupBox groupBox1;
+        private Label label5;
+        private GroupBox groupBox2;
         private Button button1;
     }
 }

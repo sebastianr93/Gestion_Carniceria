@@ -88,11 +88,11 @@
             // 
             // btnVolver
             // 
-            btnVolver.Location = new Point(357, 476);
+            btnVolver.Location = new Point(409, 475);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(114, 23);
+            btnVolver.Size = new Size(62, 23);
             btnVolver.TabIndex = 24;
-            btnVolver.Text = "Volver al Menú";
+            btnVolver.Text = "Volver";
             btnVolver.UseVisualStyleBackColor = true;
             btnVolver.Click += btnVolver_Click;
             // 
@@ -378,6 +378,7 @@
             Controls.Add(groupBox3);
             Name = "FrmPedidoProveedores";
             Text = "Nuevo Pedido";
+            FormClosing += FrmPedidoProveedores_FormClosing;
             Load += FrmPedidoProveedores_Load;
             ((System.ComponentModel.ISupportInitialize)itemVentaBindingSource).EndInit();
             groupBox2.ResumeLayout(false);
@@ -391,7 +392,6 @@
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ResumeLayout(false);
-            this.FormClosing += FrmPedidoProveedores_FormClosing;
         }
 
         #endregion

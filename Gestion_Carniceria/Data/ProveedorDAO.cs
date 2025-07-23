@@ -101,12 +101,11 @@ public class ProveedorDAO
         using (MySqlConnection conn = ConexionBD.ObtenerConexion())
         {
             string query = @"UPDATE proveedor SET 
-                                Nombre = @Nombre, 
-                                Telefono = @Telefono, 
-                                Correo = @Correo, 
-                                Descripcion = @Descripcion, 
-                                CuentaCorriente = @CuentaCorriente
-                             WHERE ID = @ID";
+                            Nombre = @Nombre, 
+                            Telefono = @Telefono, 
+                            Correo = @Correo, 
+                            Descripcion = @Descripcion
+                         WHERE ID = @ID";
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
 
@@ -114,7 +113,6 @@ public class ProveedorDAO
             cmd.Parameters.AddWithValue("@Telefono", proveedor.Telefono);
             cmd.Parameters.AddWithValue("@Correo", proveedor.Correo);
             cmd.Parameters.AddWithValue("@Descripcion", proveedor.Descripcion);
-            cmd.Parameters.AddWithValue("@CuentaCorriente", proveedor.CuentaCorriente);
             cmd.Parameters.AddWithValue("@ID", proveedor.ID);
 
             int filasAfectadas = cmd.ExecuteNonQuery();
@@ -122,6 +120,7 @@ public class ProveedorDAO
             return filasAfectadas > 0;
         }
     }
+
 
     public decimal ObtenerDeudaTotalProveedores()
     {

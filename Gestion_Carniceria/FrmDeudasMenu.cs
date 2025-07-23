@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Gestion_Carniceria
 {
-    public partial class FormDeudasMenu : Form
+    public partial class FrmDeudasMenu : Form
     {
-        public FormDeudasMenu()
+        public FrmDeudasMenu()
         {
             InitializeComponent();
         }

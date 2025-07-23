@@ -33,6 +33,7 @@
             linkLabel1 = new LinkLabel();
             button1 = new Button();
             groupBox1 = new GroupBox();
+            ProbarConexion = new Button();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -88,11 +89,22 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Sobre Nosotros";
             // 
+            // ProbarConexion
+            // 
+            ProbarConexion.Location = new Point(12, 137);
+            ProbarConexion.Name = "ProbarConexion";
+            ProbarConexion.Size = new Size(116, 23);
+            ProbarConexion.TabIndex = 5;
+            ProbarConexion.Text = "Probar Conexion";
+            ProbarConexion.UseVisualStyleBackColor = true;
+            ProbarConexion.Click += ProbarConexion_Click;
+            // 
             // FrmAbout
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(455, 165);
+            Controls.Add(ProbarConexion);
             Controls.Add(groupBox1);
             Controls.Add(button1);
             Name = "FrmAbout";
@@ -110,5 +122,6 @@
         private LinkLabel linkLabel1;
         private Button button1;
         private GroupBox groupBox1;
+        private Button ProbarConexion;
     }
 }

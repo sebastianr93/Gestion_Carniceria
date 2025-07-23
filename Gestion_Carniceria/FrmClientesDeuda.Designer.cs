@@ -40,15 +40,22 @@
             txtApellidoBuscar = new TextBox();
             txtNombreBuscar = new TextBox();
             btnVolverAlMenu = new Button();
-            label13 = new Label();
-            label1 = new Label();
             comboBoxDeuda = new ComboBox();
             mySqlCommand1 = new MySqlConnector.MySqlCommand();
             textBoxPagoParcial = new TextBox();
             buttonPagarDeuda = new Button();
+            label13 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            groupBox1 = new GroupBox();
+            label1 = new Label();
+            groupBox3 = new GroupBox();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
             groupBox2.SuspendLayout();
+            groupBox1.SuspendLayout();
+            groupBox3.SuspendLayout();
             SuspendLayout();
             // 
             // dgvClientes
@@ -60,11 +67,11 @@
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvClientes.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, nombreDataGridViewTextBoxColumn, apellidoDataGridViewTextBoxColumn, telefonoDataGridViewTextBoxColumn, correoDataGridViewTextBoxColumn, dNIDataGridViewTextBoxColumn, deudaDataGridViewTextBoxColumn });
             dgvClientes.DataSource = clienteBindingSource;
-            dgvClientes.Location = new Point(266, 12);
+            dgvClientes.Location = new Point(13, 16);
             dgvClientes.Name = "dgvClientes";
             dgvClientes.ReadOnly = true;
             dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvClientes.Size = new Size(743, 423);
+            dgvClientes.Size = new Size(743, 405);
             dgvClientes.TabIndex = 0;
             // 
             // iDDataGridViewTextBoxColumn
@@ -122,6 +129,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label13);
             groupBox2.Controls.Add(btnBuscar);
             groupBox2.Controls.Add(label9);
             groupBox2.Controls.Add(label7);
@@ -133,7 +141,7 @@
             groupBox2.Controls.Add(txtTelefonoBuscar);
             groupBox2.Controls.Add(txtApellidoBuscar);
             groupBox2.Controls.Add(txtNombreBuscar);
-            groupBox2.Location = new Point(12, 60);
+            groupBox2.Location = new Point(12, 267);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(248, 154);
             groupBox2.TabIndex = 17;
@@ -231,40 +239,20 @@
             // 
             // btnVolverAlMenu
             // 
-            btnVolverAlMenu.Location = new Point(12, 220);
+            btnVolverAlMenu.Location = new Point(184, 427);
             btnVolverAlMenu.Name = "btnVolverAlMenu";
-            btnVolverAlMenu.Size = new Size(149, 23);
+            btnVolverAlMenu.Size = new Size(75, 23);
             btnVolverAlMenu.TabIndex = 1;
-            btnVolverAlMenu.Text = "Volver al Menú";
+            btnVolverAlMenu.Text = "Volver";
             btnVolverAlMenu.UseVisualStyleBackColor = true;
             btnVolverAlMenu.Click += btnVolverAlMenu_Click;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
-            label13.Location = new Point(19, 30);
-            label13.Name = "label13";
-            label13.Size = new Size(113, 21);
-            label13.TabIndex = 0;
-            label13.Text = "Buscar Cliente";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
-            label1.Location = new Point(19, 263);
-            label1.Name = "label1";
-            label1.Size = new Size(98, 21);
-            label1.TabIndex = 18;
-            label1.Text = "Pago Deuda";
             // 
             // comboBoxDeuda
             // 
             comboBoxDeuda.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxDeuda.FormattingEnabled = true;
             comboBoxDeuda.Items.AddRange(new object[] { "Total", "Parcial" });
-            comboBoxDeuda.Location = new Point(19, 298);
+            comboBoxDeuda.Location = new Point(93, 12);
             comboBoxDeuda.Name = "comboBoxDeuda";
             comboBoxDeuda.Size = new Size(140, 23);
             comboBoxDeuda.TabIndex = 21;
@@ -279,7 +267,7 @@
             // 
             // textBoxPagoParcial
             // 
-            textBoxPagoParcial.Location = new Point(19, 339);
+            textBoxPagoParcial.Location = new Point(93, 41);
             textBoxPagoParcial.Name = "textBoxPagoParcial";
             textBoxPagoParcial.Size = new Size(140, 23);
             textBoxPagoParcial.TabIndex = 22;
@@ -287,7 +275,7 @@
             // 
             // buttonPagarDeuda
             // 
-            buttonPagarDeuda.Location = new Point(171, 339);
+            buttonPagarDeuda.Location = new Point(158, 70);
             buttonPagarDeuda.Name = "buttonPagarDeuda";
             buttonPagarDeuda.Size = new Size(75, 23);
             buttonPagarDeuda.TabIndex = 23;
@@ -295,19 +283,87 @@
             buttonPagarDeuda.UseVisualStyleBackColor = true;
             buttonPagarDeuda.Click += buttonPagarDeuda_Click;
             // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
+            label13.Location = new Point(5, -5);
+            label13.Name = "label13";
+            label13.Size = new Size(113, 21);
+            label13.TabIndex = 22;
+            label13.Text = "Buscar Cliente";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(4, 15);
+            label3.Name = "label3";
+            label3.Size = new Size(83, 15);
+            label3.TabIndex = 25;
+            label3.Text = "Total o Parcial:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(4, 44);
+            label4.Name = "label4";
+            label4.Size = new Size(84, 15);
+            label4.TabIndex = 26;
+            label4.Text = "Monto Parcial:";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(label4);
+            groupBox1.Controls.Add(label3);
+            groupBox1.Controls.Add(buttonPagarDeuda);
+            groupBox1.Controls.Add(textBoxPagoParcial);
+            groupBox1.Controls.Add(comboBoxDeuda);
+            groupBox1.Location = new Point(8, 18);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(246, 104);
+            groupBox1.TabIndex = 27;
+            groupBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
+            label1.Location = new Point(8, 6);
+            label1.Name = "label1";
+            label1.Size = new Size(124, 21);
+            label1.TabIndex = 27;
+            label1.Text = "Cancelar Deuda";
+            // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(label2);
+            groupBox3.Controls.Add(dgvClientes);
+            groupBox3.Location = new Point(265, 14);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(769, 436);
+            groupBox3.TabIndex = 28;
+            groupBox3.TabStop = false;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label2.Location = new Point(-5, -6);
+            label2.Name = "label2";
+            label2.Size = new Size(208, 21);
+            label2.TabIndex = 25;
+            label2.Text = "Lista de Clientes con Deuda";
+            // 
             // FrmClientesDeuda
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1021, 447);
-            Controls.Add(buttonPagarDeuda);
-            Controls.Add(textBoxPagoParcial);
-            Controls.Add(comboBoxDeuda);
+            ClientSize = new Size(1041, 458);
+            Controls.Add(groupBox3);
             Controls.Add(label1);
-            Controls.Add(label13);
+            Controls.Add(groupBox1);
             Controls.Add(btnVolverAlMenu);
             Controls.Add(groupBox2);
-            Controls.Add(dgvClientes);
             Name = "FrmClientesDeuda";
             Text = "Clientes con Deuda";
             Load += FrmClientesDeuda_Load;
@@ -315,6 +371,10 @@
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -342,12 +402,17 @@
         private TextBox txtApellidoBuscar;
         private TextBox txtNombreBuscar;
         private Button btnVolverAlMenu;
-        private Label label13;
         private BindingSource clienteBindingSource;
-        private Label label1;
         private ComboBox comboBoxDeuda;
         private MySqlConnector.MySqlCommand mySqlCommand1;
         private TextBox textBoxPagoParcial;
         private Button buttonPagarDeuda;
+        private Label label13;
+        private Label label3;
+        private Label label4;
+        private GroupBox groupBox1;
+        private Label label1;
+        private GroupBox groupBox3;
+        private Label label2;
     }
 }

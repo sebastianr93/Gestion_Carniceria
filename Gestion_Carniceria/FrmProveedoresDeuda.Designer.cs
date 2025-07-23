@@ -37,7 +37,6 @@
             descripcionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             cuentaCorrienteDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             proveedorBindingSource = new BindingSource(components);
-            label13 = new Label();
             groupBox2 = new GroupBox();
             btnBuscar = new Button();
             label9 = new Label();
@@ -52,10 +51,18 @@
             buttonPagarDeuda = new Button();
             textBoxPagoParcial = new TextBox();
             comboBoxDeuda = new ComboBox();
+            groupBox1 = new GroupBox();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            groupBox3 = new GroupBox();
             label1 = new Label();
+            label13 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProveedoresDeuda).BeginInit();
             ((System.ComponentModel.ISupportInitialize)proveedorBindingSource).BeginInit();
             groupBox2.SuspendLayout();
+            groupBox1.SuspendLayout();
+            groupBox3.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridViewProveedoresDeuda
@@ -64,9 +71,9 @@
             dataGridViewProveedoresDeuda.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewProveedoresDeuda.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, nombreDataGridViewTextBoxColumn, telefonoDataGridViewTextBoxColumn, correoDataGridViewTextBoxColumn, descripcionDataGridViewTextBoxColumn, cuentaCorrienteDataGridViewTextBoxColumn });
             dataGridViewProveedoresDeuda.DataSource = proveedorBindingSource;
-            dataGridViewProveedoresDeuda.Location = new Point(265, 16);
+            dataGridViewProveedoresDeuda.Location = new Point(6, 24);
             dataGridViewProveedoresDeuda.Name = "dataGridViewProveedoresDeuda";
-            dataGridViewProveedoresDeuda.Size = new Size(748, 511);
+            dataGridViewProveedoresDeuda.Size = new Size(644, 366);
             dataGridViewProveedoresDeuda.TabIndex = 0;
             dataGridViewProveedoresDeuda.CellContentClick += dataGridViewProveedoresDeuda_CellContentClick;
             // 
@@ -111,18 +118,9 @@
             // 
             proveedorBindingSource.DataSource = typeof(Proveedor);
             // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
-            label13.Location = new Point(12, 16);
-            label13.Name = "label13";
-            label13.Size = new Size(135, 21);
-            label13.TabIndex = 1;
-            label13.Text = "Buscar Proveedor";
-            // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label13);
             groupBox2.Controls.Add(btnBuscar);
             groupBox2.Controls.Add(label9);
             groupBox2.Controls.Add(label7);
@@ -132,7 +130,7 @@
             groupBox2.Controls.Add(txtTelefonoBuscar);
             groupBox2.Controls.Add(txtApellidoBuscar);
             groupBox2.Controls.Add(txtNombreBuscar);
-            groupBox2.Location = new Point(11, 49);
+            groupBox2.Location = new Point(12, 234);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(248, 154);
             groupBox2.TabIndex = 18;
@@ -140,9 +138,9 @@
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(58, 113);
+            btnBuscar.Location = new Point(167, 127);
             btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(103, 35);
+            btnBuscar.Size = new Size(75, 23);
             btnBuscar.TabIndex = 11;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
@@ -151,7 +149,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(126, 57);
+            label9.Location = new Point(6, 109);
             label9.Name = "label9";
             label9.Size = new Size(108, 15);
             label9.TabIndex = 12;
@@ -160,7 +158,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(126, 12);
+            label7.Location = new Point(127, 21);
             label7.Name = "label7";
             label7.Size = new Size(55, 15);
             label7.TabIndex = 13;
@@ -169,7 +167,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(20, 57);
+            label11.Location = new Point(8, 65);
             label11.Name = "label11";
             label11.Size = new Size(72, 15);
             label11.TabIndex = 15;
@@ -178,7 +176,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(20, 13);
+            label12.Location = new Point(6, 21);
             label12.Name = "label12";
             label12.Size = new Size(67, 15);
             label12.TabIndex = 16;
@@ -186,45 +184,45 @@
             // 
             // txtCorreoBuscar
             // 
-            txtCorreoBuscar.Location = new Point(126, 75);
+            txtCorreoBuscar.Location = new Point(8, 127);
             txtCorreoBuscar.Name = "txtCorreoBuscar";
-            txtCorreoBuscar.Size = new Size(100, 23);
+            txtCorreoBuscar.Size = new Size(153, 23);
             txtCorreoBuscar.TabIndex = 18;
             // 
             // txtTelefonoBuscar
             // 
-            txtTelefonoBuscar.Location = new Point(126, 31);
+            txtTelefonoBuscar.Location = new Point(127, 39);
             txtTelefonoBuscar.Name = "txtTelefonoBuscar";
-            txtTelefonoBuscar.Size = new Size(100, 23);
+            txtTelefonoBuscar.Size = new Size(111, 23);
             txtTelefonoBuscar.TabIndex = 19;
             // 
             // txtApellidoBuscar
             // 
-            txtApellidoBuscar.Location = new Point(20, 75);
+            txtApellidoBuscar.Location = new Point(7, 83);
             txtApellidoBuscar.Name = "txtApellidoBuscar";
-            txtApellidoBuscar.Size = new Size(100, 23);
+            txtApellidoBuscar.Size = new Size(235, 23);
             txtApellidoBuscar.TabIndex = 20;
             // 
             // txtNombreBuscar
             // 
-            txtNombreBuscar.Location = new Point(20, 31);
+            txtNombreBuscar.Location = new Point(8, 39);
             txtNombreBuscar.Name = "txtNombreBuscar";
-            txtNombreBuscar.Size = new Size(100, 23);
+            txtNombreBuscar.Size = new Size(113, 23);
             txtNombreBuscar.TabIndex = 21;
             // 
             // btnVolverAlMenu
             // 
-            btnVolverAlMenu.Location = new Point(11, 243);
+            btnVolverAlMenu.Location = new Point(185, 394);
             btnVolverAlMenu.Name = "btnVolverAlMenu";
-            btnVolverAlMenu.Size = new Size(149, 23);
+            btnVolverAlMenu.Size = new Size(75, 23);
             btnVolverAlMenu.TabIndex = 19;
-            btnVolverAlMenu.Text = "Volver al Menú";
+            btnVolverAlMenu.Text = "Volver";
             btnVolverAlMenu.UseVisualStyleBackColor = true;
             btnVolverAlMenu.Click += btnVolverAlMenu_Click;
             // 
             // buttonPagarDeuda
             // 
-            buttonPagarDeuda.Location = new Point(164, 361);
+            buttonPagarDeuda.Location = new Point(163, 85);
             buttonPagarDeuda.Name = "buttonPagarDeuda";
             buttonPagarDeuda.Size = new Size(75, 23);
             buttonPagarDeuda.TabIndex = 27;
@@ -234,7 +232,7 @@
             // 
             // textBoxPagoParcial
             // 
-            textBoxPagoParcial.Location = new Point(12, 361);
+            textBoxPagoParcial.Location = new Point(97, 56);
             textBoxPagoParcial.Name = "textBoxPagoParcial";
             textBoxPagoParcial.Size = new Size(140, 23);
             textBoxPagoParcial.TabIndex = 26;
@@ -245,43 +243,104 @@
             comboBoxDeuda.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxDeuda.FormattingEnabled = true;
             comboBoxDeuda.Items.AddRange(new object[] { "Total", "Parcial" });
-            comboBoxDeuda.Location = new Point(12, 320);
+            comboBoxDeuda.Location = new Point(97, 27);
             comboBoxDeuda.Name = "comboBoxDeuda";
             comboBoxDeuda.Size = new Size(140, 23);
             comboBoxDeuda.TabIndex = 25;
             comboBoxDeuda.SelectedIndexChanged += comboBoxDeuda_SelectedIndexChanged;
             // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(dataGridViewProveedoresDeuda);
+            groupBox1.Location = new Point(266, 12);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(661, 405);
+            groupBox1.TabIndex = 28;
+            groupBox1.TabStop = false;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label2.Location = new Point(6, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(302, 21);
+            label2.TabIndex = 29;
+            label2.Text = "Lista de Proveedores con Pagos a Recibir";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(8, 30);
+            label3.Name = "label3";
+            label3.Size = new Size(83, 15);
+            label3.TabIndex = 29;
+            label3.Text = "Total o Parcial:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(7, 59);
+            label4.Name = "label4";
+            label4.Size = new Size(84, 15);
+            label4.TabIndex = 30;
+            label4.Text = "Monto Parcial:";
+            // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(label1);
+            groupBox3.Controls.Add(label4);
+            groupBox3.Controls.Add(label3);
+            groupBox3.Controls.Add(buttonPagarDeuda);
+            groupBox3.Controls.Add(textBoxPagoParcial);
+            groupBox3.Controls.Add(comboBoxDeuda);
+            groupBox3.Location = new Point(12, 12);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(244, 114);
+            groupBox3.TabIndex = 31;
+            groupBox3.TabStop = false;
+            // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
-            label1.Location = new Point(12, 285);
+            label1.Location = new Point(6, 0);
             label1.Name = "label1";
-            label1.Size = new Size(173, 21);
-            label1.TabIndex = 24;
-            label1.Text = "Pago Cuenta Corriente";
+            label1.Size = new Size(124, 21);
+            label1.TabIndex = 31;
+            label1.Text = "Cancelar Deuda";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
+            label13.Location = new Point(0, 0);
+            label13.Name = "label13";
+            label13.Size = new Size(135, 21);
+            label13.TabIndex = 32;
+            label13.Text = "Buscar Proveedor";
             // 
             // FrmProveedoresDeuda
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1025, 539);
-            Controls.Add(buttonPagarDeuda);
-            Controls.Add(textBoxPagoParcial);
-            Controls.Add(comboBoxDeuda);
-            Controls.Add(label1);
+            ClientSize = new Size(939, 427);
+            Controls.Add(groupBox3);
+            Controls.Add(groupBox1);
             Controls.Add(btnVolverAlMenu);
             Controls.Add(groupBox2);
-            Controls.Add(label13);
-            Controls.Add(dataGridViewProveedoresDeuda);
             Name = "FrmProveedoresDeuda";
-            Text = "FrmProveedoresDeuda";
+            Text = "Cuenta Corriente de Proveedores";
             ((System.ComponentModel.ISupportInitialize)dataGridViewProveedoresDeuda).EndInit();
             ((System.ComponentModel.ISupportInitialize)proveedorBindingSource).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -294,7 +353,6 @@
         private DataGridViewTextBoxColumn correoDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn descripcionDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn cuentaCorrienteDataGridViewTextBoxColumn;
-        private Label label13;
         private GroupBox groupBox2;
         private Button btnBuscar;
         private Label label9;
@@ -309,6 +367,12 @@
         private Button buttonPagarDeuda;
         private TextBox textBoxPagoParcial;
         private ComboBox comboBoxDeuda;
+        private Label label13;
+        private GroupBox groupBox1;
+        private Label label2;
+        private Label label3;
+        private Label label4;
+        private GroupBox groupBox3;
         private Label label1;
     }
 }

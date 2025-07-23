@@ -44,7 +44,6 @@
             btnMediosDePago = new Button();
             groupBox1 = new GroupBox();
             label1 = new Label();
-            button1 = new Button();
             btnRegistroVentas = new Button();
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
@@ -146,6 +145,7 @@
             btnCierreDelDia.TabIndex = 8;
             btnCierreDelDia.Text = "Cierre del Día";
             btnCierreDelDia.UseVisualStyleBackColor = true;
+            btnCierreDelDia.Click += btnCierreDelDia_Click;
             // 
             // btnDeudores
             // 
@@ -185,7 +185,7 @@
             btnAbout.Name = "btnAbout";
             btnAbout.Size = new Size(124, 52);
             btnAbout.TabIndex = 13;
-            btnAbout.Text = "Contacto";
+            btnAbout.Text = "Soporte";
             btnAbout.UseVisualStyleBackColor = true;
             btnAbout.Click += btnAbout_Click;
             // 
@@ -220,16 +220,6 @@
             label1.Size = new Size(92, 30);
             label1.TabIndex = 16;
             label1.Text = "Clientes";
-            // 
-            // button1
-            // 
-            button1.Location = new Point(495, 538);
-            button1.Name = "button1";
-            button1.Size = new Size(102, 23);
-            button1.TabIndex = 16;
-            button1.Text = "ProbarConexion";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += ProbarConexion_Click;
             // 
             // btnRegistroVentas
             // 
@@ -299,7 +289,6 @@
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
-            Controls.Add(button1);
             Controls.Add(groupBox1);
             Controls.Add(btnAbout);
             Controls.Add(btnSalir);
@@ -334,7 +323,6 @@
         private Button btnMediosDePago;
         private GroupBox groupBox1;
         private Label label1;
-        private Button button1;
         private Button btnRegistroVentas;
         private GroupBox groupBox2;
         private GroupBox groupBox3;

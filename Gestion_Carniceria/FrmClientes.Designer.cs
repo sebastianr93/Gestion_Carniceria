@@ -30,13 +30,13 @@
         {
             components = new System.ComponentModel.Container();
             dgvClientes = new DataGridView();
-            iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            nombreDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            apellidoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            telefonoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            correoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            dNIDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            deudaDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            ID = new DataGridViewTextBoxColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Apellido = new DataGridViewTextBoxColumn();
+            Telefono = new DataGridViewTextBoxColumn();
+            Correo = new DataGridViewTextBoxColumn();
+            DNI = new DataGridViewTextBoxColumn();
+            Deuda = new DataGridViewTextBoxColumn();
             clienteBindingSource = new BindingSource(components);
             txtNombre = new TextBox();
             txtApellido = new TextBox();
@@ -52,7 +52,6 @@
             groupBox1 = new GroupBox();
             label6 = new Label();
             btnEliminarCliente = new Button();
-            btnEditarCliente = new Button();
             label7 = new Label();
             groupBox2 = new GroupBox();
             btnBuscar = new Button();
@@ -82,63 +81,56 @@
             dgvClientes.AllowUserToOrderColumns = true;
             dgvClientes.AutoGenerateColumns = false;
             dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvClientes.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, nombreDataGridViewTextBoxColumn, apellidoDataGridViewTextBoxColumn, telefonoDataGridViewTextBoxColumn, correoDataGridViewTextBoxColumn, dNIDataGridViewTextBoxColumn, deudaDataGridViewTextBoxColumn });
+            dgvClientes.Columns.AddRange(new DataGridViewColumn[] { ID, Nombre, Apellido, Telefono, Correo, DNI, Deuda });
             dgvClientes.DataSource = clienteBindingSource;
             dgvClientes.Location = new Point(266, 12);
             dgvClientes.Name = "dgvClientes";
-            dgvClientes.ReadOnly = true;
             dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvClientes.Size = new Size(743, 423);
             dgvClientes.TabIndex = 0;
+            dgvClientes.CellEndEdit += dgvClientes_CellEndEdit;
             // 
-            // iDDataGridViewTextBoxColumn
+            // ID
             // 
-            iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            iDDataGridViewTextBoxColumn.ReadOnly = true;
+            ID.DataPropertyName = "ID";
+            ID.HeaderText = "ID";
+            ID.Name = "ID";
             // 
-            // nombreDataGridViewTextBoxColumn
+            // Nombre
             // 
-            nombreDataGridViewTextBoxColumn.DataPropertyName = "Nombre";
-            nombreDataGridViewTextBoxColumn.HeaderText = "Nombre";
-            nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
-            nombreDataGridViewTextBoxColumn.ReadOnly = true;
+            Nombre.DataPropertyName = "Nombre";
+            Nombre.HeaderText = "Nombre";
+            Nombre.Name = "Nombre";
             // 
-            // apellidoDataGridViewTextBoxColumn
+            // Apellido
             // 
-            apellidoDataGridViewTextBoxColumn.DataPropertyName = "Apellido";
-            apellidoDataGridViewTextBoxColumn.HeaderText = "Apellido";
-            apellidoDataGridViewTextBoxColumn.Name = "apellidoDataGridViewTextBoxColumn";
-            apellidoDataGridViewTextBoxColumn.ReadOnly = true;
+            Apellido.DataPropertyName = "Apellido";
+            Apellido.HeaderText = "Apellido";
+            Apellido.Name = "Apellido";
             // 
-            // telefonoDataGridViewTextBoxColumn
+            // Telefono
             // 
-            telefonoDataGridViewTextBoxColumn.DataPropertyName = "Telefono";
-            telefonoDataGridViewTextBoxColumn.HeaderText = "Telefono";
-            telefonoDataGridViewTextBoxColumn.Name = "telefonoDataGridViewTextBoxColumn";
-            telefonoDataGridViewTextBoxColumn.ReadOnly = true;
+            Telefono.DataPropertyName = "Telefono";
+            Telefono.HeaderText = "Telefono";
+            Telefono.Name = "Telefono";
             // 
-            // correoDataGridViewTextBoxColumn
+            // Correo
             // 
-            correoDataGridViewTextBoxColumn.DataPropertyName = "Correo";
-            correoDataGridViewTextBoxColumn.HeaderText = "Correo";
-            correoDataGridViewTextBoxColumn.Name = "correoDataGridViewTextBoxColumn";
-            correoDataGridViewTextBoxColumn.ReadOnly = true;
+            Correo.DataPropertyName = "Correo";
+            Correo.HeaderText = "Correo";
+            Correo.Name = "Correo";
             // 
-            // dNIDataGridViewTextBoxColumn
+            // DNI
             // 
-            dNIDataGridViewTextBoxColumn.DataPropertyName = "DNI";
-            dNIDataGridViewTextBoxColumn.HeaderText = "DNI";
-            dNIDataGridViewTextBoxColumn.Name = "dNIDataGridViewTextBoxColumn";
-            dNIDataGridViewTextBoxColumn.ReadOnly = true;
+            DNI.DataPropertyName = "DNI";
+            DNI.HeaderText = "DNI";
+            DNI.Name = "DNI";
             // 
-            // deudaDataGridViewTextBoxColumn
+            // Deuda
             // 
-            deudaDataGridViewTextBoxColumn.DataPropertyName = "Deuda";
-            deudaDataGridViewTextBoxColumn.HeaderText = "Deuda";
-            deudaDataGridViewTextBoxColumn.Name = "deudaDataGridViewTextBoxColumn";
-            deudaDataGridViewTextBoxColumn.ReadOnly = true;
+            Deuda.DataPropertyName = "Deuda";
+            Deuda.HeaderText = "Deuda";
+            Deuda.Name = "Deuda";
             // 
             // clienteBindingSource
             // 
@@ -259,30 +251,20 @@
             label6.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             label6.Location = new Point(18, 16);
             label6.Name = "label6";
-            label6.Size = new Size(154, 21);
+            label6.Size = new Size(111, 21);
             label6.TabIndex = 14;
-            label6.Text = "Crear/Editar Cliente";
+            label6.Text = "Nuevo Cliente";
             label6.Click += label6_Click;
             // 
             // btnEliminarCliente
             // 
-            btnEliminarCliente.Location = new Point(12, 184);
+            btnEliminarCliente.Location = new Point(138, 184);
             btnEliminarCliente.Name = "btnEliminarCliente";
             btnEliminarCliente.Size = new Size(100, 23);
             btnEliminarCliente.TabIndex = 15;
             btnEliminarCliente.Text = "Eliminar";
             btnEliminarCliente.UseVisualStyleBackColor = true;
             btnEliminarCliente.Click += btnEliminarCliente_Click;
-            // 
-            // btnEditarCliente
-            // 
-            btnEditarCliente.Location = new Point(12, 213);
-            btnEditarCliente.Name = "btnEditarCliente";
-            btnEditarCliente.Size = new Size(149, 23);
-            btnEditarCliente.TabIndex = 16;
-            btnEditarCliente.Text = "Editar Seleccionado";
-            btnEditarCliente.UseVisualStyleBackColor = true;
-            btnEditarCliente.Click += btnEditarCliente_Click;
             // 
             // label7
             // 
@@ -426,7 +408,6 @@
             Controls.Add(label13);
             Controls.Add(btnVolverAlMenu);
             Controls.Add(groupBox2);
-            Controls.Add(btnEditarCliente);
             Controls.Add(btnEliminarCliente);
             Controls.Add(label6);
             Controls.Add(groupBox1);
@@ -462,7 +443,6 @@
         private GroupBox groupBox1;
         private Label label6;
         private Button btnEliminarCliente;
-        private Button btnEditarCliente;
         private Label label7;
         private GroupBox groupBox2;
         private Button btnBuscar;
@@ -476,15 +456,15 @@
         private TextBox txtApellidoBuscar;
         private TextBox txtNombreBuscar;
         private Button btnVolverAlMenu;
-        private DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn apellidoDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn telefonoDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn correoDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn dNIDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn deudaDataGridViewTextBoxColumn;
         private BindingSource clienteBindingSource;
         private BindingSource clienteBindingSource1;
         private Label label13;
+        private DataGridViewTextBoxColumn ID;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Apellido;
+        private DataGridViewTextBoxColumn Telefono;
+        private DataGridViewTextBoxColumn Correo;
+        private DataGridViewTextBoxColumn DNI;
+        private DataGridViewTextBoxColumn Deuda;
     }
 }

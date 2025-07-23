@@ -10,7 +10,7 @@ namespace Gestion_Carniceria
         private void btnDatosClientes_Click(object sender, EventArgs e)
         {
             FrmClientes formularioClientes = new FrmClientes();
-            formularioClientes.Show();
+            formularioClientes.ShowDialog();
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -25,25 +25,25 @@ namespace Gestion_Carniceria
         private void btnDatosProveedores_Click(object sender, EventArgs e)
         {
             FrmProveedores formularioProveedores = new FrmProveedores();
-            formularioProveedores.Show();
+            formularioProveedores.ShowDialog();
         }
 
         private void btnInventario_Click(object sender, EventArgs e)
         {
             FrmStock formularioStock = new FrmStock();
-            formularioStock.Show();
+            formularioStock.ShowDialog();
         }
 
         private void btnPedidosClientes_Click(object sender, EventArgs e)
         {
             FrmPedidoClientes formularioPedidoClientes = new FrmPedidoClientes();
-            formularioPedidoClientes.Show();
+            formularioPedidoClientes.ShowDialog();
         }
 
         private void btnPedidosProveedores_Click(object sender, EventArgs e)
         {
             FrmPedidoProveedores formularioPedidoProveedores = new FrmPedidoProveedores();
-            formularioPedidoProveedores.Show();
+            formularioPedidoProveedores.ShowDialog();
         }
 
         private void ActivarModoOscuro()
@@ -82,13 +82,13 @@ namespace Gestion_Carniceria
         private void btnAbout_Click(object sender, EventArgs e)
         {
             FrmAbout frmAbout = new FrmAbout();
-            frmAbout.Show();
+            frmAbout.ShowDialog();
         }
 
         private void btnMediosDePago_Click(object sender, EventArgs e)
         {
             FrmMediosDePago frmMediosDePago = new FrmMediosDePago();
-            frmMediosDePago.Show();
+            frmMediosDePago.ShowDialog();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -96,47 +96,28 @@ namespace Gestion_Carniceria
 
         }
 
-        private void ProbarConexion_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (var conexion = ConexionBD.ObtenerConexion())
-                {
-                    if (conexion.State == System.Data.ConnectionState.Open)
-                    {
-                        MessageBox.Show("¡Conexión exitosa a la base de datos!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se pudo abrir la conexión.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al conectar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void btnRegistroVentas_Click(object sender, EventArgs e)
         {
             FrmRegistroVentas registroVentasForm = new FrmRegistroVentas();
-            registroVentasForm.Show(); // Esto abre el formulario de forma no modal
-                                       // Si querés que sea modal (bloquea el formulario padre), usá:
-                                       // registroVentasForm.ShowDialog();
+            registroVentasForm.ShowDialog();
         }
 
         private void btnDeudores_Click(object sender, EventArgs e)
         {
-            FormDeudasMenu formDeudasMenu = new FormDeudasMenu();
-            formDeudasMenu.ShowDialog(); // o .Show() si querés que sea no modal
+            FrmDeudasMenu formDeudasMenu = new FrmDeudasMenu();
+            formDeudasMenu.ShowDialog();
         }
 
         private void btnTotales_Click(object sender, EventArgs e)
         {
             FrmTotales frmTotales = new FrmTotales();
-            frmTotales.Show();  // Muestra el formulario sin bloquear el actual
-                                // Si querés que se abra modal (bloqueando hasta cerrar), usá frmTotales.ShowDialog();
+            frmTotales.ShowDialog();
+        }
+
+        private void btnCierreDelDia_Click(object sender, EventArgs e)
+        {
+            FrmCierreDelDia frmCierreDelDia = new FrmCierreDelDia();
+            frmCierreDelDia.ShowDialog();
         }
     }
 
