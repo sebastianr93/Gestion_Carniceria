@@ -38,6 +38,7 @@
             cuentaCorrienteDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             proveedorBindingSource = new BindingSource(components);
             groupBox2 = new GroupBox();
+            label13 = new Label();
             btnBuscar = new Button();
             label9 = new Label();
             label7 = new Label();
@@ -57,7 +58,7 @@
             label4 = new Label();
             groupBox3 = new GroupBox();
             label1 = new Label();
-            label13 = new Label();
+            btnExportar = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProveedoresDeuda).BeginInit();
             ((System.ComponentModel.ISupportInitialize)proveedorBindingSource).BeginInit();
             groupBox2.SuspendLayout();
@@ -73,7 +74,7 @@
             dataGridViewProveedoresDeuda.DataSource = proveedorBindingSource;
             dataGridViewProveedoresDeuda.Location = new Point(6, 24);
             dataGridViewProveedoresDeuda.Name = "dataGridViewProveedoresDeuda";
-            dataGridViewProveedoresDeuda.Size = new Size(644, 366);
+            dataGridViewProveedoresDeuda.Size = new Size(644, 348);
             dataGridViewProveedoresDeuda.TabIndex = 0;
             dataGridViewProveedoresDeuda.CellContentClick += dataGridViewProveedoresDeuda_CellContentClick;
             // 
@@ -136,6 +137,16 @@
             groupBox2.TabIndex = 18;
             groupBox2.TabStop = false;
             // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
+            label13.Location = new Point(0, 0);
+            label13.Name = "label13";
+            label13.Size = new Size(135, 21);
+            label13.TabIndex = 32;
+            label13.Text = "Buscar Proveedor";
+            // 
             // btnBuscar
             // 
             btnBuscar.Location = new Point(167, 127);
@@ -193,7 +204,7 @@
             // 
             txtTelefonoBuscar.Location = new Point(127, 39);
             txtTelefonoBuscar.Name = "txtTelefonoBuscar";
-            txtTelefonoBuscar.Size = new Size(111, 23);
+            txtTelefonoBuscar.Size = new Size(115, 23);
             txtTelefonoBuscar.TabIndex = 19;
             // 
             // txtApellidoBuscar
@@ -212,7 +223,7 @@
             // 
             // btnVolverAlMenu
             // 
-            btnVolverAlMenu.Location = new Point(185, 394);
+            btnVolverAlMenu.Location = new Point(179, 394);
             btnVolverAlMenu.Name = "btnVolverAlMenu";
             btnVolverAlMenu.Size = new Size(75, 23);
             btnVolverAlMenu.TabIndex = 19;
@@ -251,6 +262,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(btnExportar);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(dataGridViewProveedoresDeuda);
             groupBox1.Location = new Point(266, 12);
@@ -311,15 +323,14 @@
             label1.TabIndex = 31;
             label1.Text = "Cancelar Deuda";
             // 
-            // label13
+            // btnExportar
             // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
-            label13.Location = new Point(0, 0);
-            label13.Name = "label13";
-            label13.Size = new Size(135, 21);
-            label13.TabIndex = 32;
-            label13.Text = "Buscar Proveedor";
+            btnExportar.Location = new Point(575, 376);
+            btnExportar.Name = "btnExportar";
+            btnExportar.Size = new Size(75, 23);
+            btnExportar.TabIndex = 32;
+            btnExportar.Text = "Exportar";
+            btnExportar.UseVisualStyleBackColor = true;
             // 
             // FrmProveedoresDeuda
             // 
@@ -374,5 +385,6 @@
         private Label label4;
         private GroupBox groupBox3;
         private Label label1;
+        private Button btnExportar;
     }
 }

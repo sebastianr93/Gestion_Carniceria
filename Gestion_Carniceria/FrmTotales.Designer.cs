@@ -46,6 +46,7 @@
             label5 = new Label();
             groupBox2 = new GroupBox();
             button1 = new Button();
+            btnExportar = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -139,6 +140,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(btnExportar);
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(costoproductostext);
@@ -157,6 +159,12 @@
             button1.Name = "button1";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
+            // 
+            // btnExportar
+            // 
+            resources.ApplyResources(btnExportar, "btnExportar");
+            btnExportar.Name = "btnExportar";
+            btnExportar.UseVisualStyleBackColor = true;
             // 
             // FrmTotales
             // 
@@ -194,5 +202,6 @@
         private Label label5;
         private GroupBox groupBox2;
         private Button button1;
+        private Button btnExportar;
     }
 }

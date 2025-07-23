@@ -33,13 +33,13 @@
             label1 = new Label();
             dgvVentasDelDia = new DataGridView();
             label2 = new Label();
-            label4 = new Label();
+            lblTotalRecaudado = new Label();
             groupBox1 = new GroupBox();
+            btnExportar = new Button();
             label5 = new Label();
             groupBox2 = new GroupBox();
             label3 = new Label();
             btnVolver = new Button();
-            btnExportar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvVentasDelDia).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -60,6 +60,7 @@
             btnGenerar.TabIndex = 1;
             btnGenerar.Text = "Generar";
             btnGenerar.UseVisualStyleBackColor = true;
+            btnGenerar.Click += btnGenerar_Click;
             // 
             // label1
             // 
@@ -87,15 +88,15 @@
             label2.TabIndex = 4;
             label2.Text = "Ventas del día:";
             // 
-            // label4
+            // lblTotalRecaudado
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label4.Location = new Point(6, 19);
-            label4.Name = "label4";
-            label4.Size = new Size(50, 21);
-            label4.TabIndex = 6;
-            label4.Text = "$0,00";
+            lblTotalRecaudado.AutoSize = true;
+            lblTotalRecaudado.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            lblTotalRecaudado.Location = new Point(6, 19);
+            lblTotalRecaudado.Name = "lblTotalRecaudado";
+            lblTotalRecaudado.Size = new Size(50, 21);
+            lblTotalRecaudado.TabIndex = 6;
+            lblTotalRecaudado.Text = "$0,00";
             // 
             // groupBox1
             // 
@@ -112,6 +113,16 @@
             groupBox1.TabIndex = 8;
             groupBox1.TabStop = false;
             // 
+            // btnExportar
+            // 
+            btnExportar.Location = new Point(329, 33);
+            btnExportar.Name = "btnExportar";
+            btnExportar.Size = new Size(75, 23);
+            btnExportar.TabIndex = 9;
+            btnExportar.Text = "Exportar";
+            btnExportar.UseVisualStyleBackColor = true;
+            btnExportar.Click += btnExportar_Click;
+            // 
             // label5
             // 
             label5.AutoSize = true;
@@ -125,7 +136,7 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(label3);
-            groupBox2.Controls.Add(label4);
+            groupBox2.Controls.Add(lblTotalRecaudado);
             groupBox2.Location = new Point(6, 436);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(187, 50);
@@ -152,15 +163,6 @@
             btnVolver.UseVisualStyleBackColor = true;
             btnVolver.Click += btnVolver_Click;
             // 
-            // btnExportar
-            // 
-            btnExportar.Location = new Point(329, 33);
-            btnExportar.Name = "btnExportar";
-            btnExportar.Size = new Size(75, 23);
-            btnExportar.TabIndex = 9;
-            btnExportar.Text = "Exportar";
-            btnExportar.UseVisualStyleBackColor = true;
-            // 
             // FrmCierreDelDia
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -186,7 +188,7 @@
         private Label label1;
         private DataGridView dgvVentasDelDia;
         private Label label2;
-        private Label label4;
+        private Label lblTotalRecaudado;
         private GroupBox groupBox1;
         private Label label5;
         private GroupBox groupBox2;

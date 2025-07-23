@@ -28,6 +28,7 @@
             deudaDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             clienteBindingSource = new BindingSource(components);
             groupBox2 = new GroupBox();
+            label13 = new Label();
             btnBuscar = new Button();
             label9 = new Label();
             label7 = new Label();
@@ -44,13 +45,13 @@
             mySqlCommand1 = new MySqlConnector.MySqlCommand();
             textBoxPagoParcial = new TextBox();
             buttonPagarDeuda = new Button();
-            label13 = new Label();
             label3 = new Label();
             label4 = new Label();
             groupBox1 = new GroupBox();
             label1 = new Label();
             groupBox3 = new GroupBox();
             label2 = new Label();
+            btnExportar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
             groupBox2.SuspendLayout();
@@ -71,7 +72,7 @@
             dgvClientes.Name = "dgvClientes";
             dgvClientes.ReadOnly = true;
             dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvClientes.Size = new Size(743, 405);
+            dgvClientes.Size = new Size(743, 385);
             dgvClientes.TabIndex = 0;
             // 
             // iDDataGridViewTextBoxColumn
@@ -147,11 +148,21 @@
             groupBox2.TabIndex = 17;
             groupBox2.TabStop = false;
             // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
+            label13.Location = new Point(5, -5);
+            label13.Name = "label13";
+            label13.Size = new Size(113, 21);
+            label13.TabIndex = 22;
+            label13.Text = "Buscar Cliente";
+            // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(126, 118);
+            btnBuscar.Location = new Point(167, 119);
             btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(100, 24);
+            btnBuscar.Size = new Size(75, 24);
             btnBuscar.TabIndex = 11;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
@@ -169,7 +180,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(126, 12);
+            label7.Location = new Point(126, 16);
             label7.Name = "label7";
             label7.Size = new Size(55, 15);
             label7.TabIndex = 13;
@@ -178,7 +189,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(20, 101);
+            label10.Location = new Point(6, 101);
             label10.Name = "label10";
             label10.Size = new Size(30, 15);
             label10.TabIndex = 14;
@@ -187,7 +198,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(20, 57);
+            label11.Location = new Point(6, 57);
             label11.Name = "label11";
             label11.Size = new Size(67, 15);
             label11.TabIndex = 15;
@@ -196,7 +207,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(20, 13);
+            label12.Location = new Point(6, 16);
             label12.Name = "label12";
             label12.Size = new Size(67, 15);
             label12.TabIndex = 16;
@@ -204,42 +215,42 @@
             // 
             // txtDNIBuscar
             // 
-            txtDNIBuscar.Location = new Point(20, 119);
+            txtDNIBuscar.Location = new Point(6, 119);
             txtDNIBuscar.Name = "txtDNIBuscar";
-            txtDNIBuscar.Size = new Size(100, 23);
+            txtDNIBuscar.Size = new Size(114, 23);
             txtDNIBuscar.TabIndex = 17;
             // 
             // txtCorreoBuscar
             // 
             txtCorreoBuscar.Location = new Point(126, 75);
             txtCorreoBuscar.Name = "txtCorreoBuscar";
-            txtCorreoBuscar.Size = new Size(100, 23);
+            txtCorreoBuscar.Size = new Size(116, 23);
             txtCorreoBuscar.TabIndex = 18;
             // 
             // txtTelefonoBuscar
             // 
             txtTelefonoBuscar.Location = new Point(126, 31);
             txtTelefonoBuscar.Name = "txtTelefonoBuscar";
-            txtTelefonoBuscar.Size = new Size(100, 23);
+            txtTelefonoBuscar.Size = new Size(116, 23);
             txtTelefonoBuscar.TabIndex = 19;
             // 
             // txtApellidoBuscar
             // 
-            txtApellidoBuscar.Location = new Point(20, 75);
+            txtApellidoBuscar.Location = new Point(6, 75);
             txtApellidoBuscar.Name = "txtApellidoBuscar";
-            txtApellidoBuscar.Size = new Size(100, 23);
+            txtApellidoBuscar.Size = new Size(114, 23);
             txtApellidoBuscar.TabIndex = 20;
             // 
             // txtNombreBuscar
             // 
-            txtNombreBuscar.Location = new Point(20, 31);
+            txtNombreBuscar.Location = new Point(6, 31);
             txtNombreBuscar.Name = "txtNombreBuscar";
-            txtNombreBuscar.Size = new Size(100, 23);
+            txtNombreBuscar.Size = new Size(114, 23);
             txtNombreBuscar.TabIndex = 21;
             // 
             // btnVolverAlMenu
             // 
-            btnVolverAlMenu.Location = new Point(184, 427);
+            btnVolverAlMenu.Location = new Point(179, 427);
             btnVolverAlMenu.Name = "btnVolverAlMenu";
             btnVolverAlMenu.Size = new Size(75, 23);
             btnVolverAlMenu.TabIndex = 1;
@@ -282,16 +293,6 @@
             buttonPagarDeuda.Text = "Pagar";
             buttonPagarDeuda.UseVisualStyleBackColor = true;
             buttonPagarDeuda.Click += buttonPagarDeuda_Click;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
-            label13.Location = new Point(5, -5);
-            label13.Name = "label13";
-            label13.Size = new Size(113, 21);
-            label13.TabIndex = 22;
-            label13.Text = "Buscar Cliente";
             // 
             // label3
             // 
@@ -336,6 +337,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(btnExportar);
             groupBox3.Controls.Add(label2);
             groupBox3.Controls.Add(dgvClientes);
             groupBox3.Location = new Point(265, 14);
@@ -353,6 +355,15 @@
             label2.Size = new Size(208, 21);
             label2.TabIndex = 25;
             label2.Text = "Lista de Clientes con Deuda";
+            // 
+            // btnExportar
+            // 
+            btnExportar.Location = new Point(681, 407);
+            btnExportar.Name = "btnExportar";
+            btnExportar.Size = new Size(75, 23);
+            btnExportar.TabIndex = 29;
+            btnExportar.Text = "Exportar";
+            btnExportar.UseVisualStyleBackColor = true;
             // 
             // FrmClientesDeuda
             // 
@@ -414,5 +425,6 @@
         private Label label1;
         private GroupBox groupBox3;
         private Label label2;
+        private Button btnExportar;
     }
 }
