@@ -81,7 +81,6 @@ namespace Gestion_Carniceria
         }
 
 
-
         private void ActualizarGrillaVenta()
         {
             var bindingList = new BindingList<ItemVenta>(itemsVenta);
@@ -104,8 +103,14 @@ namespace Gestion_Carniceria
 
         private void CargarMediosDePago()
         {
-            cbMediosDePago.DataSource = MedioDePago.ObtenerMediosPorDefecto();
+            MedioDePagoDAO dao = new MedioDePagoDAO();
+            var medios = dao.ObtenerTodos();
+
+            cbMediosDePago.DataSource = medios;
+            cbMediosDePago.DisplayMember = "Nombre";
+            cbMediosDePago.ValueMember = "Nombre"; // o "ID" si lo implementaste así
         }
+
 
         private void CalcularMontoTotal()
         {
@@ -139,7 +144,7 @@ namespace Gestion_Carniceria
 
             foreach (DataGridViewRow row in dgvProductos.Rows)
             {
-                string nombreProducto = row.Cells["Nombre"].Value.ToString().ToLower();
+                string nombreProducto = row.Cells["nombreDataGridViewTextBoxColumn"].Value.ToString().ToLower();
                 row.Selected = nombreProducto.Contains(textoBusqueda);
             }
         }
@@ -189,19 +194,25 @@ namespace Gestion_Carniceria
                 return;
             }
 
-            // Agregar ítem a la venta
-            itemsVenta.Add(new ItemVenta
+            // Buscar si el producto ya está en la lista
+            var itemExistente = itemsVenta.FirstOrDefault(i => i.Producto.ID == producto.ID);
+            if (itemExistente != null)
             {
-                Producto = producto,
-                Cantidad = cantidad
-            });
+                itemExistente.Cantidad += cantidad;
+            }
+            else
+            {
+                itemsVenta.Add(new ItemVenta
+                {
+                    Producto = producto,
+                    Cantidad = cantidad
+                });
+            }
 
             ActualizarGrillaVenta();
             CargarProductosEnGrilla(); // Mostrar stock actualizado
             txtAgregarProducto.Clear();
         }
-
-
 
         private void cbMediosDePago_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -314,12 +325,16 @@ namespace Gestion_Carniceria
 
             try
             {
+                decimal total = itemsVenta.Sum(i => i.Subtotal);
+                decimal deuda = total - pagoParcial;
+
                 Venta venta = new Venta
                 {
                     Fecha = DateTime.Now,
                     Cliente = (Cliente)cbClientes.SelectedItem,
-                    ValorTotal = itemsVenta.Sum(i => i.Subtotal),
+                    ValorTotal = total,
                     PagoParcial = pagoParcial,
+                    DeudaCompra = deuda > 0 ? deuda : 0,
                     FormatoPago = cbMediosDePago.SelectedItem is MedioDePago mp ? mp.Nombre : "No especificado",
                     Items = new List<ItemVenta>(itemsVenta)
                 };
@@ -332,8 +347,6 @@ namespace Gestion_Carniceria
                     dao.InsertarItemsVenta(ventaID, venta.Items);
 
                     // Actualizar deuda del cliente si hubo pago parcial
-                    decimal deuda = venta.ValorTotal - venta.PagoParcial;
-
                     if (deuda > 0)
                     {
                         ClienteDAO clienteDAO = new ClienteDAO();
@@ -360,6 +373,7 @@ namespace Gestion_Carniceria
                 MessageBox.Show("Error al confirmar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void label4_Click(object sender, EventArgs e)
         {

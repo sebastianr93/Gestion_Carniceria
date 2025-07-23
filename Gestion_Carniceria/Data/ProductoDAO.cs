@@ -183,12 +183,21 @@ namespace Gestion_Carniceria.Data
         {
             using (MySqlConnection conn = ConexionBD.ObtenerConexion())
             {
+                // Validación simple
+                if (cantidadAumentar <= 0)
+                    throw new ArgumentException("La cantidad a aumentar debe ser mayor a cero.");
 
-                // Dependiendo del tipo, sumar cantidad o peso
+                // Actualizar valores en memoria según tipo
                 if (p.Tipo == TipoProducto.Unidad)
-                    p.Cantidad += (int)cantidadAumentar;
+                {
+                    // Convertir cantidad decimal a int, redondeando hacia abajo para evitar errores
+                    int cantidadEntera = (int)Math.Floor(cantidadAumentar);
+                    p.Cantidad += cantidadEntera;
+                }
                 else
+                {
                     p.Peso += cantidadAumentar;
+                }
 
                 string query = @"UPDATE producto
                          SET Peso = @Peso,
@@ -204,6 +213,7 @@ namespace Gestion_Carniceria.Data
                 return filas > 0;
             }
         }
+
 
     }
 }

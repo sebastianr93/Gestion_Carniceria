@@ -48,7 +48,6 @@
             productoBindingSource1 = new BindingSource(components);
             productoBindingSource = new BindingSource(components);
             btnEliminarProducto = new Button();
-            btnModificarProducto = new Button();
             btnVolver = new Button();
             txtNombreCategoria = new TextBox();
             cbListaCategorias = new ComboBox();
@@ -164,11 +163,10 @@
             dgvProductos.DataSource = productoBindingSource1;
             dgvProductos.Location = new Point(12, 22);
             dgvProductos.Name = "dgvProductos";
-            dgvProductos.ReadOnly = true;
             dgvProductos.Size = new Size(743, 343);
             dgvProductos.TabIndex = 10;
             dgvProductos.CellClick += dgvProductos_CellClick;
-            dgvProductos.CellDoubleClick += dgvProductos_CellDoubleClick;
+            dgvProductos.CellEndEdit += DgvProductos_CellEndEdit;
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -182,42 +180,42 @@
             Nombre.DataPropertyName = "Nombre";
             Nombre.HeaderText = "Nombre";
             Nombre.Name = "Nombre";
-            Nombre.ReadOnly = true;
+            Nombre.ReadOnly = false;
             // 
             // descripcionDataGridViewTextBoxColumn
             // 
             descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
             descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
             descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
-            descripcionDataGridViewTextBoxColumn.ReadOnly = true;
+            descripcionDataGridViewTextBoxColumn.ReadOnly = false;
             // 
             // pesoDataGridViewTextBoxColumn
             // 
             pesoDataGridViewTextBoxColumn.DataPropertyName = "Peso";
             pesoDataGridViewTextBoxColumn.HeaderText = "Peso";
             pesoDataGridViewTextBoxColumn.Name = "pesoDataGridViewTextBoxColumn";
-            pesoDataGridViewTextBoxColumn.ReadOnly = true;
+            pesoDataGridViewTextBoxColumn.ReadOnly = false;
             // 
             // categoriaDataGridViewTextBoxColumn
             // 
             categoriaDataGridViewTextBoxColumn.DataPropertyName = "Categoria";
             categoriaDataGridViewTextBoxColumn.HeaderText = "Categoria";
             categoriaDataGridViewTextBoxColumn.Name = "categoriaDataGridViewTextBoxColumn";
-            categoriaDataGridViewTextBoxColumn.ReadOnly = true;
+            categoriaDataGridViewTextBoxColumn.ReadOnly = false;
             // 
             // cantidadDataGridViewTextBoxColumn
             // 
             cantidadDataGridViewTextBoxColumn.DataPropertyName = "Cantidad";
             cantidadDataGridViewTextBoxColumn.HeaderText = "Cantidad";
             cantidadDataGridViewTextBoxColumn.Name = "cantidadDataGridViewTextBoxColumn";
-            cantidadDataGridViewTextBoxColumn.ReadOnly = true;
+            cantidadDataGridViewTextBoxColumn.ReadOnly = false;
             // 
             // precioDataGridViewTextBoxColumn
             // 
             precioDataGridViewTextBoxColumn.DataPropertyName = "Precio";
             precioDataGridViewTextBoxColumn.HeaderText = "Precio";
             precioDataGridViewTextBoxColumn.Name = "precioDataGridViewTextBoxColumn";
-            precioDataGridViewTextBoxColumn.ReadOnly = true;
+            precioDataGridViewTextBoxColumn.ReadOnly = false;
             // 
             // productoBindingSource1
             // 
@@ -236,16 +234,6 @@
             btnEliminarProducto.Text = "Eliminar";
             btnEliminarProducto.UseVisualStyleBackColor = true;
             btnEliminarProducto.Click += btnEliminarProducto_Click;
-            // 
-            // btnModificarProducto
-            // 
-            btnModificarProducto.Location = new Point(85, 312);
-            btnModificarProducto.Name = "btnModificarProducto";
-            btnModificarProducto.Size = new Size(72, 23);
-            btnModificarProducto.TabIndex = 12;
-            btnModificarProducto.Text = "Modificar";
-            btnModificarProducto.UseVisualStyleBackColor = true;
-            btnModificarProducto.Click += btnModificarProducto_Click;
             // 
             // btnVolver
             // 
@@ -301,9 +289,9 @@
             label6.AutoSize = true;
             label6.Location = new Point(10, 177);
             label6.Name = "label6";
-            label6.Size = new Size(128, 15);
+            label6.Size = new Size(106, 15);
             label6.TabIndex = 18;
-            label6.Text = "⚖️ Peso por kilogramo:";
+            label6.Text = "⚖️ Cantidad en Kg:";
             label6.Click += label6_Click;
             // 
             // label7
@@ -320,9 +308,9 @@
             label8.AutoSize = true;
             label8.Location = new Point(10, 221);
             label8.Name = "label8";
-            label8.Size = new Size(73, 15);
+            label8.Size = new Size(130, 15);
             label8.TabIndex = 20;
-            label8.Text = "🔢 Cantidad:";
+            label8.Text = "🔢 Cantidad en Unidad:";
             // 
             // lblPrecioTipo
             // 
@@ -366,7 +354,6 @@
             // 
             groupBox1.Controls.Add(rbTipoPeso);
             groupBox1.Controls.Add(rbTipoUnidad);
-            groupBox1.Controls.Add(btnModificarProducto);
             groupBox1.Controls.Add(label11);
             groupBox1.Controls.Add(lblPrecioTipo);
             groupBox1.Controls.Add(label8);
@@ -417,9 +404,9 @@
             label11.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             label11.Location = new Point(-1, -3);
             label11.Name = "label11";
-            label11.Size = new Size(168, 21);
+            label11.Size = new Size(125, 21);
             label11.TabIndex = 26;
-            label11.Text = "Crear/Editar Producto";
+            label11.Text = "Nuevo Producto";
             label11.Click += label11_Click;
             // 
             // groupBox2
@@ -633,7 +620,6 @@
         private Button btnCrearProducto;
         private DataGridView dgvProductos;
         private Button btnEliminarProducto;
-        private Button btnModificarProducto;
         private Button btnVolver;
         private TextBox txtNombreCategoria;
         private ComboBox cbListaCategorias;

@@ -17,13 +17,19 @@ namespace Gestion_Carniceria
         {
             InitializeComponent();
             this.Load += FrmTotales_Load;
+
+            // Inicializar los label con valores por defecto
+            labelTotalVentasValor.Text = "$ 0.00";
+            labelTotalACobrarValor.Text = "$ 0.00";
+            labelTotalACobrarValor.Text = "$ 0.00"; 
+            labelDeudaProveedoresValor.Text = "$ 0.00"; 
         }
 
 
         private void FrmTotales_Load(object sender, EventArgs e)
         {
             VentaDAO ventaDAO = new VentaDAO();
-           
+
             decimal totalVentas = ventaDAO.ObtenerTotalVentas();
             DateTime desde = dateTimePicker1Inicio.Value.Date;
             DateTime hasta = dateTimePicker2Final.Value.Date;
@@ -61,6 +67,11 @@ namespace Gestion_Carniceria
         private void dateTimePicker2Final_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

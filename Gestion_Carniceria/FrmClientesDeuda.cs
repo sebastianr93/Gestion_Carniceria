@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Gestion_Carniceria.Data;
+using Gestion_Carniceria.Entities;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Gestion_Carniceria.Entities;
 
 namespace Gestion_Carniceria
 {
@@ -17,11 +18,19 @@ namespace Gestion_Carniceria
             ClienteDAO dao = new ClienteDAO();
             List<Cliente> clientesConDeuda = dao.ObtenerClientesConDeuda();
 
-            dgvClientes.DataSource = null;
-            dgvClientes.DataSource = clientesConDeuda;
+            dgvClientesDeuda.DataSource = null;
+            dgvClientesDeuda.DataSource = clientesConDeuda;
+
             comboBoxDeuda.DropDownStyle = ComboBoxStyle.DropDownList;
             textBoxPagoParcial.Enabled = false;
             buttonPagarDeuda.Enabled = false;
+
+            // ✅ Cargar historial del primer cliente automáticamente (si hay)
+            if (dgvClientesDeuda.Rows.Count > 0)
+            {
+                dgvClientesDeuda.Rows[0].Selected = true;
+                CargarHistorialClienteSeleccionado();
+            }
         }
 
 
@@ -29,20 +38,20 @@ namespace Gestion_Carniceria
         {
             ClienteDAO dao = new ClienteDAO();
             List<Cliente> lista = dao.ObtenerClientesConDeuda(); // Cambiar a ObtenerClientesConDeuda() si lo tenés
-            dgvClientes.DataSource = null;
-            dgvClientes.DataSource = lista;
+            dgvClientesDeuda.DataSource = null;
+            dgvClientesDeuda.DataSource = lista;
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             ClienteDAO dao = new ClienteDAO();
             List<Cliente> todos = dao.ObtenerClientesConDeuda(); // <-- cambio importante
-            dgvClientes.DataSource = null;
-            dgvClientes.DataSource = todos;
+            dgvClientesDeuda.DataSource = null;
+            dgvClientesDeuda.DataSource = todos;
 
             bool encontrado = false;
 
-            foreach (DataGridViewRow fila in dgvClientes.Rows)
+            foreach (DataGridViewRow fila in dgvClientesDeuda.Rows)
             {
                 bool coincide = true;
 
@@ -84,7 +93,7 @@ namespace Gestion_Carniceria
                 if (coincide)
                 {
                     fila.Selected = true;
-                    dgvClientes.FirstDisplayedScrollingRowIndex = fila.Index;
+                    dgvClientesDeuda.FirstDisplayedScrollingRowIndex = fila.Index;
                     encontrado = true;
                 }
                 else
@@ -97,6 +106,55 @@ namespace Gestion_Carniceria
             {
                 MessageBox.Show("No se encontró ningún cliente con esos datos.");
             }
+        }
+
+        private void dgvClientes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                // Seleccionar la fila clickeada manualmente para evitar problemas
+                dgvClientesDeuda.ClearSelection();
+                dgvClientesDeuda.Rows[e.RowIndex].Selected = true;
+
+                // Obtener el cliente de la fila seleccionada
+                Cliente clienteSeleccionado = (Cliente)dgvClientesDeuda.Rows[e.RowIndex].DataBoundItem;
+
+                VentaDAO dao = new VentaDAO();
+                List<Venta> historial = dao.ObtenerVentasDeudaPorClienteID(clienteSeleccionado.ID);
+
+                dataGridViewHistorialDeuda.DataSource = null;
+                dataGridViewHistorialDeuda.DataSource = historial;
+            }
+        }
+        private void dgvClientes_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvClientesDeuda.SelectedRows.Count > 0)
+            {
+                Cliente clienteSeleccionado = (Cliente)dgvClientesDeuda.SelectedRows[0].DataBoundItem;
+
+                VentaDAO dao = new VentaDAO();
+                List<Venta> historial = dao.ObtenerVentasDeudaPorClienteID(clienteSeleccionado.ID);
+
+                dataGridViewHistorialDeuda.DataSource = null;
+                dataGridViewHistorialDeuda.DataSource = historial;
+            }
+        }
+
+
+        private void CargarHistorialClienteSeleccionado()
+        {
+            if (dgvClientesDeuda.SelectedRows.Count == 0)
+                return;
+
+            Cliente clienteSeleccionado = (Cliente)dgvClientesDeuda.SelectedRows[0].DataBoundItem;
+
+            VentaDAO ventaDao = new VentaDAO();
+            // Cambiar para traer solo ventas con deuda
+            List<Venta> historial = ventaDao.ObtenerVentasConDeudaPorClienteID(clienteSeleccionado.ID);
+
+            dataGridViewHistorialDeuda.DataSource = null;
+            dataGridViewHistorialDeuda.DataSource = historial;
+            dataGridViewHistorialDeuda.AutoGenerateColumns = true;
         }
 
 
@@ -134,7 +192,7 @@ namespace Gestion_Carniceria
 
         private void buttonPagarDeuda_Click(object sender, EventArgs e)
         {
-            if (dgvClientes.SelectedRows.Count == 0)
+            if (dgvClientesDeuda.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Seleccioná un cliente primero.");
                 return;
@@ -147,7 +205,7 @@ namespace Gestion_Carniceria
             }
 
             string tipoPago = comboBoxDeuda.SelectedItem.ToString();
-            Cliente clienteSeleccionado = (Cliente)dgvClientes.SelectedRows[0].DataBoundItem;
+            Cliente clienteSeleccionado = (Cliente)dgvClientesDeuda.SelectedRows[0].DataBoundItem;
 
             decimal nuevaDeuda = clienteSeleccionado.Deuda;
 
@@ -224,6 +282,29 @@ namespace Gestion_Carniceria
             }
         }
 
+        private void dataGridViewHistorialDeuda_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvClientesDeuda_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                dgvClientesDeuda.ClearSelection();
+                dgvClientesDeuda.Rows[e.RowIndex].Selected = true;
+
+                Cliente clienteSeleccionado = (Cliente)dgvClientesDeuda.Rows[e.RowIndex].DataBoundItem;
+
+                VentaDAO dao = new VentaDAO();
+                // Cambiar aquí para traer solo ventas con deuda
+                List<Venta> historial = dao.ObtenerVentasConDeudaPorClienteID(clienteSeleccionado.ID);
+
+                dataGridViewHistorialDeuda.DataSource = null;
+                dataGridViewHistorialDeuda.DataSource = historial;
+                dataGridViewHistorialDeuda.AutoGenerateColumns = true;
+            }
+        }
 
 
     }

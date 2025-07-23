@@ -31,40 +31,43 @@ namespace Gestion_Carniceria
             dgvProveedor.AutoGenerateColumns = true;
             dgvProveedor.DataSource = null;
             dgvProveedor.DataSource = lista;
+
+            // Configurar columnas para que no sean editables
+            dgvProveedor.Columns["ID"].ReadOnly = true;
+            dgvProveedor.Columns["CuentaCorriente"].ReadOnly = true;
         }
 
         private void LimpiarCampos()
         {
-            txtNombre.Text = "";
-            txtTelefono.Text = "";
-            txtCorreo.Text = "";
-            txtDescripcion.Text = "";
-            txtCuentaCorriente.Text = "";
+            txtNombre.Clear();
+            txtTelefono.Clear();
+            txtCorreo.Clear();
+            txtDescripcion.Clear();
         }
+
 
 
         private void btnCrearProveedor_Click(object sender, EventArgs e)
         {
+            // Validaciones básicas
+            if (string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                string.IsNullOrWhiteSpace(txtTelefono.Text) ||
+                string.IsNullOrWhiteSpace(txtCorreo.Text))
+            {
+                MessageBox.Show("Por favor, completá los campos obligatorios: Nombre, Teléfono y Correo.", "Campos requeridos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 Proveedor nuevoProveedor = new Proveedor
                 {
-                    Nombre = txtNombre.Text,
-                    Telefono = txtTelefono.Text,
-                    Correo = txtCorreo.Text,
-                    Descripcion = txtDescripcion.Text
+                    Nombre = txtNombre.Text.Trim(),
+                    Telefono = txtTelefono.Text.Trim(),
+                    Correo = txtCorreo.Text.Trim(),
+                    Descripcion = txtDescripcion.Text.Trim(),
+                    CuentaCorriente = 0m // Cuenta corriente inicializada a 0
                 };
-
-                decimal cuentaCorriente;
-                if (decimal.TryParse(txtCuentaCorriente.Text, out cuentaCorriente))
-                {
-                    nuevoProveedor.AgregarAlaCuentaCorriente(cuentaCorriente);
-                }
-                else
-                {
-                    MessageBox.Show("Cuenta Corriente debe ser un número válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
 
                 ProveedorDAO dao = new ProveedorDAO();
                 bool resultado = dao.CrearProveedor(nuevoProveedor);
@@ -72,19 +75,20 @@ namespace Gestion_Carniceria
                 if (resultado)
                 {
                     MessageBox.Show("Proveedor creado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    CargarProveedoresEnGrilla(); // Refresca la tabla
-                    LimpiarCampos(); // Limpia los inputs
+                    CargarProveedoresEnGrilla();
+                    LimpiarCampos();
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo crear el proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("No se pudo crear el proveedor. Verificá que no esté duplicado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Excepción", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al crear proveedor: {ex.Message}", "Excepción", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private Proveedor proveedorActual = null;
 
@@ -94,128 +98,100 @@ namespace Gestion_Carniceria
         {
             if (dgvProveedor.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Por favor, seleccioná un proveedor para eliminar.");
+                MessageBox.Show("Por favor, seleccioná un proveedor para eliminar.", "Eliminación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            DialogResult resultado = MessageBox.Show("¿Estás seguro de que querés eliminar este proveedor?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult resultado = MessageBox.Show(
+                "¿Estás seguro de que querés eliminar este proveedor?",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
 
             if (resultado == DialogResult.Yes)
             {
                 try
                 {
-                    DataGridViewRow fila = dgvProveedor.SelectedRows[0];
-                    int idProveedor = Convert.ToInt32(fila.Cells[0].Value); // Asegurate de que la columna 0 sea el ID
+                    DataGridViewRow filaSeleccionada = dgvProveedor.SelectedRows[0];
 
-                    ProveedorDAO dao = new ProveedorDAO();
-                    bool eliminado = dao.EliminarProveedor(idProveedor);
-
-                    if (eliminado)
+                    if (filaSeleccionada.DataBoundItem is Proveedor proveedor)
                     {
-                        MessageBox.Show("Proveedor eliminado con éxito.");
-                        CargarProveedoresEnGrilla(); // Refresca la tabla
+                        int idProveedor = proveedor.ID;
+
+                        ProveedorDAO dao = new ProveedorDAO();
+                        bool eliminado = dao.EliminarProveedor(idProveedor);
+
+                        if (eliminado)
+                        {
+                            MessageBox.Show("Proveedor eliminado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            CargarProveedoresEnGrilla();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo eliminar el proveedor. Puede estar asociado a otros registros.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo eliminar el proveedor.");
+                        MessageBox.Show("Error al obtener el proveedor seleccionado.", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al eliminar el proveedor: " + ex.Message);
+                    MessageBox.Show("Error inesperado al eliminar el proveedor: " + ex.Message, "Excepción", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-
-        private void btnEditarProveedor_Click(object sender, EventArgs e)
+        private void dgvProveedor_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (proveedorActual == null)
+            try
             {
-                // MODO EDITAR: cargar datos desde la fila seleccionada
-                if (dgvProveedor.SelectedRows.Count == 0)
+                DataGridViewRow fila = dgvProveedor.Rows[e.RowIndex];
+                if (fila.DataBoundItem is Proveedor proveedorEditado)
                 {
-                    MessageBox.Show("Seleccioná un proveedor para editar.");
-                    return;
-                }
-
-                try
-                {
-                    DataGridViewRow fila = dgvProveedor.SelectedRows[0];
-
-                    proveedorActual = new Proveedor
+                    // Validaciones básicas
+                    if (string.IsNullOrWhiteSpace(proveedorEditado.Nombre) ||
+                        string.IsNullOrWhiteSpace(proveedorEditado.Telefono) ||
+                        string.IsNullOrWhiteSpace(proveedorEditado.Correo) ||
+                        string.IsNullOrWhiteSpace(proveedorEditado.Descripcion))
                     {
-                        ID = Convert.ToInt32(fila.Cells[0].Value),
-                        Nombre = fila.Cells[1].Value.ToString(),
-                        Telefono = fila.Cells[2].Value.ToString(),
-                        Correo = fila.Cells[3].Value.ToString(),
-                        Descripcion = fila.Cells[4].Value.ToString()
-                    };
+                        MessageBox.Show("Ningún campo puede quedar vacío. Se deshará el cambio.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        CargarProveedoresEnGrilla(); // Volver a cargar la grilla para revertir
+                        return;
+                    }
 
-                    decimal cuentaCorriente;
-                    if (decimal.TryParse(fila.Cells[5].Value.ToString(), out cuentaCorriente))
-                        proveedorActual.AgregarAlaCuentaCorriente(cuentaCorriente);
+                    DialogResult confirmacion = MessageBox.Show(
+                        "¿Deseás guardar los cambios realizados en este proveedor?",
+                        "Confirmar modificación",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
 
-                    // Cargar datos en los campos
-                    txtNombre.Text = proveedorActual.Nombre;
-                    txtTelefono.Text = proveedorActual.Telefono;
-                    txtCorreo.Text = proveedorActual.Correo;
-                    txtDescripcion.Text = proveedorActual.Descripcion;
-                    txtCuentaCorriente.Text = proveedorActual.CuentaCorriente.ToString();
+                    if (confirmacion == DialogResult.Yes)
+                    {
+                        ProveedorDAO dao = new ProveedorDAO();
+                        bool actualizado = dao.ActualizarProveedor(proveedorEditado);
 
-                    btnEditarProveedor.Text = "Guardar Cambios";
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al seleccionar el proveedor: " + ex.Message);
-                    proveedorActual = null;
+                        if (!actualizado)
+                        {
+                            MessageBox.Show("No se pudo actualizar el proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            CargarProveedoresEnGrilla(); // Deshacer cambios
+                        }
+                    }
+                    else
+                    {
+                        CargarProveedoresEnGrilla(); // Deshacer cambios
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                // MODO GUARDAR: guardar cambios
-                proveedorActual.Nombre = txtNombre.Text.Trim();
-                proveedorActual.Telefono = txtTelefono.Text.Trim();
-                proveedorActual.Correo = txtCorreo.Text.Trim();
-                proveedorActual.Descripcion = txtDescripcion.Text.Trim();
-
-                decimal cuenta;
-                if (decimal.TryParse(txtCuentaCorriente.Text, out cuenta))
-                {
-                    proveedorActual = new Proveedor
-                    {
-                        ID = proveedorActual.ID,
-                        Nombre = proveedorActual.Nombre,
-                        Telefono = proveedorActual.Telefono,
-                        Correo = proveedorActual.Correo,
-                        Descripcion = proveedorActual.Descripcion
-                    };
-                    proveedorActual.AgregarAlaCuentaCorriente(cuenta);
-                }
-                else
-                {
-                    MessageBox.Show("Cuenta Corriente debe ser un número válido.");
-                    return;
-                }
-
-                ProveedorDAO dao = new ProveedorDAO();
-                bool exito = dao.ActualizarProveedor(proveedorActual);
-
-                if (exito)
-                {
-                    MessageBox.Show("Proveedor actualizado con éxito.");
-                    CargarProveedoresEnGrilla();
-                    LimpiarCampos();
-
-                    proveedorActual = null;
-                    btnEditarProveedor.Text = "Editar Proveedor";
-                }
-                else
-                {
-                    MessageBox.Show("Error al actualizar el proveedor.");
-                }
+                MessageBox.Show("Error al editar el proveedor: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void btnVolverAlMenuP_Click(object sender, EventArgs e)
         {
@@ -223,6 +199,50 @@ namespace Gestion_Carniceria
         }
 
         private void btnBuscarProveedor_Click(object sender, EventArgs e)
+        {
+            // Validar que al menos un campo tenga contenido
+            if (string.IsNullOrWhiteSpace(txtNombreBuscar.Text) &&
+                string.IsNullOrWhiteSpace(txtTelefonoBuscar.Text) &&
+                string.IsNullOrWhiteSpace(txtDescripcionBuscar.Text) &&
+                string.IsNullOrWhiteSpace(txtCorreoBuscar.Text))
+            {
+                MessageBox.Show("Por favor, completá al menos un campo para realizar la búsqueda.", "Búsqueda vacía", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Normalizamos texto a minúsculas y sin espacios al inicio/fin
+            string nombre = txtNombreBuscar.Text.Trim().ToLower();
+            string telefono = txtTelefonoBuscar.Text.Trim().ToLower();
+            string descripcion = txtDescripcionBuscar.Text.Trim().ToLower();
+            string correo = txtCorreoBuscar.Text.Trim().ToLower();
+
+            dgvProveedor.ClearSelection(); // Limpiar selección anterior
+
+            foreach (DataGridViewRow fila in dgvProveedor.Rows)
+            {
+                if (fila.DataBoundItem is Proveedor proveedor)
+                {
+                    bool coincide = false;
+
+                    if (!string.IsNullOrEmpty(nombre) && proveedor.Nombre.ToLower().Contains(nombre))
+                        coincide = true;
+
+                    if (!string.IsNullOrEmpty(telefono) && proveedor.Telefono.ToLower().Contains(telefono))
+                        coincide = true;
+
+                    if (!string.IsNullOrEmpty(descripcion) && proveedor.Descripcion.ToLower().Contains(descripcion))
+                        coincide = true;
+
+                    if (!string.IsNullOrEmpty(correo) && proveedor.Correo.ToLower().Contains(correo))
+                        coincide = true;
+
+                    if (coincide)
+                        fila.Selected = true;
+                }
+            }
+        }
+
+        private void label6_Click(object sender, EventArgs e)
         {
 
         }

@@ -253,11 +253,11 @@
             // 
             // btnVolver
             // 
-            btnVolver.Location = new Point(351, 476);
+            btnVolver.Location = new Point(403, 474);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(114, 23);
+            btnVolver.Size = new Size(62, 23);
             btnVolver.TabIndex = 12;
-            btnVolver.Text = "Volver al Menú";
+            btnVolver.Text = "Volver";
             btnVolver.UseVisualStyleBackColor = true;
             btnVolver.Click += btnVolver_Click;
             // 
