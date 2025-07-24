@@ -13,6 +13,8 @@ namespace Gestion_Carniceria
             InitializeComponent();
         }
 
+        private Venta ventaSeleccionadaDelHistorial; // Agregalo como atributo de la clase
+
         private void FrmClientesDeuda_Load(object sender, EventArgs e)
         {
             ClienteDAO dao = new ClienteDAO();
@@ -32,7 +34,6 @@ namespace Gestion_Carniceria
                 CargarHistorialClienteSeleccionado();
             }
         }
-
 
         private void CargarClientesEnGrilla()
         {
@@ -126,6 +127,7 @@ namespace Gestion_Carniceria
                 dataGridViewHistorialDeuda.DataSource = historial;
             }
         }
+
         private void dgvClientes_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvClientesDeuda.SelectedRows.Count > 0)
@@ -139,7 +141,6 @@ namespace Gestion_Carniceria
                 dataGridViewHistorialDeuda.DataSource = historial;
             }
         }
-
 
         private void CargarHistorialClienteSeleccionado()
         {
@@ -156,8 +157,6 @@ namespace Gestion_Carniceria
             dataGridViewHistorialDeuda.DataSource = historial;
             dataGridViewHistorialDeuda.AutoGenerateColumns = true;
         }
-
-
 
         private void btnVolverAlMenu_Click(object sender, EventArgs e)
         {
@@ -282,10 +281,22 @@ namespace Gestion_Carniceria
             }
         }
 
-        private void dataGridViewHistorialDeuda_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
+
+        private void dataGridViewHistorialDeuda_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                ventaSeleccionadaDelHistorial = (Venta)dataGridViewHistorialDeuda.Rows[e.RowIndex].DataBoundItem;
+
+                comboBoxHistorialDeuda.Enabled = true;
+                textBoxPagoParcialHistorialDeuda.Enabled = false;
+                textBoxPagoParcialHistorialDeuda.Text = "";
+                buttonPagarDeudaHistorial.Enabled = false;
+            }
         }
+
+
 
         private void dgvClientesDeuda_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -306,6 +317,127 @@ namespace Gestion_Carniceria
             }
         }
 
+        private void comboBoxHistorialDeuda_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxHistorialDeuda.SelectedItem == null)
+                return;
 
+            string tipo = comboBoxHistorialDeuda.SelectedItem.ToString();
+
+            if (tipo == "Parcial")
+            {
+                textBoxPagoParcialHistorialDeuda.Enabled = true;
+                buttonPagarDeudaHistorial.Enabled = true;
+            }
+            else if (tipo == "Total")
+            {
+                textBoxPagoParcialHistorialDeuda.Text = "";
+                textBoxPagoParcialHistorialDeuda.Enabled = false;
+                buttonPagarDeudaHistorial.Enabled = true;
+            }
+        }
+
+
+        private void buttonPagarDeudaHistorial_Click(object sender, EventArgs e)
+        {
+            if (ventaSeleccionadaDelHistorial == null)
+            {
+                MessageBox.Show("Seleccioná una venta del historial.");
+                return;
+            }
+
+            if (comboBoxHistorialDeuda.SelectedIndex == -1)
+            {
+                MessageBox.Show("Seleccioná un tipo de pago (Parcial o Total).");
+                return;
+            }
+
+            string tipoPago = comboBoxHistorialDeuda.SelectedItem.ToString();
+            decimal deudaActual = ventaSeleccionadaDelHistorial.DeudaCompra;
+            decimal nuevaDeuda = deudaActual;
+            decimal montoPagado = 0;
+
+            if (tipoPago == "Total")
+            {
+                nuevaDeuda = 0;
+                montoPagado = deudaActual;
+            }
+            else if (tipoPago == "Parcial")
+            {
+                if (!decimal.TryParse(textBoxPagoParcialHistorialDeuda.Text, out montoPagado))
+                {
+                    MessageBox.Show("Ingresá un monto válido.");
+                    return;
+                }
+
+                if (montoPagado <= 0)
+                {
+                    MessageBox.Show("El monto debe ser mayor a cero.");
+                    return;
+                }
+
+                if (montoPagado > deudaActual)
+                {
+                    MessageBox.Show("El monto ingresado supera la deuda actual.");
+                    return;
+                }
+
+                nuevaDeuda -= montoPagado;
+            }
+
+            string mensajeConfirmacion = tipoPago == "Total"
+                ? $"Vas a saldar la deuda total de la venta ({deudaActual:C}).\n¿Deseás continuar?"
+                : $"Vas a pagar {montoPagado:C} sobre una deuda de {deudaActual:C}.\nNueva deuda: {nuevaDeuda:C}\n¿Deseás continuar?";
+
+            DialogResult confirmacion = MessageBox.Show(
+                mensajeConfirmacion,
+                "Confirmar pago",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (confirmacion != DialogResult.Yes)
+                return;
+
+            // 1. Actualizar la deuda de la venta
+            ventaSeleccionadaDelHistorial.DeudaCompra = nuevaDeuda;
+            VentaDAO ventaDao = new VentaDAO();
+            bool ventaActualizada = ventaDao.ActualizarDeudaVenta(ventaSeleccionadaDelHistorial);
+
+            // 2. Actualizar la deuda total del cliente
+            Cliente clienteSeleccionado = (Cliente)dgvClientesDeuda.SelectedRows[0].DataBoundItem;
+            clienteSeleccionado.Deuda -= montoPagado;
+            if (clienteSeleccionado.Deuda < 0) clienteSeleccionado.Deuda = 0;
+
+            ClienteDAO clienteDao = new ClienteDAO();
+            bool clienteActualizado = clienteDao.ActualizarDeuda(clienteSeleccionado);
+
+            if (ventaActualizada && clienteActualizado)
+            {
+                MessageBox.Show("La deuda fue actualizada correctamente.");
+
+                // Refrescar vistas
+                CargarHistorialClienteSeleccionado();
+                CargarClientesEnGrilla();
+
+                // Reset de controles
+                comboBoxHistorialDeuda.SelectedIndex = -1;
+                textBoxPagoParcialHistorialDeuda.Text = "";
+                textBoxPagoParcialHistorialDeuda.Enabled = false;
+                buttonPagarDeudaHistorial.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Hubo un error al actualizar la deuda.");
+            }
+        }
+
+
+
+
+        private void textBoxPagoParcialHistorialDeuda_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

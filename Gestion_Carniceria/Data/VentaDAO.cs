@@ -218,7 +218,6 @@ namespace Gestion_Carniceria.Data
             return totalVentas;
         }
 
-
         public decimal ObtenerTotalVentasPorFechas(DateTime desde, DateTime hasta)
         {
             decimal total = 0;
@@ -431,6 +430,23 @@ namespace Gestion_Carniceria.Data
             }
 
             return lista;
+        }
+
+
+        public bool ActualizarDeudaVenta(Venta venta)
+        {
+            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            {
+                string query = @"UPDATE venta 
+                         SET DeudaCompra = @DeudaCompra 
+                         WHERE ID = @ID";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@DeudaCompra", venta.DeudaCompra);
+                cmd.Parameters.AddWithValue("@ID", venta.ID);
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
         }
 
 
