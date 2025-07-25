@@ -35,20 +35,46 @@ namespace Gestion_Carniceria
 
         }
 
+        // Variables para almacenar los productos y el producto seleccionado
         private List<Producto> productosOriginales = new List<Producto>();
-        private Producto productoSeleccionado = null;
+
+
+        // Variables para ordenamiento de la grilla
+        private bool ordenNombreAscendente = true;
+        private bool ordenIDAscendente = true;
+        private bool ordenPrecioAscendente = true;
+
+        // métodos utilizados en el formulario para el control de productos y categorías
 
         private void CargarProductosEnGrilla()
         {
             ProductoDAO dao = new ProductoDAO();
+            dgvProductos.AutoGenerateColumns = false;
             productosOriginales = dao.ObtenerTodosLosProductos();
 
             dgvProductos.DataSource = null;
             dgvProductos.DataSource = productosOriginales;
 
+            CargarCategoriasEnGrilla();
+
         }
 
+        private void CargarCategoriasEnGrilla()
+        {
+            // Obtener las categorías desde la base de datos
+            CategoriaDAO dao = new CategoriaDAO();
+            List<Categoria> listaCategorias = dao.ObtenerTodasLasCategorias();
 
+            // Asignar la lista de categorías al DataGridViewComboBoxColumn
+            var colCombo = dgvProductos.Columns["Categoria"] as DataGridViewComboBoxColumn;
+            if (colCombo != null)
+            {
+                colCombo.DisplayMember = "Nombre";
+                colCombo.ValueMember = "ID";
+                colCombo.DataPropertyName = "CategoriaID";
+                colCombo.DataSource = listaCategorias;
+            }
+        }
 
         private void CargarCategorias()
         {
@@ -68,6 +94,7 @@ namespace Gestion_Carniceria
             cbCategoriaProducto.SelectedIndex = -1;
         }
 
+
         private void LimpiarInfoProducto()
         {
             lblIDProducto.Text = "";
@@ -86,7 +113,6 @@ namespace Gestion_Carniceria
             lblPrecioProducto.Visible = false;
         }
 
-
         private void LimpiarCampos()
         {
             txtNombreProducto.Text = "";
@@ -97,6 +123,13 @@ namespace Gestion_Carniceria
             cbCategoriaProducto.SelectedIndex = -1;
         }
 
+        private void RecargarGrillaOrdenada(List<Producto> filasOrdenadas)
+        {
+            dgvProductos.DataSource = null;
+            dgvProductos.DataSource = filasOrdenadas;
+        }
+
+        // Controles de eventos para crear, eliminar y modificar productos
 
         private void btnCrearProducto_Click(object sender, EventArgs e)
         {
@@ -245,145 +278,121 @@ namespace Gestion_Carniceria
             }
         }
 
-
-        private void DgvProductos_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void dgvProductos_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
+
+            var fila = dgvProductos.Rows[e.RowIndex];
+
+            // Obtener ID del producto
+            int id = Convert.ToInt32(fila.Cells["iDDataGridViewTextBoxColumn"].Value);
+            Producto productoOriginal = productosOriginales.FirstOrDefault(p => p.ID == id);
+            if (productoOriginal == null) return;
+
             try
             {
-                int filaIndex = e.RowIndex;
-                int colIndex = e.ColumnIndex;
-
-                if (filaIndex < 0 || colIndex < 0)
-                    return;
-
-                DataGridViewRow fila = dgvProductos.Rows[filaIndex];
-                DataGridViewColumn columna = dgvProductos.Columns[colIndex];
-
-                // No permitir editar ID
-                if (columna.Name == "ID" || columna.Name == "iDDataGridViewTextBoxColumn")
-                {
-                    MessageBox.Show("No se puede modificar el ID del producto.");
-                    CargarProductosEnGrilla();
-                    return;
-                }
-
-                // Obtener el nuevo valor editado
-                object nuevoValor = fila.Cells[colIndex].Value;
-
-                if (nuevoValor == null || string.IsNullOrWhiteSpace(nuevoValor.ToString()))
-                {
-                    MessageBox.Show("El valor no puede estar vacío.");
-                    CargarProductosEnGrilla();
-                    return;
-                }
-
-                // Confirmar edición
-                DialogResult respuesta = MessageBox.Show(
-                    $"¿Confirma cambiar el campo '{columna.HeaderText}' al valor:\n{nuevoValor}?",
-                    "Confirmar edición",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-
-                if (respuesta != DialogResult.Yes)
+                // Confirmación del usuario
+                DialogResult confirmar = MessageBox.Show("¿Desea guardar los cambios en este producto?", "Confirmar modificación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirmar != DialogResult.Yes)
                 {
                     CargarProductosEnGrilla();
                     return;
                 }
 
-                // Construir objeto Producto con los datos actuales de la fila para actualizar
-                Producto productoModificado = new Producto();
+                // Clonar para modificar sin afectar el original si ocurre un error
+                Producto productoModificado = (Producto)productoOriginal.Clone();
 
-                productoModificado.ID = Convert.ToInt32(fila.Cells["iDDataGridViewTextBoxColumn"].Value);
-                productoModificado.Nombre = fila.Cells["nombreDataGridViewTextBoxColumn"].Value?.ToString() ?? "";
-                productoModificado.Descripcion = fila.Cells["descripcionDataGridViewTextBoxColumn"].Value?.ToString() ?? "";
-                productoModificado.Precio = Convert.ToDecimal(fila.Cells["precioDataGridViewTextBoxColumn"].Value);
-                productoModificado.Categoria = new Categoria { ID = Convert.ToInt32(fila.Cells["categoriaDataGridViewTextBoxColumn"].Value) };
+                // Nombre
+                if (e.ColumnIndex == fila.Cells["Nombre"].ColumnIndex)
+                    productoModificado.Nombre = fila.Cells["Nombre"].Value?.ToString();
 
-                if (Enum.TryParse<TipoProducto>(fila.Cells["Tipo"].Value?.ToString(), out TipoProducto tipo))
-                    productoModificado.Tipo = tipo;
-                else
-                    productoModificado.Tipo = TipoProducto.Unidad; // Default
+                // Descripción
+                if (e.ColumnIndex == fila.Cells["descripcionDataGridViewTextBoxColumn"].ColumnIndex)
+                    productoModificado.Descripcion = fila.Cells["descripcionDataGridViewTextBoxColumn"].Value?.ToString() ?? "";
 
-                // Obtener peso y cantidad
-                decimal peso;
-                int cantidad;
+                // Precio
+                if (e.ColumnIndex == fila.Cells["precioDataGridViewTextBoxColumn"].ColumnIndex)
+                    productoModificado.Precio = Convert.ToDecimal(fila.Cells["precioDataGridViewTextBoxColumn"].Value);
 
-                if (!decimal.TryParse(fila.Cells["pesoDataGridViewTextBoxColumn"].Value?.ToString(), out peso))
-                    peso = 0;
-                if (!int.TryParse(fila.Cells["cantidadDataGridViewTextBoxColumn"].Value?.ToString(), out cantidad))
-                    cantidad = 0;
-
-                // Ajustar peso y cantidad según tipo
-                if (productoModificado.Tipo == TipoProducto.Peso)
+                // Peso
+                if (e.ColumnIndex == fila.Cells["pesoDataGridViewTextBoxColumn"].ColumnIndex)
                 {
+                    if (productoModificado.Tipo != TipoProducto.Peso)
+                    {
+                        MessageBox.Show("Este producto no es de tipo 'Peso'. No puede asignar peso.");
+                        CargarProductosEnGrilla();
+                        return;
+                    }
+
+                    decimal peso = Convert.ToDecimal(fila.Cells["pesoDataGridViewTextBoxColumn"].Value);
+                    if (peso <= 0)
+                    {
+                        MessageBox.Show("Peso inválido para producto tipo 'Peso'.");
+                        CargarProductosEnGrilla();
+                        return;
+                    }
+
                     productoModificado.Peso = peso;
+                    productoModificado.Cantidad = 0; // Reset cantidad
+                }
 
-                    if (cantidad != 0)
-                        MessageBox.Show("Para productos de tipo 'Peso', la cantidad debe ser 0. Se corregirá automáticamente.");
-
-                    productoModificado.Cantidad = 0;
-
-                    if (productoModificado.Peso <= 0)
+                // Cantidad
+                if (e.ColumnIndex == fila.Cells["cantidadDataGridViewTextBoxColumn"].ColumnIndex)
+                {
+                    if (productoModificado.Tipo != TipoProducto.Unidad)
                     {
-                        MessageBox.Show("Peso inválido para producto tipo peso.");
+                        MessageBox.Show("Este producto no es de tipo 'Unidad'. No puede asignar cantidad.");
                         CargarProductosEnGrilla();
                         return;
                     }
-                }
-                else if (productoModificado.Tipo == TipoProducto.Unidad)
-                {
+
+                    int cantidad = Convert.ToInt32(fila.Cells["cantidadDataGridViewTextBoxColumn"].Value);
+                    if (cantidad <= 0)
+                    {
+                        MessageBox.Show("Cantidad inválida para producto tipo 'Unidad'.");
+                        CargarProductosEnGrilla();
+                        return;
+                    }
+
                     productoModificado.Cantidad = cantidad;
-
-                    if (peso != 0)
-                        MessageBox.Show("Para productos de tipo 'Unidad', el peso debe ser 0. Se corregirá automáticamente.");
-
-                    productoModificado.Peso = 0;
-
-                    if (productoModificado.Cantidad <= 0)
-                    {
-                        MessageBox.Show("Cantidad inválida para producto tipo unidad.");
-                        CargarProductosEnGrilla();
-                        return;
-                    }
-                }
-                else
-                {
-                    productoModificado.Peso = 0;
-                    productoModificado.Cantidad = 0;
+                    productoModificado.Peso = 0; // Reset peso
                 }
 
-                // Validaciones básicas antes de guardar
-                if (string.IsNullOrWhiteSpace(productoModificado.Nombre) ||
-                    string.IsNullOrWhiteSpace(productoModificado.Descripcion) ||
-                    productoModificado.Precio <= 0 ||
-                    productoModificado.Categoria.ID <= 0)
-                {
-                    MessageBox.Show("Datos inválidos. Por favor revise los campos.");
-                    CargarProductosEnGrilla();
-                    return;
-                }
-
-                // Guardar en base de datos
+                // Guardar en la base de datos
                 ProductoDAO dao = new ProductoDAO();
-                bool exito = dao.ModificarProducto(productoModificado);
+                dao.ModificarProducto(productoModificado);
 
-                if (exito)
-                {
-                    MessageBox.Show("Producto actualizado con éxito.");
-                    CargarProductosEnGrilla();
-                }
-                else
-                {
-                    MessageBox.Show("Error al actualizar el producto.");
-                    CargarProductosEnGrilla();
-                }
+                // Reemplazar el producto original con el modificado en la lista
+                int index = productosOriginales.FindIndex(p => p.ID == productoModificado.ID);
+                if (index >= 0)
+                    productosOriginales[index] = productoModificado;
+
+                CargarProductosEnGrilla();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al editar el producto: " + ex.Message);
+                MessageBox.Show("Error al guardar los cambios: " + ex.Message);
                 CargarProductosEnGrilla();
             }
         }
+
+        private void dgvProductos_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvProductos.Columns[e.ColumnIndex].Name == "Categoria")
+            {
+                int fila = e.RowIndex;
+                if (fila >= 0)
+                {
+                    var producto = (Producto)dgvProductos.Rows[fila].DataBoundItem;
+                    var nuevaCategoriaID = dgvProductos.Rows[fila].Cells["Categoria"].Value;
+
+                    // Actualizar en la base
+                    producto.Categoria.ID = Convert.ToInt32(nuevaCategoriaID);
+                    new ProductoDAO().ActualizarCategoria(producto.ID, producto.Categoria.ID);
+                }
+            }
+        }
+
 
 
 
@@ -393,7 +402,7 @@ namespace Gestion_Carniceria
 
             if (string.IsNullOrWhiteSpace(textoBusqueda))
             {
-                MessageBox.Show("Ingrese un nombre para buscar.");
+                MessageBox.Show("Ingrese un nombre o ID de producto para buscar.");
                 return;
             }
 
@@ -401,8 +410,10 @@ namespace Gestion_Carniceria
 
             foreach (DataGridViewRow fila in dgvProductos.Rows)
             {
-                if (fila.Cells["Nombre"].Value != null &&
-                    fila.Cells["Nombre"].Value.ToString().ToLower().Contains(textoBusqueda))
+                string valorId = fila.Cells["iDDataGridViewTextBoxColumn"].Value?.ToString().ToLower() ?? "";
+                string valorNombre = fila.Cells["Nombre"].Value?.ToString().ToLower() ?? "";
+
+                if (valorId.Contains(textoBusqueda) || valorNombre.Contains(textoBusqueda))
                 {
                     fila.Selected = true;
                     alMenosUnoEncontrado = true;
@@ -415,14 +426,15 @@ namespace Gestion_Carniceria
 
             if (!alMenosUnoEncontrado)
             {
-                MessageBox.Show("No se encontraron productos con ese nombre.");
+                MessageBox.Show("No se encontraron productos con ese nombre o ID.");
             }
         }
+
 
         private void dgvProductos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
-           
+
 
             if (e.RowIndex >= 0)
             {
@@ -673,5 +685,49 @@ namespace Gestion_Carniceria
         {
 
         }
+
+        private void btnOrdenarNombre_Click(object sender, EventArgs e)
+        {
+            List<Producto> productosOrdenados;
+
+            if (ordenNombreAscendente)
+                productosOrdenados = productosOriginales.OrderBy(p => p.Nombre).ToList();
+            else
+                productosOrdenados = productosOriginales.OrderByDescending(p => p.Nombre).ToList();
+
+            ordenNombreAscendente = !ordenNombreAscendente;
+            RecargarGrillaOrdenada(productosOrdenados);
+        }
+
+
+        private void btnOrdenarID_Click(object sender, EventArgs e)
+        {
+            List<Producto> productosOrdenados;
+
+            if (ordenIDAscendente)
+                productosOrdenados = productosOriginales.OrderBy(p => p.ID).ToList();
+            else
+                productosOrdenados = productosOriginales.OrderByDescending(p => p.ID).ToList();
+
+            ordenIDAscendente = !ordenIDAscendente;
+            RecargarGrillaOrdenada(productosOrdenados);
+        }
+
+
+
+        private void btnOrdenarPrecio_Click(object sender, EventArgs e)
+        {
+            List<Producto> productosOrdenados;
+
+            if (ordenPrecioAscendente)
+                productosOrdenados = productosOriginales.OrderBy(p => p.Precio).ToList();
+            else
+                productosOrdenados = productosOriginales.OrderByDescending(p => p.Precio).ToList();
+
+            ordenPrecioAscendente = !ordenPrecioAscendente;
+            RecargarGrillaOrdenada(productosOrdenados);
+        }
+
+
     }
 }

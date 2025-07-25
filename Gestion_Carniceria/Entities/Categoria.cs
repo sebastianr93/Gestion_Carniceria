@@ -11,6 +11,8 @@ namespace Gestion_Carniceria.Entities
         public int ID { get; set; }
         public string Nombre { get; set; }
 
+        public Categoria Self => this;
+
         public override string ToString()
         {
             return Nombre;

@@ -77,29 +77,48 @@ namespace Gestion_Carniceria.Data
 
         public bool ModificarProducto(Producto p)
         {
-            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            try
             {
-                string query = @"UPDATE producto
+                using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+                {
+                    string query = @"UPDATE producto
                  SET Nombre = @Nombre, Descripcion = @Descripcion, Peso = @Peso,
-                     Cantidad = @Cantidad, Precio = @Precio, CategoriaID = @CategoriaID, Tipo = @Tipo
+                     Cantidad = @Cantidad, Precio = @Precio, CategoriaID = @CategoriaId, Tipo = @Tipo
                  WHERE ID = @ID";
 
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@ID", p.ID);
+                    cmd.Parameters.AddWithValue("@Nombre", p.Nombre);
+                    cmd.Parameters.AddWithValue("@Descripcion", p.Descripcion);
+                    cmd.Parameters.AddWithValue("@Peso", p.Peso);
+                    cmd.Parameters.AddWithValue("@Cantidad", p.Cantidad);
+                    cmd.Parameters.AddWithValue("@Precio", p.Precio);
+                    cmd.Parameters.AddWithValue("@CategoriaId", p.Categoria.ID); // ← aquí da el error
+                    cmd.Parameters.AddWithValue("@Tipo", p.Tipo.ToString());
 
-
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@ID", p.ID);
-                cmd.Parameters.AddWithValue("@Nombre", p.Nombre);
-                cmd.Parameters.AddWithValue("@Descripcion", p.Descripcion);
-                cmd.Parameters.AddWithValue("@Peso", p.Peso);
-                cmd.Parameters.AddWithValue("@Cantidad", p.Cantidad);
-                cmd.Parameters.AddWithValue("@Precio", p.Precio);
-                cmd.Parameters.AddWithValue("@CategoriaID", p.Categoria.ID);
-                cmd.Parameters.AddWithValue("@Tipo", p.Tipo.ToString());
-
-                int filas = cmd.ExecuteNonQuery();
-                return filas > 0;
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al modificar producto: " + ex.Message);
+                return false;
             }
         }
+
+        public void ActualizarCategoria(int idProducto, int idCategoria)
+        {
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                string query = "UPDATE producto SET idcategoria = @idCategoria WHERE id = @id";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id", idProducto);
+                cmd.Parameters.AddWithValue("@idCategoria", idCategoria);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
 
         public bool EliminarProducto(int id)
         {

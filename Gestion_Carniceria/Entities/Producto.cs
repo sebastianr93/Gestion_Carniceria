@@ -7,7 +7,7 @@ public enum TipoProducto
     Peso
 }
 
-public class Producto
+public class Producto : ICloneable
 {
     public int ID { get; set; }
     public string Nombre { get; set; }
@@ -18,12 +18,40 @@ public class Producto
     public TipoProducto Tipo { get; set; }
     public Categoria Categoria { get; set; }
 
+    public int CategoriaID
+    {
+        get { return Categoria != null ? Categoria.ID : 0; }
+        set
+        {
+            if (Categoria == null)
+                Categoria = new Categoria();
+
+            Categoria.ID = value;
+        }
+    }
+
     public string CategoriaNombre
     {
         get { return Categoria != null ? Categoria.Nombre : "(Sin categoría)"; }
     }
 
     public void AgregarStock(int cantidad) => Cantidad += cantidad;
+
+    public object Clone()
+    {
+        return new Producto
+        {
+            ID = this.ID,
+            Nombre = this.Nombre,
+            Descripcion = this.Descripcion,
+            Precio = this.Precio,
+            Cantidad = this.Cantidad,
+            Peso = this.Peso,
+            Tipo = this.Tipo,
+            Categoria = this.Categoria
+        };
+    }
+
     public void RestarStock(int cantidad) => Cantidad -= cantidad;
 }
 
