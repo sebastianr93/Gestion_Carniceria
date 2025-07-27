@@ -28,35 +28,46 @@ namespace Gestion_Carniceria
 
         private void FrmTotales_Load(object sender, EventArgs e)
         {
-            VentaDAO ventaDAO = new VentaDAO();
-
-            decimal totalVentas = ventaDAO.ObtenerTotalVentas();
             DateTime desde = dateTimePicker1Inicio.Value.Date;
-            DateTime hasta = dateTimePicker2Final.Value.Date;
+            DateTime hasta = dateTimePicker2Final.Value.Date.AddDays(1).AddSeconds(-1);
+
+            VentaDAO ventaDAO = new VentaDAO();
+            PedidoDAO pedidoDAO = new PedidoDAO();
+
+            decimal totalVentas = ventaDAO.ObtenerTotalVentasPorFechas(desde, hasta);
             decimal deudaClientes = ventaDAO.ObtenerDeudaClientesPorFechas(desde, hasta);
-            ProveedorDAO proveedorDAO = new ProveedorDAO();
-            decimal deudaProveedores = proveedorDAO.ObtenerDeudaTotalProveedores();
+            decimal totalCobrado = totalVentas - deudaClientes;
+
+            decimal totalPedidos = pedidoDAO.ObtenerTotalPedidosPorFechas(desde, hasta);
 
             labelTotalVentasValor.Text = totalVentas.ToString("C2");
-
             labelTotalACobrarValor.Text = "$ " + deudaClientes.ToString("N2");
-            labelDeudaProveedoresValor.Text = "$ " + "-" + deudaProveedores.ToString("N2");
+            labelTotalCobradoValor.Text = "$ " + totalCobrado.ToString("N2");
+            labelDeudaProveedoresValor.Text = "$ " + totalPedidos.ToString("N2");
         }
+
+
 
         private void ButtonBuscarEntreFechas_Click(object sender, EventArgs e)
         {
             DateTime desde = dateTimePicker1Inicio.Value.Date;
-            DateTime hasta = dateTimePicker2Final.Value.Date.AddDays(1).AddSeconds(-1); // Para incluir toda la fecha
+            DateTime hasta = dateTimePicker2Final.Value.Date.AddDays(1).AddSeconds(-1); // Incluir toda la fecha
 
             VentaDAO ventaDAO = new VentaDAO();
+            PedidoDAO pedidoDAO = new PedidoDAO();
+
             decimal totalVentas = ventaDAO.ObtenerTotalVentasPorFechas(desde, hasta);
             decimal deudaClientes = ventaDAO.ObtenerDeudaClientesPorFechas(desde, hasta);
+            decimal totalCobrado = totalVentas - deudaClientes;
 
+            decimal totalPedidos = pedidoDAO.ObtenerTotalPedidosPorFechas(desde, hasta);
 
             labelTotalVentasValor.Text = totalVentas.ToString("C2");
             labelTotalACobrarValor.Text = "$ " + deudaClientes.ToString("N2");
-
+            labelTotalCobradoValor.Text = "$ " + totalCobrado.ToString("N2");
+            labelDeudaProveedoresValor.Text = "$ " + totalPedidos.ToString("N2");
         }
+
 
 
         private void dateTimePicker1Inicio_ValueChanged(object sender, EventArgs e)

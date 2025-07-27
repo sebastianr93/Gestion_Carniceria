@@ -45,8 +45,8 @@
             groupBox1 = new GroupBox();
             label5 = new Label();
             groupBox2 = new GroupBox();
-            button1 = new Button();
             btnExportar = new Button();
+            button1 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -153,18 +153,18 @@
             groupBox2.Name = "groupBox2";
             groupBox2.TabStop = false;
             // 
+            // btnExportar
+            // 
+            resources.ApplyResources(btnExportar, "btnExportar");
+            btnExportar.Name = "btnExportar";
+            btnExportar.UseVisualStyleBackColor = true;
+            // 
             // button1
             // 
             resources.ApplyResources(button1, "button1");
             button1.Name = "button1";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
-            // 
-            // btnExportar
-            // 
-            resources.ApplyResources(btnExportar, "btnExportar");
-            btnExportar.Name = "btnExportar";
-            btnExportar.UseVisualStyleBackColor = true;
             // 
             // FrmTotales
             // 

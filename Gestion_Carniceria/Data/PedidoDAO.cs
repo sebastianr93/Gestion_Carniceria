@@ -57,6 +57,29 @@ namespace Gestion_Carniceria.Data
                 }
             }
         }
+
+        public decimal ObtenerTotalPedidosPorFechas(DateTime desde, DateTime hasta)
+        {
+            decimal totalPedidos = 0;
+
+            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            {
+                string query = @"SELECT IFNULL(SUM(valortotal), 0) FROM pedido 
+                         WHERE fecha BETWEEN @Desde AND @Hasta";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Desde", desde);
+                cmd.Parameters.AddWithValue("@Hasta", hasta);
+
+                object result = cmd.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                    totalPedidos = Convert.ToDecimal(result);
+            }
+
+            return totalPedidos;
+        }
+
     }
 }
 

@@ -255,7 +255,7 @@ namespace Gestion_Carniceria.Data
 
             using (MySqlConnection conn = ConexionBD.ObtenerConexion())
             {
-                string query = "SELECT IFNULL(SUM(ValorTotal - PagoParcial), 0) FROM venta WHERE Fecha BETWEEN @Desde AND @Hasta";
+                string query = "SELECT IFNULL(SUM(DeudaCompra), 0) FROM venta WHERE Fecha BETWEEN @Desde AND @Hasta";
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Desde", desde);
@@ -269,6 +269,7 @@ namespace Gestion_Carniceria.Data
 
             return deuda;
         }
+
 
         public Venta ObtenerVentaPorID(int ventaID)
         {

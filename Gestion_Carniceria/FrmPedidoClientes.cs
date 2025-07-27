@@ -255,8 +255,6 @@ namespace Gestion_Carniceria
             }
         }
 
-
-
         private void dgvItemsVenta_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= dgvItemsVenta.Rows.Count)
@@ -306,6 +304,18 @@ namespace Gestion_Carniceria
                 return;
             }
 
+            if (cbClientes.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar un cliente.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (cbMediosDePago.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar un medio de pago.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             decimal pagoParcial = 0m;
             if (checkPagoParcial.Checked)
             {
@@ -326,7 +336,7 @@ namespace Gestion_Carniceria
             try
             {
                 decimal total = itemsVenta.Sum(i => i.Subtotal);
-                decimal deuda = total - pagoParcial;
+                decimal deuda = pagoParcial > 0 ? total - pagoParcial : 0;
 
                 Venta venta = new Venta
                 {
@@ -334,7 +344,7 @@ namespace Gestion_Carniceria
                     Cliente = (Cliente)cbClientes.SelectedItem,
                     ValorTotal = total,
                     PagoParcial = pagoParcial,
-                    DeudaCompra = deuda > 0 ? deuda : 0,
+                    DeudaCompra = deuda,
                     FormatoPago = cbMediosDePago.SelectedItem is MedioDePago mp ? mp.Nombre : "No especificado",
                     Items = new List<ItemVenta>(itemsVenta)
                 };
@@ -346,7 +356,7 @@ namespace Gestion_Carniceria
                 {
                     dao.InsertarItemsVenta(ventaID, venta.Items);
 
-                    // Actualizar deuda del cliente si hubo pago parcial
+                    // Actualizar deuda del cliente solo si hubo pago parcial
                     if (deuda > 0)
                     {
                         ClienteDAO clienteDAO = new ClienteDAO();
@@ -373,6 +383,7 @@ namespace Gestion_Carniceria
                 MessageBox.Show("Error al confirmar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private void label4_Click(object sender, EventArgs e)
