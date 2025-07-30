@@ -80,6 +80,87 @@ namespace Gestion_Carniceria.Data
             return totalPedidos;
         }
 
+        public List<Pedido> ObtenerTodosLosPedidos()
+        {
+            List<Pedido> lista = new List<Pedido>();
+
+            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            {
+                string query = @"
+            SELECT p.ID, p.Fecha, p.ValorTotal, p.PagoParcial,
+                   pr.ID as ProveedorID, pr.Nombre as NombreProveedor
+            FROM pedido p
+            INNER JOIN proveedor pr ON p.id_proveedor = pr.ID
+            ORDER BY p.Fecha DESC";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Pedido pedido = new Pedido
+                        {
+                            ID = reader.GetInt32("ID"),
+                            Fecha = reader.GetDateTime("Fecha"),
+                            ValorTotal = reader.GetDecimal("ValorTotal"),
+                            PagoParcial = reader.GetDecimal("PagoParcial"),
+                            Proveedor = new Proveedor
+                            {
+                                ID = reader.GetInt32("ProveedorID"),
+                                Nombre = reader.GetString("NombreProveedor")
+                            }
+                        };
+
+                        lista.Add(pedido);
+                    }
+                }
+            }
+
+            return lista;
+        }
+
+        public Pedido ObtenerPedidoPorID(int pedidoID)
+        {
+            Pedido pedido = null;
+
+            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            {
+                string query = @"
+            SELECT p.ID, p.Fecha, p.ValorTotal, p.PagoParcial,
+                   pr.ID as ProveedorID, pr.Nombre as NombreProveedor
+            FROM pedido p
+            INNER JOIN proveedor pr ON p.id_proveedor = pr.ID
+            WHERE p.ID = @ID";
+
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@ID", pedidoID);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        pedido = new Pedido
+                        {
+                            ID = reader.GetInt32("ID"),
+                            Fecha = reader.GetDateTime("Fecha"),
+                            ValorTotal = reader.GetDecimal("ValorTotal"),
+                            PagoParcial = reader.GetDecimal("PagoParcial"),
+                            Proveedor = new Proveedor
+                            {
+                                ID = reader.GetInt32("ProveedorID"),
+                                Nombre = reader.GetString("NombreProveedor")
+                            }
+                        };
+                    }
+                }
+            }
+
+            return pedido;
+        }
+
+
+
     }
 }
 

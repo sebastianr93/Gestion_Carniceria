@@ -47,6 +47,7 @@
             btnRegistroVentas = new Button();
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
+            buttonHistorialPedidos = new Button();
             groupBox4 = new GroupBox();
             pictureBox1 = new PictureBox();
             groupBox1.SuspendLayout();
@@ -139,7 +140,7 @@
             // 
             // btnCierreDelDia
             // 
-            btnCierreDelDia.Location = new Point(138, 116);
+            btnCierreDelDia.Location = new Point(182, 151);
             btnCierreDelDia.Name = "btnCierreDelDia";
             btnCierreDelDia.Size = new Size(124, 52);
             btnCierreDelDia.TabIndex = 8;
@@ -149,7 +150,7 @@
             // 
             // btnDeudores
             // 
-            btnDeudores.Location = new Point(6, 116);
+            btnDeudores.Location = new Point(6, 151);
             btnDeudores.Name = "btnDeudores";
             btnDeudores.Size = new Size(124, 52);
             btnDeudores.TabIndex = 9;
@@ -159,7 +160,7 @@
             // 
             // btnTotales
             // 
-            btnTotales.Location = new Point(138, 30);
+            btnTotales.Location = new Point(182, 30);
             btnTotales.Name = "btnTotales";
             btnTotales.Size = new Size(124, 52);
             btnTotales.TabIndex = 10;
@@ -245,17 +246,28 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(buttonHistorialPedidos);
             groupBox3.Controls.Add(btnRegistroVentas);
             groupBox3.Controls.Add(btnTotales);
             groupBox3.Controls.Add(btnDeudores);
             groupBox3.Controls.Add(btnCierreDelDia);
             groupBox3.Controls.Add(label4);
             groupBox3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            groupBox3.Location = new Point(335, 354);
+            groupBox3.Location = new Point(299, 354);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(268, 178);
+            groupBox3.Size = new Size(304, 209);
             groupBox3.TabIndex = 19;
             groupBox3.TabStop = false;
+            // 
+            // buttonHistorialPedidos
+            // 
+            buttonHistorialPedidos.Location = new Point(6, 88);
+            buttonHistorialPedidos.Name = "buttonHistorialPedidos";
+            buttonHistorialPedidos.Size = new Size(124, 50);
+            buttonHistorialPedidos.TabIndex = 18;
+            buttonHistorialPedidos.Text = "Historial Pedidos";
+            buttonHistorialPedidos.UseVisualStyleBackColor = true;
+            buttonHistorialPedidos.Click += buttonHistorialPedidos_Click;
             // 
             // groupBox4
             // 
@@ -328,5 +340,6 @@
         private GroupBox groupBox3;
         private GroupBox groupBox4;
         private PictureBox pictureBox1;
+        private Button buttonHistorialPedidos;
     }
 }
