@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTotales));
             totalesventastext = new Label();
+            titulo = new Label();
             costoproductostext = new Label();
             labelTotalVentasValor = new Label();
-            labelTotalCobradoValor = new Label();
             labelTotalACobrarValor = new Label();
             label1 = new Label();
             labelDeudaProveedoresValor = new Label();
@@ -45,8 +45,10 @@
             groupBox1 = new GroupBox();
             label5 = new Label();
             groupBox2 = new GroupBox();
-            button1 = new Button();
+            BalanceLabel = new Label();
+            label6 = new Label();
             btnExportar = new Button();
+            button1 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -56,20 +58,10 @@
             resources.ApplyResources(totalesventastext, "totalesventastext");
             totalesventastext.Name = "totalesventastext";
             // 
-            // costoproductostext
-            // 
-            resources.ApplyResources(costoproductostext, "costoproductostext");
-            costoproductostext.Name = "costoproductostext";
-            // 
             // labelTotalVentasValor
             // 
             resources.ApplyResources(labelTotalVentasValor, "labelTotalVentasValor");
             labelTotalVentasValor.Name = "labelTotalVentasValor";
-            // 
-            // labelTotalCobradoValor
-            // 
-            resources.ApplyResources(labelTotalCobradoValor, "labelTotalCobradoValor");
-            labelTotalCobradoValor.Name = "labelTotalCobradoValor";
             // 
             // labelTotalACobrarValor
             // 
@@ -87,6 +79,7 @@
             resources.ApplyResources(labelDeudaProveedoresValor, "labelDeudaProveedoresValor");
             labelDeudaProveedoresValor.ForeColor = Color.Red;
             labelDeudaProveedoresValor.Name = "labelDeudaProveedoresValor";
+            labelDeudaProveedoresValor.Click += labelDeudaProveedoresValor_Click;
             // 
             // label2
             // 
@@ -140,18 +133,37 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(BalanceLabel);
+            groupBox2.Controls.Add(label6);
             groupBox2.Controls.Add(btnExportar);
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(label1);
-            groupBox2.Controls.Add(costoproductostext);
             groupBox2.Controls.Add(totalesventastext);
             groupBox2.Controls.Add(labelDeudaProveedoresValor);
             groupBox2.Controls.Add(labelTotalVentasValor);
             groupBox2.Controls.Add(labelTotalACobrarValor);
-            groupBox2.Controls.Add(labelTotalCobradoValor);
             resources.ApplyResources(groupBox2, "groupBox2");
             groupBox2.Name = "groupBox2";
             groupBox2.TabStop = false;
+            // 
+            // BalanceLabel
+            // 
+            resources.ApplyResources(BalanceLabel, "BalanceLabel");
+            BalanceLabel.ForeColor = Color.Green;
+            BalanceLabel.Name = "BalanceLabel";
+            BalanceLabel.Click += BalanceLabel_Click;
+            // 
+            // label6
+            // 
+            resources.ApplyResources(label6, "label6");
+            label6.ForeColor = Color.Black;
+            label6.Name = "label6";
+            // 
+            // btnExportar
+            // 
+            resources.ApplyResources(btnExportar, "btnExportar");
+            btnExportar.Name = "btnExportar";
+            btnExportar.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -159,12 +171,6 @@
             button1.Name = "button1";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
-            // 
-            // btnExportar
-            // 
-            resources.ApplyResources(btnExportar, "btnExportar");
-            btnExportar.Name = "btnExportar";
-            btnExportar.UseVisualStyleBackColor = true;
             // 
             // FrmTotales
             // 
@@ -186,9 +192,7 @@
         #endregion
 
         private Label totalesventastext;
-        private Label costoproductostext;
         private Label labelTotalVentasValor;
-        private Label labelTotalCobradoValor;
         private Label labelTotalACobrarValor;
         private Label label1;
         private Label labelDeudaProveedoresValor;
@@ -203,5 +207,8 @@
         private GroupBox groupBox2;
         private Button button1;
         private Button btnExportar;
+       
+        private Label BalanceLabel;
+        private Label label6;
     }
 }

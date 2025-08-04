@@ -80,8 +80,6 @@ namespace Gestion_Carniceria
         }
 
 
-
-
         // Botón Volver: cierra el formulario
         private void btnVolverAlMenu_Click(object sender, EventArgs e)
         {

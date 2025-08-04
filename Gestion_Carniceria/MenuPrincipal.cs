@@ -119,6 +119,13 @@ namespace Gestion_Carniceria
             FrmCierreDelDia frmCierreDelDia = new FrmCierreDelDia();
             frmCierreDelDia.ShowDialog();
         }
+
+        private void buttonHistorialPedidos_Click(object sender, EventArgs e)
+        {
+            FrmRegistroPedidos frmPedidos = new FrmRegistroPedidos();
+            frmPedidos.ShowDialog();
+        }
+
     }
 
 }

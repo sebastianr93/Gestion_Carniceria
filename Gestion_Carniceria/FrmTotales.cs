@@ -21,43 +21,59 @@ namespace Gestion_Carniceria
             // Inicializar los label con valores por defecto
             labelTotalVentasValor.Text = "$ 0.00";
             labelTotalACobrarValor.Text = "$ 0.00";
-            labelTotalACobrarValor.Text = "$ 0.00"; 
-            labelDeudaProveedoresValor.Text = "$ 0.00"; 
+            labelTotalACobrarValor.Text = "$ 0.00";
+            labelDeudaProveedoresValor.Text = "$ 0.00";
         }
 
 
         private void FrmTotales_Load(object sender, EventArgs e)
         {
-            VentaDAO ventaDAO = new VentaDAO();
-
-            decimal totalVentas = ventaDAO.ObtenerTotalVentas();
             DateTime desde = dateTimePicker1Inicio.Value.Date;
-            DateTime hasta = dateTimePicker2Final.Value.Date;
+            DateTime hasta = dateTimePicker2Final.Value.Date.AddDays(1).AddSeconds(-1);
+
+            VentaDAO ventaDAO = new VentaDAO();
+            PedidoDAO pedidoDAO = new PedidoDAO();
+
+            decimal totalVentas = ventaDAO.ObtenerTotalVentasPorFechas(desde, hasta);
             decimal deudaClientes = ventaDAO.ObtenerDeudaClientesPorFechas(desde, hasta);
-            ProveedorDAO proveedorDAO = new ProveedorDAO();
-            decimal deudaProveedores = proveedorDAO.ObtenerDeudaTotalProveedores();
+
+
+            decimal totalPedidos = pedidoDAO.ObtenerTotalPedidosPorFechas(desde, hasta);
 
             labelTotalVentasValor.Text = totalVentas.ToString("C2");
-
             labelTotalACobrarValor.Text = "$ " + deudaClientes.ToString("N2");
-            labelDeudaProveedoresValor.Text = "$ " + "-" + deudaProveedores.ToString("N2");
+
+            labelDeudaProveedoresValor.Text = "$ " + totalPedidos.ToString("N2");
+
         }
 
         private void ButtonBuscarEntreFechas_Click(object sender, EventArgs e)
         {
             DateTime desde = dateTimePicker1Inicio.Value.Date;
-            DateTime hasta = dateTimePicker2Final.Value.Date.AddDays(1).AddSeconds(-1); // Para incluir toda la fecha
+            DateTime hasta = dateTimePicker2Final.Value.Date.AddDays(1).AddSeconds(-1); // Incluir toda la fecha
 
             VentaDAO ventaDAO = new VentaDAO();
+            PedidoDAO pedidoDAO = new PedidoDAO();
+
             decimal totalVentas = ventaDAO.ObtenerTotalVentasPorFechas(desde, hasta);
             decimal deudaClientes = ventaDAO.ObtenerDeudaClientesPorFechas(desde, hasta);
-
+            decimal totalCobrado = totalVentas - deudaClientes;
+            decimal totalPedidos = pedidoDAO.ObtenerTotalPedidosPorFechas(desde, hasta);
 
             labelTotalVentasValor.Text = totalVentas.ToString("C2");
             labelTotalACobrarValor.Text = "$ " + deudaClientes.ToString("N2");
+            labelDeudaProveedoresValor.Text = "$ " + totalPedidos.ToString("N2");
 
+            // Cálculo del balance
+            decimal balance = totalVentas - deudaClientes - totalPedidos;
+
+            // Mostrar en un label (que vos podés llamar como quieras, ej: BalanceLabel)
+            BalanceLabel.Text = "" + balance.ToString("C2");
+            if (balance < 0)
+                BalanceLabel.ForeColor = Color.Red;
+            else
+                BalanceLabel.ForeColor = Color.Green;
         }
-
 
         private void dateTimePicker1Inicio_ValueChanged(object sender, EventArgs e)
         {
@@ -73,5 +89,30 @@ namespace Gestion_Carniceria
         {
             this.Close();
         }
+
+        private void labelDeudaProveedoresValor_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BalanceLabel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                decimal totalVentas = decimal.Parse(labelTotalVentasValor.Text.Replace("$", "").Trim());
+                decimal deudaClientes = decimal.Parse(labelTotalACobrarValor.Text.Replace("$", "").Trim());
+                decimal deudaProveedores = decimal.Parse(labelDeudaProveedoresValor.Text.Replace("$", "").Trim());
+
+                decimal balance = totalVentas - deudaClientes - deudaProveedores;
+
+                BalanceLabel.Text = "Balance: " + balance.ToString("C2");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al calcular el balance: " + ex.Message);
+            }
+        }
+
+
     }
 }

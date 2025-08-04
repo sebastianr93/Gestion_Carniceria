@@ -18,7 +18,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            dgvClientes = new DataGridView();
+            dgvClientesDeuda = new DataGridView();
             iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             nombreDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             apellidoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -26,7 +26,6 @@
             correoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             dNIDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             deudaDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            clienteBindingSource = new BindingSource(components);
             groupBox2 = new GroupBox();
             label13 = new Label();
             btnBuscar = new Button();
@@ -42,7 +41,6 @@
             txtNombreBuscar = new TextBox();
             btnVolverAlMenu = new Button();
             comboBoxDeuda = new ComboBox();
-            mySqlCommand1 = new MySqlConnector.MySqlCommand();
             textBoxPagoParcial = new TextBox();
             buttonPagarDeuda = new Button();
             label3 = new Label();
@@ -50,30 +48,49 @@
             groupBox1 = new GroupBox();
             label1 = new Label();
             groupBox3 = new GroupBox();
-            label2 = new Label();
             btnExportar = new Button();
-            ((System.ComponentModel.ISupportInitialize)dgvClientes).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
+            label2 = new Label();
+            dataGridViewHistorialDeuda = new DataGridView();
+            fechaDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            formatoPagoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            valorTotalDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            pagoParcialDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            deudaCompraDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            ventaBindingSource = new BindingSource(components);
+            ventaDAOBindingSource = new BindingSource(components);
+            label5 = new Label();
+            clienteBindingSource = new BindingSource(components);
+            mySqlCommand1 = new MySqlConnector.MySqlCommand();
+            label6 = new Label();
+            comboBoxHistorialDeuda = new ComboBox();
+            label8 = new Label();
+            textBoxPagoParcialHistorialDeuda = new TextBox();
+            label14 = new Label();
+            buttonPagarDeudaHistorial = new Button();
+            ((System.ComponentModel.ISupportInitialize)dgvClientesDeuda).BeginInit();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewHistorialDeuda).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ventaBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ventaDAOBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)clienteBindingSource).BeginInit();
             SuspendLayout();
             // 
-            // dgvClientes
+            // dgvClientesDeuda
             // 
-            dgvClientes.AllowUserToAddRows = false;
-            dgvClientes.AllowUserToDeleteRows = false;
-            dgvClientes.AllowUserToOrderColumns = true;
-            dgvClientes.AutoGenerateColumns = false;
-            dgvClientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvClientes.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, nombreDataGridViewTextBoxColumn, apellidoDataGridViewTextBoxColumn, telefonoDataGridViewTextBoxColumn, correoDataGridViewTextBoxColumn, dNIDataGridViewTextBoxColumn, deudaDataGridViewTextBoxColumn });
-            dgvClientes.DataSource = clienteBindingSource;
-            dgvClientes.Location = new Point(13, 16);
-            dgvClientes.Name = "dgvClientes";
-            dgvClientes.ReadOnly = true;
-            dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvClientes.Size = new Size(743, 385);
-            dgvClientes.TabIndex = 0;
+            dgvClientesDeuda.AllowUserToAddRows = false;
+            dgvClientesDeuda.AllowUserToDeleteRows = false;
+            dgvClientesDeuda.AllowUserToOrderColumns = true;
+            dgvClientesDeuda.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvClientesDeuda.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, nombreDataGridViewTextBoxColumn, apellidoDataGridViewTextBoxColumn, telefonoDataGridViewTextBoxColumn, correoDataGridViewTextBoxColumn, dNIDataGridViewTextBoxColumn, deudaDataGridViewTextBoxColumn });
+            dgvClientesDeuda.Location = new Point(13, 16);
+            dgvClientesDeuda.Name = "dgvClientesDeuda";
+            dgvClientesDeuda.ReadOnly = true;
+            dgvClientesDeuda.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvClientesDeuda.Size = new Size(743, 385);
+            dgvClientesDeuda.TabIndex = 0;
+            dgvClientesDeuda.CellClick += dgvClientesDeuda_CellClick;
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -123,10 +140,6 @@
             deudaDataGridViewTextBoxColumn.HeaderText = "Deuda";
             deudaDataGridViewTextBoxColumn.Name = "deudaDataGridViewTextBoxColumn";
             deudaDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // clienteBindingSource
-            // 
-            clienteBindingSource.DataSource = typeof(Cliente);
             // 
             // groupBox2
             // 
@@ -269,13 +282,6 @@
             comboBoxDeuda.TabIndex = 21;
             comboBoxDeuda.SelectedIndexChanged += comboBoxDeuda_SelectedIndexChanged;
             // 
-            // mySqlCommand1
-            // 
-            mySqlCommand1.CommandTimeout = 0;
-            mySqlCommand1.Connection = null;
-            mySqlCommand1.Transaction = null;
-            mySqlCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
-            // 
             // textBoxPagoParcial
             // 
             textBoxPagoParcial.Location = new Point(93, 41);
@@ -339,12 +345,21 @@
             // 
             groupBox3.Controls.Add(btnExportar);
             groupBox3.Controls.Add(label2);
-            groupBox3.Controls.Add(dgvClientes);
+            groupBox3.Controls.Add(dgvClientesDeuda);
             groupBox3.Location = new Point(265, 14);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(769, 436);
             groupBox3.TabIndex = 28;
             groupBox3.TabStop = false;
+            // 
+            // btnExportar
+            // 
+            btnExportar.Location = new Point(681, 407);
+            btnExportar.Name = "btnExportar";
+            btnExportar.Size = new Size(75, 23);
+            btnExportar.TabIndex = 29;
+            btnExportar.Text = "Exportar";
+            btnExportar.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -356,20 +371,150 @@
             label2.TabIndex = 25;
             label2.Text = "Lista de Clientes con Deuda";
             // 
-            // btnExportar
+            // dataGridViewHistorialDeuda
             // 
-            btnExportar.Location = new Point(681, 407);
-            btnExportar.Name = "btnExportar";
-            btnExportar.Size = new Size(75, 23);
-            btnExportar.TabIndex = 29;
-            btnExportar.Text = "Exportar";
-            btnExportar.UseVisualStyleBackColor = true;
+            dataGridViewHistorialDeuda.AutoGenerateColumns = false;
+            dataGridViewHistorialDeuda.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewHistorialDeuda.Columns.AddRange(new DataGridViewColumn[] { fechaDataGridViewTextBoxColumn, formatoPagoDataGridViewTextBoxColumn, valorTotalDataGridViewTextBoxColumn, pagoParcialDataGridViewTextBoxColumn, deudaCompraDataGridViewTextBoxColumn });
+            dataGridViewHistorialDeuda.DataSource = ventaBindingSource;
+            dataGridViewHistorialDeuda.Location = new Point(1040, 26);
+            dataGridViewHistorialDeuda.Name = "dataGridViewHistorialDeuda";
+            dataGridViewHistorialDeuda.Size = new Size(543, 424);
+            dataGridViewHistorialDeuda.TabIndex = 29;
+            this.dataGridViewHistorialDeuda.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewHistorialDeuda_CellClick);
+
+            // 
+            // fechaDataGridViewTextBoxColumn
+            // 
+            fechaDataGridViewTextBoxColumn.DataPropertyName = "Fecha";
+            fechaDataGridViewTextBoxColumn.HeaderText = "Fecha";
+            fechaDataGridViewTextBoxColumn.Name = "fechaDataGridViewTextBoxColumn";
+            fechaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // formatoPagoDataGridViewTextBoxColumn
+            // 
+            formatoPagoDataGridViewTextBoxColumn.DataPropertyName = "FormatoPago";
+            formatoPagoDataGridViewTextBoxColumn.HeaderText = "FormatoPago";
+            formatoPagoDataGridViewTextBoxColumn.Name = "formatoPagoDataGridViewTextBoxColumn";
+            formatoPagoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // valorTotalDataGridViewTextBoxColumn
+            // 
+            valorTotalDataGridViewTextBoxColumn.DataPropertyName = "ValorTotal";
+            valorTotalDataGridViewTextBoxColumn.HeaderText = "ValorTotal";
+            valorTotalDataGridViewTextBoxColumn.Name = "valorTotalDataGridViewTextBoxColumn";
+            valorTotalDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // pagoParcialDataGridViewTextBoxColumn
+            // 
+            pagoParcialDataGridViewTextBoxColumn.DataPropertyName = "PagoParcial";
+            pagoParcialDataGridViewTextBoxColumn.HeaderText = "PagoParcial";
+            pagoParcialDataGridViewTextBoxColumn.Name = "pagoParcialDataGridViewTextBoxColumn";
+            pagoParcialDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // deudaCompraDataGridViewTextBoxColumn
+            // 
+            deudaCompraDataGridViewTextBoxColumn.DataPropertyName = "DeudaCompra";
+            deudaCompraDataGridViewTextBoxColumn.HeaderText = "DeudaCompra";
+            deudaCompraDataGridViewTextBoxColumn.Name = "deudaCompraDataGridViewTextBoxColumn";
+            deudaCompraDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // ventaBindingSource
+            // 
+            ventaBindingSource.DataSource = typeof(Venta);
+            // 
+            // ventaDAOBindingSource
+            // 
+            ventaDAOBindingSource.DataSource = typeof(Data.VentaDAO);
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(1061, 8);
+            label5.Name = "label5";
+            label5.Size = new Size(88, 15);
+            label5.TabIndex = 30;
+            label5.Text = "Historial Deuda";
+            // 
+            // clienteBindingSource
+            // 
+            clienteBindingSource.DataSource = typeof(Cliente);
+            // 
+            // mySqlCommand1
+            // 
+            mySqlCommand1.CommandTimeout = 0;
+            mySqlCommand1.Connection = null;
+            mySqlCommand1.Transaction = null;
+            mySqlCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(1184, 453);
+            label6.Name = "label6";
+            label6.Size = new Size(90, 15);
+            label6.TabIndex = 31;
+            label6.Text = "Cancelar Deuda";
+            // 
+            // comboBoxHistorialDeuda
+            // 
+            comboBoxHistorialDeuda.FormattingEnabled = true;
+            comboBoxHistorialDeuda.Items.AddRange(new object[] { "Parcial", "Total" });
+            comboBoxHistorialDeuda.Location = new Point(1184, 471);
+            comboBoxHistorialDeuda.Name = "comboBoxHistorialDeuda";
+            comboBoxHistorialDeuda.Size = new Size(121, 23);
+            comboBoxHistorialDeuda.TabIndex = 32;
+            comboBoxHistorialDeuda.SelectedIndexChanged += comboBoxHistorialDeuda_SelectedIndexChanged;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(1086, 474);
+            label8.Name = "label8";
+            label8.Size = new Size(80, 15);
+            label8.TabIndex = 33;
+            label8.Text = "Total o Parcial";
+            // 
+            // textBoxPagoParcialHistorialDeuda
+            // 
+            textBoxPagoParcialHistorialDeuda.Location = new Point(1184, 500);
+            textBoxPagoParcialHistorialDeuda.Name = "textBoxPagoParcialHistorialDeuda";
+            textBoxPagoParcialHistorialDeuda.Size = new Size(121, 23);
+            textBoxPagoParcialHistorialDeuda.TabIndex = 34;
+            textBoxPagoParcialHistorialDeuda.TextChanged += textBoxPagoParcialHistorialDeuda_TextChanged;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(1086, 503);
+            label14.Name = "label14";
+            label14.Size = new Size(81, 15);
+            label14.TabIndex = 35;
+            label14.Text = "Monto Parcial";
+            // 
+            // buttonPagarDeudaHistorial
+            // 
+            buttonPagarDeudaHistorial.Location = new Point(1334, 479);
+            buttonPagarDeudaHistorial.Name = "buttonPagarDeudaHistorial";
+            buttonPagarDeudaHistorial.Size = new Size(104, 39);
+            buttonPagarDeudaHistorial.TabIndex = 36;
+            buttonPagarDeudaHistorial.Text = "Pagar";
+            buttonPagarDeudaHistorial.UseVisualStyleBackColor = true;
+            buttonPagarDeudaHistorial.Click += buttonPagarDeudaHistorial_Click;
             // 
             // FrmClientesDeuda
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1041, 458);
+            ClientSize = new Size(1615, 533);
+            Controls.Add(buttonPagarDeudaHistorial);
+            Controls.Add(label14);
+            Controls.Add(textBoxPagoParcialHistorialDeuda);
+            Controls.Add(label8);
+            Controls.Add(comboBoxHistorialDeuda);
+            Controls.Add(label6);
+            Controls.Add(label5);
+            Controls.Add(dataGridViewHistorialDeuda);
             Controls.Add(groupBox3);
             Controls.Add(label1);
             Controls.Add(groupBox1);
@@ -378,28 +523,24 @@
             Name = "FrmClientesDeuda";
             Text = "Clientes con Deuda";
             Load += FrmClientesDeuda_Load;
-            ((System.ComponentModel.ISupportInitialize)dgvClientes).EndInit();
-            ((System.ComponentModel.ISupportInitialize)clienteBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvClientesDeuda).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewHistorialDeuda).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ventaBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ventaDAOBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)clienteBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dgvClientes;
-        private DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn apellidoDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn telefonoDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn correoDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn dNIDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn deudaDataGridViewTextBoxColumn;
+        private DataGridView dgvClientesDeuda;
         private GroupBox groupBox2;
         private Button btnBuscar;
         private Label label9;
@@ -413,9 +554,7 @@
         private TextBox txtApellidoBuscar;
         private TextBox txtNombreBuscar;
         private Button btnVolverAlMenu;
-        private BindingSource clienteBindingSource;
         private ComboBox comboBoxDeuda;
-        private MySqlConnector.MySqlCommand mySqlCommand1;
         private TextBox textBoxPagoParcial;
         private Button buttonPagarDeuda;
         private Label label13;
@@ -426,5 +565,29 @@
         private GroupBox groupBox3;
         private Label label2;
         private Button btnExportar;
+        private DataGridView dataGridViewHistorialDeuda;
+        private Label label5;
+        private BindingSource ventaDAOBindingSource;
+        private DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn apellidoDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn telefonoDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn correoDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn dNIDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn deudaDataGridViewTextBoxColumn;
+        private BindingSource clienteBindingSource;
+        private MySqlConnector.MySqlCommand mySqlCommand1;
+        private BindingSource ventaBindingSource;
+        private DataGridViewTextBoxColumn fechaDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn formatoPagoDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn valorTotalDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn pagoParcialDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn deudaCompraDataGridViewTextBoxColumn;
+        private Label label6;
+        private ComboBox comboBoxHistorialDeuda;
+        private Label label8;
+        private TextBox textBoxPagoParcialHistorialDeuda;
+        private Label label14;
+        private Button buttonPagarDeudaHistorial;
     }
 }
