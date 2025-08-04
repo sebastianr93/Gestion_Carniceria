@@ -355,47 +355,6 @@ namespace Gestion_Carniceria.Data
         }
 
 
-        public Venta ObtenerVentaPorID(int ventaID)
-        {
-            Venta venta = null;
-
-            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
-            {
-                string query = @"
-            SELECT v.ID, v.Fecha, v.FormatoPago, v.ValorTotal, v.PagoParcial,
-                   c.ID AS ClienteID, c.Nombre, c.Apellido
-            FROM venta v
-            INNER JOIN cliente c ON v.ClienteID = c.ID
-            WHERE v.ID = @VentaID";
-
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@VentaID", ventaID);
-
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        venta = new Venta
-                        {
-                            ID = reader.GetInt32("ID"),
-                            Fecha = reader.GetDateTime("Fecha"),
-                            FormatoPago = reader.GetString("FormatoPago"),
-                            ValorTotal = reader.GetDecimal("ValorTotal"),
-                            PagoParcial = reader.GetDecimal("PagoParcial"),
-                            Cliente = new Cliente
-                            {
-                                ID = reader.GetInt32("ClienteID"),
-                                Nombre = reader.GetString("Nombre"),
-                                Apellido = reader.GetString("Apellido")
-                            }
-                        };
-                    }
-                }
-            }
-
-            return venta;
-        }
-
         public List<Venta> ObtenerVentasDeudaPorClienteID(int clienteID)
         {
             List<Venta> lista = new List<Venta>();
@@ -473,49 +432,6 @@ namespace Gestion_Carniceria.Data
             return lista;
         }
 
-
-        public List<Venta> ObtenerVentasPorFecha(DateTime fecha)
-        {
-            List<Venta> lista = new List<Venta>();
-
-            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
-            {
-                string query = @"
-            SELECT v.ID, v.Fecha, v.FormatoPago, v.ValorTotal, v.PagoParcial,
-                   c.ID as ClienteID, c.Nombre, c.Apellido
-            FROM venta v
-            INNER JOIN cliente c ON v.ClienteID = c.ID
-            WHERE DATE(v.Fecha) = @Fecha
-            ORDER BY v.Fecha";
-
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Fecha", fecha.Date);
-
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Venta venta = new Venta
-                        {
-                            ID = reader.GetInt32("ID"),
-                            Fecha = reader.GetDateTime("Fecha"),
-                            FormatoPago = reader.GetString("FormatoPago"),
-                            ValorTotal = reader.GetDecimal("ValorTotal"),
-                            PagoParcial = reader.GetDecimal("PagoParcial"),
-                            Cliente = new Cliente
-                            {
-                                ID = reader.GetInt32("ClienteID"),
-                                Nombre = reader.GetString("Nombre"),
-                                Apellido = reader.GetString("Apellido")
-                            }
-                        };
-                        lista.Add(venta);
-                    }
-                }
-            }
-
-            return lista;
-        }
 
 
         public bool ActualizarDeudaVenta(Venta venta)
