@@ -203,10 +203,10 @@
             // 
             // categoriaDataGridViewTextBoxColumn
             // 
-            categoriaDataGridViewTextBoxColumn.DataPropertyName = "Categoria";
-            categoriaDataGridViewTextBoxColumn.HeaderText = "Categoria";
-            categoriaDataGridViewTextBoxColumn.Name = "categoriaDataGridViewTextBoxColumn";
-            categoriaDataGridViewTextBoxColumn.ReadOnly = true;
+            //categoriaDataGridViewTextBoxColumn.DataPropertyName = "Categoria";
+            //categoriaDataGridViewTextBoxColumn.HeaderText = "Categoria";
+            //categoriaDataGridViewTextBoxColumn.Name = "categoriaDataGridViewTextBoxColumn";
+            //categoriaDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // cantidadDataGridViewTextBoxColumn
             // 

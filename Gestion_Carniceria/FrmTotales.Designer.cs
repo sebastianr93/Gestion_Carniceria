@@ -207,7 +207,8 @@
         private GroupBox groupBox2;
         private Button button1;
         private Button btnExportar;
-       
+        private Label titulo;
+        private Label costoproductostext;
         private Label BalanceLabel;
         private Label label6;
     }
