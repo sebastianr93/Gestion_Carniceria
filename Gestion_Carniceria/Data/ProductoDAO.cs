@@ -1,9 +1,7 @@
 ﻿using Gestion_Carniceria.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;  // Para MessageBox
 using MySql.Data.MySqlClient;
 
 namespace Gestion_Carniceria.Data
@@ -60,7 +58,6 @@ namespace Gestion_Carniceria.Data
                 string query = @"INSERT INTO producto (Nombre, Descripcion, Peso, Cantidad, Precio, CategoriaID, Tipo)
                  VALUES (@Nombre, @Descripcion, @Peso, @Cantidad, @Precio, @CategoriaID, @Tipo)";
 
-
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Nombre", p.Nombre);
                 cmd.Parameters.AddWithValue("@Descripcion", p.Descripcion);
@@ -77,27 +74,45 @@ namespace Gestion_Carniceria.Data
 
         public bool ModificarProducto(Producto p)
         {
-            using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+            try
             {
-                string query = @"UPDATE producto
+                using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+                {
+                    string query = @"UPDATE producto
                  SET Nombre = @Nombre, Descripcion = @Descripcion, Peso = @Peso,
                      Cantidad = @Cantidad, Precio = @Precio, CategoriaID = @CategoriaID, Tipo = @Tipo
                  WHERE ID = @ID";
 
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@ID", p.ID);
+                    cmd.Parameters.AddWithValue("@Nombre", p.Nombre);
+                    cmd.Parameters.AddWithValue("@Descripcion", p.Descripcion);
+                    cmd.Parameters.AddWithValue("@Peso", p.Peso);
+                    cmd.Parameters.AddWithValue("@Cantidad", p.Cantidad);
+                    cmd.Parameters.AddWithValue("@Precio", p.Precio);
+                    cmd.Parameters.AddWithValue("@CategoriaID", p.Categoria.ID);
+                    cmd.Parameters.AddWithValue("@Tipo", p.Tipo.ToString());
 
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al modificar producto: " + ex.Message);
+                return false;
+            }
+        }
 
+        public void ActualizarCategoria(int idProducto, int idCategoria)
+        {
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                string query = "UPDATE producto SET CategoriaID = @idCategoria WHERE ID = @id";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@ID", p.ID);
-                cmd.Parameters.AddWithValue("@Nombre", p.Nombre);
-                cmd.Parameters.AddWithValue("@Descripcion", p.Descripcion);
-                cmd.Parameters.AddWithValue("@Peso", p.Peso);
-                cmd.Parameters.AddWithValue("@Cantidad", p.Cantidad);
-                cmd.Parameters.AddWithValue("@Precio", p.Precio);
-                cmd.Parameters.AddWithValue("@CategoriaID", p.Categoria.ID);
-                cmd.Parameters.AddWithValue("@Tipo", p.Tipo.ToString());
-
-                int filas = cmd.ExecuteNonQuery();
-                return filas > 0;
+                cmd.Parameters.AddWithValue("@id", idProducto);
+                cmd.Parameters.AddWithValue("@idCategoria", idCategoria);
+                cmd.ExecuteNonQuery();
             }
         }
 
@@ -183,14 +198,11 @@ namespace Gestion_Carniceria.Data
         {
             using (MySqlConnection conn = ConexionBD.ObtenerConexion())
             {
-                // Validación simple
                 if (cantidadAumentar <= 0)
                     throw new ArgumentException("La cantidad a aumentar debe ser mayor a cero.");
 
-                // Actualizar valores en memoria según tipo
                 if (p.Tipo == TipoProducto.Unidad)
                 {
-                    // Convertir cantidad decimal a int, redondeando hacia abajo para evitar errores
                     int cantidadEntera = (int)Math.Floor(cantidadAumentar);
                     p.Cantidad += cantidadEntera;
                 }
@@ -213,7 +225,5 @@ namespace Gestion_Carniceria.Data
                 return filas > 0;
             }
         }
-
-
     }
 }
