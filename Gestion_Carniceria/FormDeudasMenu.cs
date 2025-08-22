@@ -26,7 +26,8 @@ namespace Gestion_Carniceria
 
         private void buttonProveedoresD_Click(object sender, EventArgs e)
         {
-
+            FrmProveedoresDeuda formProveedoresDeuda = new FrmProveedoresDeuda();
+            formProveedoresDeuda.Show(); // Podés usar ShowDialog() si querés que sea modal
         }
 
         private void buttonVolverD_Click(object sender, EventArgs e)

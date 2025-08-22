@@ -101,12 +101,11 @@ public class ProveedorDAO
         using (MySqlConnection conn = ConexionBD.ObtenerConexion())
         {
             string query = @"UPDATE proveedor SET 
-                                Nombre = @Nombre, 
-                                Telefono = @Telefono, 
-                                Correo = @Correo, 
-                                Descripcion = @Descripcion, 
-                                CuentaCorriente = @CuentaCorriente
-                             WHERE ID = @ID";
+                            Nombre = @Nombre, 
+                            Telefono = @Telefono, 
+                            Correo = @Correo, 
+                            Descripcion = @Descripcion
+                         WHERE ID = @ID";
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
 
@@ -114,13 +113,33 @@ public class ProveedorDAO
             cmd.Parameters.AddWithValue("@Telefono", proveedor.Telefono);
             cmd.Parameters.AddWithValue("@Correo", proveedor.Correo);
             cmd.Parameters.AddWithValue("@Descripcion", proveedor.Descripcion);
-            cmd.Parameters.AddWithValue("@CuentaCorriente", proveedor.CuentaCorriente);
             cmd.Parameters.AddWithValue("@ID", proveedor.ID);
 
             int filasAfectadas = cmd.ExecuteNonQuery();
 
             return filasAfectadas > 0;
         }
+    }
+
+
+    public decimal ObtenerDeudaTotalProveedores()
+    {
+        decimal totalDeuda = 0;
+
+        using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+        {
+            string query = "SELECT IFNULL(SUM(CuentaCorriente), 0) FROM proveedor";
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+
+            object result = cmd.ExecuteScalar();
+
+            if (result != null && result != DBNull.Value)
+            {
+                totalDeuda = Convert.ToDecimal(result);
+            }
+        }
+
+        return totalDeuda;
     }
 
     public bool EliminarProveedor(int id)
@@ -135,4 +154,22 @@ public class ProveedorDAO
             return filasAfectadas > 0;
         }
     }
+
+    public bool ActualizarCuentaCorriente(Proveedor proveedor)
+    {
+        using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+        {
+            string query = @"UPDATE proveedor
+                         SET CuentaCorriente = @CuentaCorriente
+                         WHERE ID = @ID";
+
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@CuentaCorriente", proveedor.CuentaCorriente);
+            cmd.Parameters.AddWithValue("@ID", proveedor.ID);
+
+            int filas = cmd.ExecuteNonQuery();
+            return filas > 0;
+        }
+    }
+
 }

@@ -184,4 +184,18 @@ public class ClienteDAO
         return lista;
     }
 
+
+    public decimal ObtenerDeudaTotalClientes()
+    {
+        using (MySqlConnection conn = ConexionBD.ObtenerConexion())
+        {
+            string query = "SELECT SUM(Deuda) FROM cliente";
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+
+            object result = cmd.ExecuteScalar();
+            return result != DBNull.Value ? Convert.ToDecimal(result) : 0m;
+        }
+    }
+
+
 }

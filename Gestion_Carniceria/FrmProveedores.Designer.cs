@@ -30,25 +30,19 @@
         {
             components = new System.ComponentModel.Container();
             btnVolverAlMenuP = new Button();
-            label8 = new Label();
             groupBox2 = new GroupBox();
+            label2 = new Label();
+            txtDescripcionBuscar = new TextBox();
             btnBuscarProveedor = new Button();
             label9 = new Label();
             label7 = new Label();
-            label10 = new Label();
-            label11 = new Label();
             label12 = new Label();
-            txtDNIBuscar = new TextBox();
             txtCorreoBuscar = new TextBox();
             txtTelefonoBuscar = new TextBox();
-            txtApellidoBuscar = new TextBox();
             txtNombreBuscar = new TextBox();
-            btnEditarProveedor = new Button();
             btnEliminarProveedor = new Button();
             label6 = new Label();
             groupBox1 = new GroupBox();
-            label14 = new Label();
-            txtCuentaCorriente = new TextBox();
             label13 = new Label();
             txtDescripcion = new TextBox();
             btnCrearProveedor = new Button();
@@ -67,6 +61,7 @@
             cuentaCorrienteDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             proveedorBindingSource = new BindingSource(components);
             proveedorDAOBindingSource = new BindingSource(components);
+            label8 = new Label();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvProveedor).BeginInit();
@@ -76,42 +71,46 @@
             // 
             // btnVolverAlMenuP
             // 
-            btnVolverAlMenuP.Location = new Point(278, 142);
+            btnVolverAlMenuP.Location = new Point(138, 413);
             btnVolverAlMenuP.Name = "btnVolverAlMenuP";
-            btnVolverAlMenuP.Size = new Size(149, 23);
+            btnVolverAlMenuP.Size = new Size(100, 23);
             btnVolverAlMenuP.TabIndex = 27;
-            btnVolverAlMenuP.Text = "Volver al Menú";
+            btnVolverAlMenuP.Text = "Volver";
             btnVolverAlMenuP.UseVisualStyleBackColor = true;
             btnVolverAlMenuP.Click += btnVolverAlMenuP_Click;
             // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label8.Location = new Point(456, 16);
-            label8.Name = "label8";
-            label8.Size = new Size(135, 21);
-            label8.TabIndex = 26;
-            label8.Text = "Buscar Proveedor";
-            // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label2);
+            groupBox2.Controls.Add(txtDescripcionBuscar);
             groupBox2.Controls.Add(btnBuscarProveedor);
             groupBox2.Controls.Add(label9);
             groupBox2.Controls.Add(label7);
-            groupBox2.Controls.Add(label10);
-            groupBox2.Controls.Add(label11);
             groupBox2.Controls.Add(label12);
-            groupBox2.Controls.Add(txtDNIBuscar);
             groupBox2.Controls.Add(txtCorreoBuscar);
             groupBox2.Controls.Add(txtTelefonoBuscar);
-            groupBox2.Controls.Add(txtApellidoBuscar);
             groupBox2.Controls.Add(txtNombreBuscar);
-            groupBox2.Location = new Point(448, 24);
+            groupBox2.Location = new Point(12, 253);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(248, 154);
             groupBox2.TabIndex = 25;
             groupBox2.TabStop = false;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(20, 56);
+            label2.Name = "label2";
+            label2.Size = new Size(72, 15);
+            label2.TabIndex = 15;
+            label2.Text = "Descripción:";
+            // 
+            // txtDescripcionBuscar
+            // 
+            txtDescripcionBuscar.Location = new Point(20, 74);
+            txtDescripcionBuscar.Name = "txtDescripcionBuscar";
+            txtDescripcionBuscar.Size = new Size(206, 23);
+            txtDescripcionBuscar.TabIndex = 14;
             // 
             // btnBuscarProveedor
             // 
@@ -126,7 +125,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(126, 57);
+            label9.Location = new Point(20, 100);
             label9.Name = "label9";
             label9.Size = new Size(108, 15);
             label9.TabIndex = 10;
@@ -141,24 +140,6 @@
             label7.TabIndex = 9;
             label7.Text = "Teléfono:";
             // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(20, 101);
-            label10.Name = "label10";
-            label10.Size = new Size(30, 15);
-            label10.TabIndex = 8;
-            label10.Text = "DNI:";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(20, 57);
-            label11.Name = "label11";
-            label11.Size = new Size(67, 15);
-            label11.TabIndex = 7;
-            label11.Text = "Apellido(s):";
-            // 
             // label12
             // 
             label12.AutoSize = true;
@@ -168,16 +149,9 @@
             label12.TabIndex = 6;
             label12.Text = "Nombre(s):";
             // 
-            // txtDNIBuscar
-            // 
-            txtDNIBuscar.Location = new Point(20, 119);
-            txtDNIBuscar.Name = "txtDNIBuscar";
-            txtDNIBuscar.Size = new Size(100, 23);
-            txtDNIBuscar.TabIndex = 5;
-            // 
             // txtCorreoBuscar
             // 
-            txtCorreoBuscar.Location = new Point(126, 75);
+            txtCorreoBuscar.Location = new Point(20, 118);
             txtCorreoBuscar.Name = "txtCorreoBuscar";
             txtCorreoBuscar.Size = new Size(100, 23);
             txtCorreoBuscar.TabIndex = 4;
@@ -189,13 +163,6 @@
             txtTelefonoBuscar.Size = new Size(100, 23);
             txtTelefonoBuscar.TabIndex = 3;
             // 
-            // txtApellidoBuscar
-            // 
-            txtApellidoBuscar.Location = new Point(20, 75);
-            txtApellidoBuscar.Name = "txtApellidoBuscar";
-            txtApellidoBuscar.Size = new Size(100, 23);
-            txtApellidoBuscar.TabIndex = 2;
-            // 
             // txtNombreBuscar
             // 
             txtNombreBuscar.Location = new Point(20, 31);
@@ -203,23 +170,13 @@
             txtNombreBuscar.Size = new Size(100, 23);
             txtNombreBuscar.TabIndex = 1;
             // 
-            // btnEditarProveedor
-            // 
-            btnEditarProveedor.Location = new Point(278, 98);
-            btnEditarProveedor.Name = "btnEditarProveedor";
-            btnEditarProveedor.Size = new Size(149, 23);
-            btnEditarProveedor.TabIndex = 24;
-            btnEditarProveedor.Text = "Editar Seleccionado";
-            btnEditarProveedor.UseVisualStyleBackColor = true;
-            btnEditarProveedor.Click += btnEditarProveedor_Click;
-            // 
             // btnEliminarProveedor
             // 
-            btnEliminarProveedor.Location = new Point(278, 54);
+            btnEliminarProveedor.Location = new Point(138, 184);
             btnEliminarProveedor.Name = "btnEliminarProveedor";
-            btnEliminarProveedor.Size = new Size(149, 23);
+            btnEliminarProveedor.Size = new Size(100, 23);
             btnEliminarProveedor.TabIndex = 23;
-            btnEliminarProveedor.Text = "Eliminar Seleccionado";
+            btnEliminarProveedor.Text = "Eliminar";
             btnEliminarProveedor.UseVisualStyleBackColor = true;
             btnEliminarProveedor.Click += btnEliminarProveedor_Click;
             // 
@@ -229,14 +186,13 @@
             label6.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             label6.Location = new Point(18, 16);
             label6.Name = "label6";
-            label6.Size = new Size(176, 21);
+            label6.Size = new Size(133, 21);
             label6.TabIndex = 22;
-            label6.Text = "Crear/Editar Proveedor";
+            label6.Text = "Nuevo Proveedor";
+            label6.Click += label6_Click;
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(label14);
-            groupBox1.Controls.Add(txtCuentaCorriente);
             groupBox1.Controls.Add(label13);
             groupBox1.Controls.Add(txtDescripcion);
             groupBox1.Controls.Add(btnCrearProveedor);
@@ -252,36 +208,20 @@
             groupBox1.TabIndex = 21;
             groupBox1.TabStop = false;
             // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Location = new Point(20, 101);
-            label14.Name = "label14";
-            label14.Size = new Size(97, 15);
-            label14.TabIndex = 15;
-            label14.Text = "Cuenta Corriente";
-            // 
-            // txtCuentaCorriente
-            // 
-            txtCuentaCorriente.Location = new Point(20, 118);
-            txtCuentaCorriente.Name = "txtCuentaCorriente";
-            txtCuentaCorriente.Size = new Size(100, 23);
-            txtCuentaCorriente.TabIndex = 14;
-            // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(145, 57);
+            label13.Location = new Point(20, 55);
             label13.Name = "label13";
-            label13.Size = new Size(69, 15);
+            label13.Size = new Size(72, 15);
             label13.TabIndex = 13;
-            label13.Text = "Descripcion";
+            label13.Text = "Descripción:";
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(126, 75);
+            txtDescripcion.Location = new Point(20, 73);
             txtDescripcion.Name = "txtDescripcion";
-            txtDescripcion.Size = new Size(100, 23);
+            txtDescripcion.Size = new Size(206, 23);
             txtDescripcion.TabIndex = 12;
             // 
             // btnCrearProveedor
@@ -297,7 +237,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(20, 56);
+            label5.Location = new Point(20, 99);
             label5.Name = "label5";
             label5.Size = new Size(108, 15);
             label5.TabIndex = 10;
@@ -323,7 +263,7 @@
             // 
             // txtCorreo
             // 
-            txtCorreo.Location = new Point(20, 74);
+            txtCorreo.Location = new Point(20, 117);
             txtCorreo.Name = "txtCorreo";
             txtCorreo.Size = new Size(100, 23);
             txtCorreo.TabIndex = 4;
@@ -351,11 +291,11 @@
             dgvProveedor.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProveedor.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, nombreDataGridViewTextBoxColumn, telefonoDataGridViewTextBoxColumn, correoDataGridViewTextBoxColumn, descripcionDataGridViewTextBoxColumn, cuentaCorrienteDataGridViewTextBoxColumn });
             dgvProveedor.DataSource = proveedorBindingSource;
-            dgvProveedor.Location = new Point(12, 184);
+            dgvProveedor.Location = new Point(266, 12);
             dgvProveedor.Name = "dgvProveedor";
-            dgvProveedor.ReadOnly = true;
-            dgvProveedor.Size = new Size(684, 237);
+            dgvProveedor.Size = new Size(643, 424);
             dgvProveedor.TabIndex = 20;
+            dgvProveedor.CellEndEdit += dgvProveedor_CellEndEdit;
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -407,15 +347,24 @@
             // 
             proveedorDAOBindingSource.DataSource = typeof(ProveedorDAO);
             // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label8.Location = new Point(18, 243);
+            label8.Name = "label8";
+            label8.Size = new Size(135, 21);
+            label8.TabIndex = 28;
+            label8.Text = "Buscar Proveedor";
+            // 
             // FrmProveedores
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(732, 453);
-            Controls.Add(btnVolverAlMenuP);
+            ClientSize = new Size(920, 447);
             Controls.Add(label8);
+            Controls.Add(btnVolverAlMenuP);
             Controls.Add(groupBox2);
-            Controls.Add(btnEditarProveedor);
             Controls.Add(btnEliminarProveedor);
             Controls.Add(label6);
             Controls.Add(groupBox1);
@@ -437,20 +386,14 @@
         #endregion
 
         private Button btnVolverAlMenuP;
-        private Label label8;
         private GroupBox groupBox2;
         private Button btnBuscarProveedor;
         private Label label9;
         private Label label7;
-        private Label label10;
-        private Label label11;
         private Label label12;
-        private TextBox txtDNIBuscar;
         private TextBox txtCorreoBuscar;
         private TextBox txtTelefonoBuscar;
-        private TextBox txtApellidoBuscar;
         private TextBox txtNombreBuscar;
-        private Button btnEditarProveedor;
         private Button btnEliminarProveedor;
         private Label label6;
         private GroupBox groupBox1;
@@ -472,7 +415,8 @@
         private BindingSource proveedorBindingSource;
         private Label label13;
         private TextBox txtDescripcion;
-        private TextBox txtCuentaCorriente;
-        private Label label14;
+        private Label label8;
+        private Label label2;
+        private TextBox txtDescripcionBuscar;
     }
 }

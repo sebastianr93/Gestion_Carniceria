@@ -9,6 +9,8 @@ public class Venta
     public decimal ValorTotal { get; set; }
     public decimal PagoParcial { get; set; }
     public Cliente Cliente { get; set; }
+    public decimal DeudaCompra { get; set; }
+
     public List<ItemVenta> Items { get; set; } = new List<ItemVenta>();
 }
 
