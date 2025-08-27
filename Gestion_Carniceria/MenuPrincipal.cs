@@ -102,12 +102,7 @@ namespace Gestion_Carniceria
             registroVentasForm.ShowDialog();
         }
 
-        private void btnDeudores_Click(object sender, EventArgs e)
-        {
-            FrmDeudasMenu formDeudasMenu = new FrmDeudasMenu();
-            formDeudasMenu.ShowDialog();
-        }
-
+   
         private void btnTotales_Click(object sender, EventArgs e)
         {
             FrmTotales frmTotales = new FrmTotales();
@@ -126,6 +121,17 @@ namespace Gestion_Carniceria
             frmPedidos.ShowDialog();
         }
 
+        private void DeudaClienteMenu_Click(object sender, EventArgs e)
+        {
+            FrmClientesDeuda frmDeudas = new FrmClientesDeuda();
+            frmDeudas.ShowDialog();
+        }
+
+        private void CeuntaCorrienteMenu_Click(object sender, EventArgs e)
+        {
+            FrmProveedoresDeuda frmDeudasProveedores = new FrmProveedoresDeuda();
+            frmDeudasProveedores.ShowDialog();
+        }
     }
 
 }

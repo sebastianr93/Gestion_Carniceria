@@ -37,17 +37,18 @@
             btnPedidosProveedores = new Button();
             btnInventario = new Button();
             btnCierreDelDia = new Button();
-            btnDeudores = new Button();
             btnTotales = new Button();
             btnSalir = new Button();
             btnAbout = new Button();
             btnMediosDePago = new Button();
             groupBox1 = new GroupBox();
-            label1 = new Label();
+            DeudaClienteMenu = new Button();
             btnRegistroVentas = new Button();
+            label1 = new Label();
             groupBox2 = new GroupBox();
-            groupBox3 = new GroupBox();
+            CeuntaCorrienteMenu = new Button();
             buttonHistorialPedidos = new Button();
+            groupBox3 = new GroupBox();
             groupBox4 = new GroupBox();
             pictureBox1 = new PictureBox();
             groupBox1.SuspendLayout();
@@ -140,7 +141,7 @@
             // 
             // btnCierreDelDia
             // 
-            btnCierreDelDia.Location = new Point(182, 151);
+            btnCierreDelDia.Location = new Point(149, 30);
             btnCierreDelDia.Name = "btnCierreDelDia";
             btnCierreDelDia.Size = new Size(124, 52);
             btnCierreDelDia.TabIndex = 8;
@@ -148,19 +149,9 @@
             btnCierreDelDia.UseVisualStyleBackColor = true;
             btnCierreDelDia.Click += btnCierreDelDia_Click;
             // 
-            // btnDeudores
-            // 
-            btnDeudores.Location = new Point(6, 151);
-            btnDeudores.Name = "btnDeudores";
-            btnDeudores.Size = new Size(124, 52);
-            btnDeudores.TabIndex = 9;
-            btnDeudores.Text = "Registro de Deudas";
-            btnDeudores.UseVisualStyleBackColor = true;
-            btnDeudores.Click += btnDeudores_Click;
-            // 
             // btnTotales
             // 
-            btnTotales.Location = new Point(182, 30);
+            btnTotales.Location = new Point(6, 30);
             btnTotales.Name = "btnTotales";
             btnTotales.Size = new Size(124, 52);
             btnTotales.TabIndex = 10;
@@ -171,6 +162,7 @@
             // btnSalir
             // 
             btnSalir.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            btnSalir.ForeColor = Color.DarkRed;
             btnSalir.Location = new Point(473, 569);
             btnSalir.Name = "btnSalir";
             btnSalir.Size = new Size(124, 52);
@@ -202,15 +194,37 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(DeudaClienteMenu);
             groupBox1.Controls.Add(btnDatosClientes);
+            groupBox1.Controls.Add(btnRegistroVentas);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(btnPedidosClientes);
             groupBox1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            groupBox1.Location = new Point(16, 354);
+            groupBox1.Location = new Point(16, 189);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(266, 88);
+            groupBox1.Size = new Size(266, 157);
             groupBox1.TabIndex = 15;
             groupBox1.TabStop = false;
+            // 
+            // DeudaClienteMenu
+            // 
+            DeudaClienteMenu.Location = new Point(136, 99);
+            DeudaClienteMenu.Name = "DeudaClienteMenu";
+            DeudaClienteMenu.Size = new Size(124, 52);
+            DeudaClienteMenu.TabIndex = 18;
+            DeudaClienteMenu.Text = "Deudas";
+            DeudaClienteMenu.UseVisualStyleBackColor = true;
+            DeudaClienteMenu.Click += DeudaClienteMenu_Click;
+            // 
+            // btnRegistroVentas
+            // 
+            btnRegistroVentas.Location = new Point(6, 99);
+            btnRegistroVentas.Name = "btnRegistroVentas";
+            btnRegistroVentas.Size = new Size(124, 52);
+            btnRegistroVentas.TabIndex = 17;
+            btnRegistroVentas.Text = "Historial de Ventas";
+            btnRegistroVentas.UseVisualStyleBackColor = true;
+            btnRegistroVentas.Click += btnRegistroVentas_Click;
             // 
             // label1
             // 
@@ -222,46 +236,33 @@
             label1.TabIndex = 16;
             label1.Text = "Clientes";
             // 
-            // btnRegistroVentas
-            // 
-            btnRegistroVentas.Location = new Point(6, 30);
-            btnRegistroVentas.Name = "btnRegistroVentas";
-            btnRegistroVentas.Size = new Size(124, 52);
-            btnRegistroVentas.TabIndex = 17;
-            btnRegistroVentas.Text = "Historial de Ventas";
-            btnRegistroVentas.UseVisualStyleBackColor = true;
-            btnRegistroVentas.Click += btnRegistroVentas_Click;
-            // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(CeuntaCorrienteMenu);
+            groupBox2.Controls.Add(buttonHistorialPedidos);
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(btnDatosProveedores);
             groupBox2.Controls.Add(btnPedidosProveedores);
             groupBox2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            groupBox2.Location = new Point(16, 448);
+            groupBox2.Location = new Point(16, 354);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(266, 84);
+            groupBox2.Size = new Size(266, 150);
             groupBox2.TabIndex = 18;
             groupBox2.TabStop = false;
             // 
-            // groupBox3
+            // CeuntaCorrienteMenu
             // 
-            groupBox3.Controls.Add(buttonHistorialPedidos);
-            groupBox3.Controls.Add(btnRegistroVentas);
-            groupBox3.Controls.Add(btnTotales);
-            groupBox3.Controls.Add(btnDeudores);
-            groupBox3.Controls.Add(btnCierreDelDia);
-            groupBox3.Controls.Add(label4);
-            groupBox3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            groupBox3.Location = new Point(299, 354);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(304, 209);
-            groupBox3.TabIndex = 19;
-            groupBox3.TabStop = false;
+            CeuntaCorrienteMenu.Location = new Point(136, 94);
+            CeuntaCorrienteMenu.Name = "CeuntaCorrienteMenu";
+            CeuntaCorrienteMenu.Size = new Size(121, 50);
+            CeuntaCorrienteMenu.TabIndex = 19;
+            CeuntaCorrienteMenu.Text = "Cuenta Corriente";
+            CeuntaCorrienteMenu.UseVisualStyleBackColor = true;
+            CeuntaCorrienteMenu.Click += CeuntaCorrienteMenu_Click;
             // 
             // buttonHistorialPedidos
             // 
-            buttonHistorialPedidos.Location = new Point(6, 88);
+            buttonHistorialPedidos.Location = new Point(6, 94);
             buttonHistorialPedidos.Name = "buttonHistorialPedidos";
             buttonHistorialPedidos.Size = new Size(124, 50);
             buttonHistorialPedidos.TabIndex = 18;
@@ -269,13 +270,25 @@
             buttonHistorialPedidos.UseVisualStyleBackColor = true;
             buttonHistorialPedidos.Click += buttonHistorialPedidos_Click;
             // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(btnTotales);
+            groupBox3.Controls.Add(btnCierreDelDia);
+            groupBox3.Controls.Add(label4);
+            groupBox3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            groupBox3.Location = new Point(288, 189);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(309, 157);
+            groupBox3.TabIndex = 19;
+            groupBox3.TabStop = false;
+            // 
             // groupBox4
             // 
             groupBox4.Controls.Add(btnInventario);
             groupBox4.Controls.Add(label3);
             groupBox4.Controls.Add(btnMediosDePago);
             groupBox4.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            groupBox4.Location = new Point(16, 547);
+            groupBox4.Location = new Point(16, 525);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(266, 84);
             groupBox4.TabIndex = 20;
@@ -285,9 +298,9 @@
             // 
             pictureBox1.BorderStyle = BorderStyle.Fixed3D;
             pictureBox1.Image = Properties.Resources.logo;
-            pictureBox1.Location = new Point(12, 13);
+            pictureBox1.Location = new Point(38, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(593, 327);
+            pictureBox1.Size = new Size(495, 153);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 21;
             pictureBox1.TabStop = false;
@@ -328,7 +341,6 @@
         private Button btnPedidosProveedores;
         private Button btnInventario;
         private Button btnCierreDelDia;
-        private Button btnDeudores;
         private Button btnTotales;
         private Button btnSalir;
         private Button btnAbout;
@@ -341,5 +353,7 @@
         private GroupBox groupBox4;
         private PictureBox pictureBox1;
         private Button buttonHistorialPedidos;
+        private Button DeudaClienteMenu;
+        private Button CeuntaCorrienteMenu;
     }
 }

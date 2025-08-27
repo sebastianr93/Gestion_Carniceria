@@ -17,6 +17,14 @@ namespace Gestion_Carniceria
         public FrmPedidoClientes()
         {
             InitializeComponent();
+            this.Shown += FrmPedidoClientes_Shown;
+            dgvProductos.KeyDown += dgvProductos_KeyDown_CustomTab;
+            dgvItemsVenta.KeyDown += dgvItemsVenta_KeyDown_CustomTab;
+            dgvItemsVenta.KeyDown += dgvItemsVenta_KeyDown_Backspace;
+            txtBuscarProducto.KeyDown += txtBuscarProducto_KeyDown;
+
+            this.KeyPreview = true; // Muy importante para capturar teclas en todo el formulario
+            this.KeyPress += FrmPedidoClientes_KeyPress;
         }
 
         private void FrmPedidoClientes_Load(object sender, EventArgs e)
@@ -27,8 +35,174 @@ namespace Gestion_Carniceria
             ConfigurarGrillaItemsVenta();
             ActualizarGrillaVenta();
 
+            dgvItemsVenta.CellFormatting += dgvItemsVenta_CellFormatting;
+            dgvProductos.KeyDown += dgvProductos_KeyDown;
+            dgvItemsVenta.KeyDown += dgvItemsVenta_KeyDown;
+           
+
+
             txtPagoParcial.Enabled = false;
+
+            // Seleccionar el primer producto y poner foco en la grilla
+            if (dgvProductos.Rows.Count > 0)
+            {
+                dgvProductos.CurrentCell = dgvProductos.Rows[0].Cells[0]; // primera celda
+                dgvProductos.Rows[0].Selected = true; // resaltar fila
+                dgvProductos.Focus(); // poner foco para que las teclas funcionen
+            }
         }
+
+        private void FrmPedidoClientes_Shown(object sender, EventArgs e)
+        {
+            if (dgvProductos.Rows.Count > 0)
+            {
+                // Selecciona la primera fila y la primera celda
+                dgvProductos.CurrentCell = dgvProductos.Rows[0].Cells[0];
+                dgvProductos.Rows[0].Selected = true;
+
+                // Fuerza el foco en la grilla
+                dgvProductos.Focus();
+            }
+        }
+
+
+        //*******************************CONTROLES DE TECLADO PARA MOVERSE ENTRE GRILLAS***********************************//
+        private void dgvProductos_KeyDown_CustomTab(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                e.Handled = true; // Evita el tab normal
+                dgvItemsVenta.Focus(); // Pasa el foco al otro DataGridView
+            }
+        }
+
+        private void dgvItemsVenta_KeyDown_CustomTab(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                e.Handled = true; // Evita el tab normal
+                dgvProductos.Focus(); // Vuelve el foco al primero
+            }
+        }
+        private void dgvItemsVenta_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Tecla Retroceso (Backspace)
+            if (e.KeyCode == Keys.Back)
+            {
+                btnQuitarItem.PerformClick();
+                e.Handled = true; // Evita cualquier otra acción de la tecla
+            }
+        }
+
+        private void FrmPedidoClientes_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Ignoramos teclas de control como Enter, Tab, Escape, etc.
+            if (!char.IsControl(e.KeyChar))
+            {
+                txtBuscarProducto.Focus();
+
+                // Insertamos la letra presionada al final del texto actual
+                txtBuscarProducto.Text += e.KeyChar;
+
+                // Movemos el cursor al final
+                txtBuscarProducto.SelectionStart = txtBuscarProducto.Text.Length;
+
+                // Disparamos el evento de filtrado
+                FiltrarProductos();
+
+                // Evitamos que la letra se repita en otro control
+                e.Handled = true;
+            }
+        }
+
+        private void dgvItemsVenta_KeyDown_Backspace(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Back) // <-- esta es la tecla borrar/retroceso
+            {
+                if (dgvItemsVenta.CurrentRow != null && dgvItemsVenta.CurrentRow.DataBoundItem != null)
+                {
+                    var result = MessageBox.Show("¿Desea eliminar el producto seleccionado?",
+                                                 "Confirmar eliminación",
+                                                 MessageBoxButtons.YesNo,
+                                                 MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        itemVentaBindingSource.Remove(dgvItemsVenta.CurrentRow.DataBoundItem);
+
+                        // Seleccionar otra fila si hay elementos
+                        if (dgvItemsVenta.Rows.Count > 0)
+                            dgvItemsVenta.CurrentCell = dgvItemsVenta.Rows[0].Cells[0];
+                    }
+                }
+
+                e.Handled = true;
+            }
+        }
+
+        private void dgvProductos_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && dgvProductos.CurrentRow != null)
+            {
+                e.Handled = true; // Evita que Enter pase al siguiente control
+
+                Producto producto = (Producto)dgvProductos.CurrentRow.DataBoundItem;
+
+                // Pedir cantidad al usuario
+                string input = Microsoft.VisualBasic.Interaction.InputBox(
+                    $"Ingrese la cantidad para {producto.Nombre}:",
+                    "Agregar producto",
+                    "1" // valor por defecto
+                );
+
+                if (decimal.TryParse(input, out decimal cantidad) && cantidad > 0)
+                {
+                    // Validar si es por unidad que no tenga decimales
+                    if (producto.Tipo == TipoProducto.Unidad && cantidad != Math.Floor(cantidad))
+                    {
+                        MessageBox.Show("No se pueden vender fracciones de una unidad. Ingrese un número entero.");
+                        return;
+                    }
+
+                    // Ahora podés reutilizar la lógica que ya tenés en btnAgregarProducto
+                    txtAgregarProducto.Text = cantidad.ToString();
+                    btnAgregarProducto.PerformClick();
+                }
+            }
+        }
+        private void txtBuscarProducto_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnBuscarProducto.PerformClick(); // Ejecuta la búsqueda
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Tab)
+            {
+                dgvProductos.Focus(); // Devuelve el foco a la grilla
+                e.Handled = true;
+            }
+        }
+
+
+        private void FiltrarProductos()
+        {
+            string filtro = txtBuscarProducto.Text.ToLower();
+            var listaFiltrada = productoBindingSource.DataSource as List<Producto>;
+
+            if (listaFiltrada != null)
+            {
+                var resultado = listaFiltrada
+                    .Where(p => p.Nombre.ToLower().Contains(filtro))
+                    .ToList();
+
+                productoBindingSource.DataSource = resultado;
+            }
+        }
+
+
+        //*****************************FIN DE CONTROLES DE TECLADO PARA MOVERSE ENTRE GRILLAS***********************//
+
+
 
         private List<Producto> productosOriginales = new List<Producto>();
         List<ItemVenta> itemsVenta = new List<ItemVenta>();
@@ -47,23 +221,37 @@ namespace Gestion_Carniceria
         {
             dgvItemsVenta.Columns.Clear();
 
+            dgvItemsVenta.AutoGenerateColumns = false;
+
             // Agregar columna ProductoNombre al inicio, con nombre "ProductoNombre"
             dgvItemsVenta.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Producto",
-                DataPropertyName = "ProductoNombre",
-                Name = "ProductoNombre"
+                HeaderText = "Producto Nombre",      // lo que ve el usuario
+                DataPropertyName = "ProductoNombre", // propiedad de ItemVenta
+                Name = "ProductoNombre",
+                Width = 200
+
             });
 
             // No agregamos columna ProductoTipo, la quitamos (punto 2)
 
             // Continuar con las demás columnas (sin ProductoTipo)
+
             dgvItemsVenta.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Cantidad",
                 DataPropertyName = "Cantidad",
                 Name = "Cantidad"
             });
+
+
+            dgvItemsVenta.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Tipo",
+                Name = "ProductoTipo",
+                Width = 80
+            });
+
 
             dgvItemsVenta.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -89,8 +277,13 @@ namespace Gestion_Carniceria
             dgvItemsVenta.DataSource = null;
             dgvItemsVenta.DataSource = source;
 
+            // Ocultar la columna "Producto"
+            if (dgvItemsVenta.Columns["Producto"] != null)
+                dgvItemsVenta.Columns["Producto"].Visible = false;
+
             CalcularMontoTotal();
         }
+
 
 
         private void CargarClientes()
@@ -165,6 +358,13 @@ namespace Gestion_Carniceria
 
             Producto producto = (Producto)dgvProductos.CurrentRow.DataBoundItem;
 
+            // Validar que no haya decimales si es por unidad
+            if (producto.Tipo == TipoProducto.Unidad && cantidad != Math.Floor(cantidad))
+            {
+                MessageBox.Show("No se pueden vender fracciones de una unidad. Ingrese un número entero.");
+                return;
+            }
+
             // Verificar y descontar stock
             if (producto.Tipo == TipoProducto.Unidad)
             {
@@ -213,8 +413,6 @@ namespace Gestion_Carniceria
             CargarProductosEnGrilla(); // Mostrar stock actualizado
             txtAgregarProducto.Clear();
         }
-
-
 
 
         private void cbMediosDePago_SelectedIndexChanged(object sender, EventArgs e)
@@ -386,6 +584,21 @@ namespace Gestion_Carniceria
                 MessageBox.Show("Error al confirmar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+        //PARA FORMATEAR LA PROPIEDAS PESO A KG
+        private void dgvItemsVenta_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvItemsVenta.Columns[e.ColumnIndex].Name == "ProductoTipo")
+            {
+                if (dgvItemsVenta.Rows[e.RowIndex].DataBoundItem is ItemVenta item)
+                {
+                    e.Value = item.Producto.Tipo == TipoProducto.Peso ? "KG" : "Unidad";
+                    e.FormattingApplied = true;
+                }
+            }
+        }
+
 
 
 
