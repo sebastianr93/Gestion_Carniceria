@@ -38,7 +38,8 @@ namespace Gestion_Carniceria
             dgvItemsVenta.CellFormatting += dgvItemsVenta_CellFormatting;
             dgvProductos.KeyDown += dgvProductos_KeyDown;
             dgvItemsVenta.KeyDown += dgvItemsVenta_KeyDown;
-           
+            checkPagoParcial.CheckedChanged += checkPagoParcial_CheckedChanged;
+            
 
 
             txtPagoParcial.Enabled = false;
@@ -67,6 +68,28 @@ namespace Gestion_Carniceria
 
 
         //*******************************CONTROLES DE TECLADO PARA MOVERSE ENTRE GRILLAS***********************************//
+
+        
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        //esto sirve para capturar la tecla tab y mover el foco entre txtPagoParcial y btnConfirmarVenta
+        {
+            if (checkPagoParcial.Checked && keyData == Keys.Tab)
+            {
+                if (this.ActiveControl == txtPagoParcial)
+                {
+                    btnConfirmarVenta.Focus();
+                    return true; // Solo bloquea el tab aquí
+                }
+                else if (this.ActiveControl == btnConfirmarVenta)
+                {
+                    txtPagoParcial.Focus();
+                    return true;
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData); // todo lo demás sigue funcionando
+        }
+
         private void dgvProductos_KeyDown_CustomTab(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Tab)
@@ -92,28 +115,35 @@ namespace Gestion_Carniceria
                 btnQuitarItem.PerformClick();
                 e.Handled = true; // Evita cualquier otra acción de la tecla
             }
+            // Tecla Intro (numpad) → Confirmar venta
+            if (e.KeyCode == Keys.Return) // <-- esta es la tecla del bloque numérico
+            {
+                btnConfirmarVenta.PerformClick();
+                e.Handled = true;
+            }
         }
 
         private void FrmPedidoClientes_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Ignoramos teclas de control como Enter, Tab, Escape, etc.
+            // Si el foco está en txtBuscarProducto o txtPagoParcial habilitado, dejamos que escriba ahí
+            if (this.ActiveControl == txtBuscarProducto ||
+                (this.ActiveControl == txtPagoParcial && checkPagoParcial.Checked))
+            {
+                // No hacemos nada, el control recibe la tecla normalmente
+                return;
+            }
+
+            // Si el foco está en otro control y se presiona una tecla imprimible, va al buscador
             if (!char.IsControl(e.KeyChar))
             {
                 txtBuscarProducto.Focus();
-
-                // Insertamos la letra presionada al final del texto actual
                 txtBuscarProducto.Text += e.KeyChar;
-
-                // Movemos el cursor al final
                 txtBuscarProducto.SelectionStart = txtBuscarProducto.Text.Length;
-
-                // Disparamos el evento de filtrado
-                FiltrarProductos();
-
-                // Evitamos que la letra se repita en otro control
                 e.Handled = true;
             }
         }
+
+
 
         private void dgvItemsVenta_KeyDown_Backspace(object sender, KeyEventArgs e)
         {
@@ -200,6 +230,21 @@ namespace Gestion_Carniceria
         }
 
 
+        private void checkPagoParcial_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkPagoParcial.Checked)
+            {
+                txtPagoParcial.Enabled = true;
+                txtPagoParcial.Focus(); // Pone el foco directamente para escribir
+            }
+            else
+            {
+                txtPagoParcial.Enabled = false;
+                txtPagoParcial.Clear(); // Borra el contenido si se desactiva
+            }
+        }
+
+    
         //*****************************FIN DE CONTROLES DE TECLADO PARA MOVERSE ENTRE GRILLAS***********************//
 
 
@@ -324,13 +369,6 @@ namespace Gestion_Carniceria
             }
         }
 
-        private void checkPagoParcial_CheckedChanged(object sender, EventArgs e)
-        {
-            txtPagoParcial.Enabled = checkPagoParcial.Checked;
-            if (!checkPagoParcial.Checked)
-                txtPagoParcial.Text = string.Empty;
-        }
-
         private void btnBuscarProducto_Click(object sender, EventArgs e)
         {
             string textoBusqueda = txtBuscarProducto.Text.Trim().ToLower();
@@ -338,9 +376,23 @@ namespace Gestion_Carniceria
             foreach (DataGridViewRow row in dgvProductos.Rows)
             {
                 string nombreProducto = row.Cells["nombreDataGridViewTextBoxColumn"].Value.ToString().ToLower();
-                row.Selected = nombreProducto.Contains(textoBusqueda);
+                if (nombreProducto.Contains(textoBusqueda))
+                {
+                    row.Selected = true;
+                    dgvProductos.CurrentCell = row.Cells[0]; // mover foco al producto encontrado
+                    dgvProductos.FirstDisplayedScrollingRowIndex = row.Index; // opcional: hacer scroll
+                    break;
+                }
+                else
+                {
+                    row.Selected = false;
+                }
             }
+
+            // 🔑 Limpiar el texto después de buscar
+            txtBuscarProducto.Clear();
         }
+
 
         private void btnAgregarProducto_Click(object sender, EventArgs e)
         {
@@ -499,6 +551,16 @@ namespace Gestion_Carniceria
 
         private void btnConfirmarVenta_Click(object sender, EventArgs e)
         {
+            // Pregunta de confirmación
+            DialogResult result = MessageBox.Show(
+                "¿Desea finalizar la venta?",
+                "Confirmar venta",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result != DialogResult.Yes) return;
+
             if (itemsVenta.Count == 0)
             {
                 MessageBox.Show("No hay productos agregados para la venta.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -533,6 +595,11 @@ namespace Gestion_Carniceria
                     return;
                 }
             }
+
+            // Guardamos el índice del producto seleccionado actualmente
+            int indiceProductoSeleccionado = dgvProductos.CurrentRow != null
+                                             ? dgvProductos.CurrentRow.Index
+                                             : 0;
 
             try
             {
@@ -573,6 +640,17 @@ namespace Gestion_Carniceria
                     ActualizarGrillaVenta();
                     txtPagoParcial.Clear();
                     checkPagoParcial.Checked = false;
+
+                    // Restaurar foco en el producto seleccionado
+                    if (dgvProductos.Rows.Count > 0)
+                    {
+                        if (indiceProductoSeleccionado >= dgvProductos.Rows.Count)
+                            indiceProductoSeleccionado = dgvProductos.Rows.Count - 1; // evitar overflow
+
+                        dgvProductos.CurrentCell = dgvProductos.Rows[indiceProductoSeleccionado].Cells[0];
+                        dgvProductos.Rows[indiceProductoSeleccionado].Selected = true;
+                        dgvProductos.Focus();
+                    }
                 }
                 else
                 {
@@ -584,6 +662,7 @@ namespace Gestion_Carniceria
                 MessageBox.Show("Error al confirmar la venta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         //PARA FORMATEAR LA PROPIEDAS PESO A KG
