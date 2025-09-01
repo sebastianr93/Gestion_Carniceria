@@ -303,7 +303,7 @@
             // 
             dgvItemsPedido.AllowUserToAddRows = false;
             dgvItemsPedido.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvItemsPedido.Location = new Point(10, 66);
+            dgvItemsPedido.Location = new Point(20, 75);
             dgvItemsPedido.Name = "dgvItemsPedido";
             dgvItemsPedido.ReadOnly = true;
             dgvItemsPedido.Size = new Size(484, 353);

@@ -25,6 +25,7 @@ namespace Gestion_Carniceria
 
             this.KeyPreview = true; // Muy importante para capturar teclas en todo el formulario
             this.KeyPress += FrmPedidoClientes_KeyPress;
+            this.KeyDown += ManejarEscape;
         }
 
         private void FrmPedidoClientes_Load(object sender, EventArgs e)
@@ -39,7 +40,7 @@ namespace Gestion_Carniceria
             dgvProductos.KeyDown += dgvProductos_KeyDown;
             dgvItemsVenta.KeyDown += dgvItemsVenta_KeyDown;
             checkPagoParcial.CheckedChanged += checkPagoParcial_CheckedChanged;
-            
+
 
 
             txtPagoParcial.Enabled = false;
@@ -69,7 +70,16 @@ namespace Gestion_Carniceria
 
         //*******************************CONTROLES DE TECLADO PARA MOVERSE ENTRE GRILLAS***********************************//
 
-        
+        private void ManejarEscape(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                btnVolver.PerformClick();
+                e.Handled = true; // evita que ESC siga su comportamiento normal
+            }
+        }
+
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         //esto sirve para capturar la tecla tab y mover el foco entre txtPagoParcial y btnConfirmarVenta
         {
@@ -143,8 +153,6 @@ namespace Gestion_Carniceria
             }
         }
 
-
-
         private void dgvItemsVenta_KeyDown_Backspace(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Back) // <-- esta es la tecla borrar/retroceso
@@ -184,6 +192,9 @@ namespace Gestion_Carniceria
                     "1" // valor por defecto
                 );
 
+                // Reemplazar punto por coma si viene del numpad
+                input = input.Replace('.', ',');
+
                 if (decimal.TryParse(input, out decimal cantidad) && cantidad > 0)
                 {
                     // Validar si es por unidad que no tenga decimales
@@ -213,7 +224,6 @@ namespace Gestion_Carniceria
             }
         }
 
-
         private void FiltrarProductos()
         {
             string filtro = txtBuscarProducto.Text.ToLower();
@@ -229,7 +239,6 @@ namespace Gestion_Carniceria
             }
         }
 
-
         private void checkPagoParcial_CheckedChanged(object sender, EventArgs e)
         {
             if (checkPagoParcial.Checked)
@@ -244,7 +253,7 @@ namespace Gestion_Carniceria
             }
         }
 
-    
+
         //*****************************FIN DE CONTROLES DE TECLADO PARA MOVERSE ENTRE GRILLAS***********************//
 
 
@@ -573,27 +582,28 @@ namespace Gestion_Carniceria
                 return;
             }
 
+            // Dentro de btnConfirmarVenta_Click, antes de procesar la venta
+            if (checkBoxPedido.Checked)
+            {
+                DialogResult avisoDeuda = MessageBox.Show(
+                    "Tiene seleccionado el la opción de PEDIDO. Al confirmar la venta, el total se registrará como deuda del cliente.\n¿Desea continuar?",
+                    "Confirmar deuda total",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (avisoDeuda != DialogResult.Yes)
+                {
+                    // Si el usuario dice No, se cancela la venta
+                    return;
+                }
+            }
+
+
             if (cbMediosDePago.SelectedItem == null)
             {
                 MessageBox.Show("Debe seleccionar un medio de pago.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            }
-
-            decimal pagoParcial = 0m;
-            if (checkPagoParcial.Checked)
-            {
-                if (!decimal.TryParse(txtPagoParcial.Text, out pagoParcial) || pagoParcial < 0)
-                {
-                    MessageBox.Show("Ingrese un monto válido para el pago parcial.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                decimal total = itemsVenta.Sum(i => i.Subtotal);
-                if (pagoParcial > total)
-                {
-                    MessageBox.Show("El pago parcial no puede ser mayor al total de la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
             }
 
             // Guardamos el índice del producto seleccionado actualmente
@@ -604,7 +614,38 @@ namespace Gestion_Carniceria
             try
             {
                 decimal total = itemsVenta.Sum(i => i.Subtotal);
-                decimal deuda = pagoParcial > 0 ? total - pagoParcial : 0;
+                decimal pagoParcial = 0m;
+                decimal deuda = 0m;
+
+                // ✅ Si está seleccionado el checkbox de "toda la venta a deuda"
+                if (checkBoxPedido.Checked)
+                {
+                    deuda = total;
+                    pagoParcial = 0;
+                }
+                else if (checkPagoParcial.Checked)
+                {
+                    // Validar pago parcial
+                    if (!decimal.TryParse(txtPagoParcial.Text, out pagoParcial) || pagoParcial < 0)
+                    {
+                        MessageBox.Show("Ingrese un monto válido para el pago parcial.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    if (pagoParcial > total)
+                    {
+                        MessageBox.Show("El pago parcial no puede ser mayor al total de la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    deuda = total - pagoParcial;
+                }
+                else
+                {
+                    // Pago completo
+                    pagoParcial = total;
+                    deuda = 0;
+                }
 
                 Venta venta = new Venta
                 {
@@ -624,7 +665,7 @@ namespace Gestion_Carniceria
                 {
                     dao.InsertarItemsVenta(ventaID, venta.Items);
 
-                    // Actualizar deuda del cliente solo si hubo pago parcial
+                    // Actualizar deuda del cliente solo si hubo deuda
                     if (deuda > 0)
                     {
                         ClienteDAO clienteDAO = new ClienteDAO();
@@ -640,12 +681,13 @@ namespace Gestion_Carniceria
                     ActualizarGrillaVenta();
                     txtPagoParcial.Clear();
                     checkPagoParcial.Checked = false;
+                    checkBoxPedido.Checked = false; // limpiar el checkbox
 
                     // Restaurar foco en el producto seleccionado
                     if (dgvProductos.Rows.Count > 0)
                     {
                         if (indiceProductoSeleccionado >= dgvProductos.Rows.Count)
-                            indiceProductoSeleccionado = dgvProductos.Rows.Count - 1; // evitar overflow
+                            indiceProductoSeleccionado = dgvProductos.Rows.Count - 1;
 
                         dgvProductos.CurrentCell = dgvProductos.Rows[indiceProductoSeleccionado].Cells[0];
                         dgvProductos.Rows[indiceProductoSeleccionado].Selected = true;
@@ -665,6 +707,7 @@ namespace Gestion_Carniceria
 
 
 
+
         //PARA FORMATEAR LA PROPIEDAS PESO A KG
         private void dgvItemsVenta_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -679,9 +722,12 @@ namespace Gestion_Carniceria
         }
 
 
-
-
         private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxPedido_CheckedChanged(object sender, EventArgs e)
         {
 
         }

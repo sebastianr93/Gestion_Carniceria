@@ -61,12 +61,8 @@
             label5 = new Label();
             clienteBindingSource = new BindingSource(components);
             mySqlCommand1 = new MySqlConnector.MySqlCommand();
-            label6 = new Label();
-            comboBoxHistorialDeuda = new ComboBox();
-            label8 = new Label();
-            textBoxPagoParcialHistorialDeuda = new TextBox();
             label14 = new Label();
-            buttonPagarDeudaHistorial = new Button();
+            label8 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvClientesDeuda).BeginInit();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -381,8 +377,7 @@
             dataGridViewHistorialDeuda.Name = "dataGridViewHistorialDeuda";
             dataGridViewHistorialDeuda.Size = new Size(543, 424);
             dataGridViewHistorialDeuda.TabIndex = 29;
-            this.dataGridViewHistorialDeuda.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewHistorialDeuda_CellClick);
-
+            dataGridViewHistorialDeuda.CellClick += dataGridViewHistorialDeuda_CellClick;
             // 
             // fechaDataGridViewTextBoxColumn
             // 
@@ -447,24 +442,14 @@
             mySqlCommand1.Transaction = null;
             mySqlCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
             // 
-            // label6
+            // label14
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(1184, 453);
-            label6.Name = "label6";
-            label6.Size = new Size(90, 15);
-            label6.TabIndex = 31;
-            label6.Text = "Cancelar Deuda";
-            // 
-            // comboBoxHistorialDeuda
-            // 
-            comboBoxHistorialDeuda.FormattingEnabled = true;
-            comboBoxHistorialDeuda.Items.AddRange(new object[] { "Parcial", "Total" });
-            comboBoxHistorialDeuda.Location = new Point(1184, 471);
-            comboBoxHistorialDeuda.Name = "comboBoxHistorialDeuda";
-            comboBoxHistorialDeuda.Size = new Size(121, 23);
-            comboBoxHistorialDeuda.TabIndex = 32;
-            comboBoxHistorialDeuda.SelectedIndexChanged += comboBoxHistorialDeuda_SelectedIndexChanged;
+            label14.AutoSize = true;
+            label14.Location = new Point(1086, 503);
+            label14.Name = "label14";
+            label14.Size = new Size(81, 15);
+            label14.TabIndex = 35;
+            label14.Text = "Monto Parcial";
             // 
             // label8
             // 
@@ -475,44 +460,13 @@
             label8.TabIndex = 33;
             label8.Text = "Total o Parcial";
             // 
-            // textBoxPagoParcialHistorialDeuda
-            // 
-            textBoxPagoParcialHistorialDeuda.Location = new Point(1184, 500);
-            textBoxPagoParcialHistorialDeuda.Name = "textBoxPagoParcialHistorialDeuda";
-            textBoxPagoParcialHistorialDeuda.Size = new Size(121, 23);
-            textBoxPagoParcialHistorialDeuda.TabIndex = 34;
-            textBoxPagoParcialHistorialDeuda.TextChanged += textBoxPagoParcialHistorialDeuda_TextChanged;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Location = new Point(1086, 503);
-            label14.Name = "label14";
-            label14.Size = new Size(81, 15);
-            label14.TabIndex = 35;
-            label14.Text = "Monto Parcial";
-            // 
-            // buttonPagarDeudaHistorial
-            // 
-            buttonPagarDeudaHistorial.Location = new Point(1334, 479);
-            buttonPagarDeudaHistorial.Name = "buttonPagarDeudaHistorial";
-            buttonPagarDeudaHistorial.Size = new Size(104, 39);
-            buttonPagarDeudaHistorial.TabIndex = 36;
-            buttonPagarDeudaHistorial.Text = "Pagar";
-            buttonPagarDeudaHistorial.UseVisualStyleBackColor = true;
-            buttonPagarDeudaHistorial.Click += buttonPagarDeudaHistorial_Click;
-            // 
             // FrmClientesDeuda
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1615, 533);
-            Controls.Add(buttonPagarDeudaHistorial);
             Controls.Add(label14);
-            Controls.Add(textBoxPagoParcialHistorialDeuda);
             Controls.Add(label8);
-            Controls.Add(comboBoxHistorialDeuda);
-            Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(dataGridViewHistorialDeuda);
             Controls.Add(groupBox3);
@@ -583,11 +537,7 @@
         private DataGridViewTextBoxColumn valorTotalDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn pagoParcialDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn deudaCompraDataGridViewTextBoxColumn;
-        private Label label6;
-        private ComboBox comboBoxHistorialDeuda;
-        private Label label8;
-        private TextBox textBoxPagoParcialHistorialDeuda;
         private Label label14;
-        private Button buttonPagarDeudaHistorial;
+        private Label label8;
     }
 }

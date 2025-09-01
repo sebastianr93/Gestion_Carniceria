@@ -100,10 +100,17 @@ namespace Gestion_Carniceria
                 FormatoPago = v.FormatoPago,
                 ValorTotal = v.ValorTotal,
                 PagoParcial = v.PagoParcial
+              
             }).ToList();
 
             dgvVentas.DataSource = null;
             dgvVentas.DataSource = listaMostrar;
+
+            // 🔴 Ocultar la columna ID
+            if (dgvVentas.Columns["ID"] != null)
+            {
+                dgvVentas.Columns["ID"].Visible = false;
+            }
         }
 
         private void dgvVentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -123,6 +130,11 @@ namespace Gestion_Carniceria
                 int ventaID = Convert.ToInt32(dgvVentas.SelectedRows[0].Cells["iDDataGridViewTextBoxColumn"].Value);
                 CargarDetalleVenta(ventaID);
             }
+            if (dgvVentas.Columns["iDDataGridViewTextBoxColumn"] != null)
+            {
+                dgvVentas.Columns["iDDataGridViewTextBoxColumn"].Visible = false;
+            }
+
         }
 
         private void CargarDetalleVenta(int ventaID)

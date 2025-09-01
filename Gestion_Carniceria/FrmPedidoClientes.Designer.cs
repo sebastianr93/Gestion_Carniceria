@@ -40,6 +40,14 @@
             cbMediosDePago = new ComboBox();
             txtBuscarProducto = new TextBox();
             dgvProductos = new DataGridView();
+            nombreDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            descripcionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            precioDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            pesoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            cantidadDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            tipoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            categoriaDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            categoriaNombreDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             productoBindingSource = new BindingSource(components);
             btnBuscarProducto = new Button();
             btnAgregarProducto = new Button();
@@ -59,15 +67,8 @@
             groupBox2 = new GroupBox();
             label4 = new Label();
             groupBox3 = new GroupBox();
+            checkBoxPedido = new CheckBox();
             label7 = new Label();
-            nombreDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            descripcionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            precioDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            pesoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            cantidadDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            tipoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            categoriaDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            categoriaNombreDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)clienteDAOBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();
             ((System.ComponentModel.ISupportInitialize)productoBindingSource).BeginInit();
@@ -154,6 +155,67 @@
             dgvProductos.ReadOnly = true;
             dgvProductos.Size = new Size(491, 381);
             dgvProductos.TabIndex = 7;
+            // 
+            // nombreDataGridViewTextBoxColumn
+            // 
+            nombreDataGridViewTextBoxColumn.DataPropertyName = "Nombre";
+            nombreDataGridViewTextBoxColumn.HeaderText = "Nombre";
+            nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
+            nombreDataGridViewTextBoxColumn.ReadOnly = true;
+            nombreDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // descripcionDataGridViewTextBoxColumn
+            // 
+            descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
+            descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
+            descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
+            descripcionDataGridViewTextBoxColumn.ReadOnly = true;
+            descripcionDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // precioDataGridViewTextBoxColumn
+            // 
+            precioDataGridViewTextBoxColumn.DataPropertyName = "Precio";
+            precioDataGridViewTextBoxColumn.HeaderText = "Precio";
+            precioDataGridViewTextBoxColumn.Name = "precioDataGridViewTextBoxColumn";
+            precioDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // pesoDataGridViewTextBoxColumn
+            // 
+            pesoDataGridViewTextBoxColumn.DataPropertyName = "Peso";
+            pesoDataGridViewTextBoxColumn.HeaderText = "Kg Stock";
+            pesoDataGridViewTextBoxColumn.Name = "pesoDataGridViewTextBoxColumn";
+            pesoDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // cantidadDataGridViewTextBoxColumn
+            // 
+            cantidadDataGridViewTextBoxColumn.DataPropertyName = "Cantidad";
+            cantidadDataGridViewTextBoxColumn.HeaderText = "Unidades";
+            cantidadDataGridViewTextBoxColumn.Name = "cantidadDataGridViewTextBoxColumn";
+            cantidadDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // tipoDataGridViewTextBoxColumn
+            // 
+            tipoDataGridViewTextBoxColumn.DataPropertyName = "Tipo";
+            tipoDataGridViewTextBoxColumn.HeaderText = "Tipo";
+            tipoDataGridViewTextBoxColumn.Name = "tipoDataGridViewTextBoxColumn";
+            tipoDataGridViewTextBoxColumn.ReadOnly = true;
+            tipoDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // categoriaDataGridViewTextBoxColumn
+            // 
+            categoriaDataGridViewTextBoxColumn.DataPropertyName = "Categoria";
+            categoriaDataGridViewTextBoxColumn.HeaderText = "Categoria";
+            categoriaDataGridViewTextBoxColumn.Name = "categoriaDataGridViewTextBoxColumn";
+            categoriaDataGridViewTextBoxColumn.ReadOnly = true;
+            categoriaDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // categoriaNombreDataGridViewTextBoxColumn
+            // 
+            categoriaNombreDataGridViewTextBoxColumn.DataPropertyName = "CategoriaNombre";
+            categoriaNombreDataGridViewTextBoxColumn.HeaderText = "CategoriaNombre";
+            categoriaNombreDataGridViewTextBoxColumn.Name = "categoriaNombreDataGridViewTextBoxColumn";
+            categoriaNombreDataGridViewTextBoxColumn.ReadOnly = true;
+            categoriaNombreDataGridViewTextBoxColumn.Visible = false;
             // 
             // productoBindingSource
             // 
@@ -257,7 +319,7 @@
             // 
             checkPagoParcial.AutoSize = true;
             checkPagoParcial.Font = new Font("Segoe UI", 11F);
-            checkPagoParcial.Location = new Point(21, 454);
+            checkPagoParcial.Location = new Point(21, 460);
             checkPagoParcial.Name = "checkPagoParcial";
             checkPagoParcial.Size = new Size(108, 24);
             checkPagoParcial.TabIndex = 16;
@@ -268,7 +330,7 @@
             // txtPagoParcial
             // 
             txtPagoParcial.Font = new Font("Segoe UI", 12F);
-            txtPagoParcial.Location = new Point(21, 484);
+            txtPagoParcial.Location = new Point(21, 490);
             txtPagoParcial.Name = "txtPagoParcial";
             txtPagoParcial.Size = new Size(100, 29);
             txtPagoParcial.TabIndex = 17;
@@ -292,9 +354,11 @@
             // lblTipoMDP
             // 
             lblTipoMDP.AutoSize = true;
-            lblTipoMDP.Location = new Point(337, 16);
+            lblTipoMDP.Font = new Font("Segoe UI", 18F);
+            lblTipoMDP.ForeColor = Color.LimeGreen;
+            lblTipoMDP.Location = new Point(316, 24);
             lblTipoMDP.Name = "lblTipoMDP";
-            lblTipoMDP.Size = new Size(61, 15);
+            lblTipoMDP.Size = new Size(121, 32);
             lblTipoMDP.TabIndex = 20;
             lblTipoMDP.Text = "Ajuste (%)";
             // 
@@ -337,6 +401,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(checkBoxPedido);
             groupBox3.Controls.Add(label7);
             groupBox3.Controls.Add(btnQuitarItem);
             groupBox3.Controls.Add(lblTipoMDP);
@@ -356,6 +421,18 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "groupBox3";
             // 
+            // checkBoxPedido
+            // 
+            checkBoxPedido.AutoSize = true;
+            checkBoxPedido.Font = new Font("Segoe UI", 15F);
+            checkBoxPedido.Location = new Point(161, 453);
+            checkBoxPedido.Name = "checkBoxPedido";
+            checkBoxPedido.Size = new Size(92, 32);
+            checkBoxPedido.TabIndex = 25;
+            checkBoxPedido.Text = "Pedido";
+            checkBoxPedido.UseVisualStyleBackColor = true;
+            checkBoxPedido.CheckedChanged += checkBoxPedido_CheckedChanged;
+            // 
             // label7
             // 
             label7.AutoSize = true;
@@ -365,67 +442,6 @@
             label7.Size = new Size(102, 21);
             label7.TabIndex = 24;
             label7.Text = "Nueva Venta";
-            // 
-            // nombreDataGridViewTextBoxColumn
-            // 
-            nombreDataGridViewTextBoxColumn.DataPropertyName = "Nombre";
-            nombreDataGridViewTextBoxColumn.HeaderText = "Nombre";
-            nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
-            nombreDataGridViewTextBoxColumn.ReadOnly = true;
-            nombreDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // descripcionDataGridViewTextBoxColumn
-            // 
-            descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
-            descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
-            descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
-            descripcionDataGridViewTextBoxColumn.ReadOnly = true;
-            descripcionDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // precioDataGridViewTextBoxColumn
-            // 
-            precioDataGridViewTextBoxColumn.DataPropertyName = "Precio";
-            precioDataGridViewTextBoxColumn.HeaderText = "Precio";
-            precioDataGridViewTextBoxColumn.Name = "precioDataGridViewTextBoxColumn";
-            precioDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // pesoDataGridViewTextBoxColumn
-            // 
-            pesoDataGridViewTextBoxColumn.DataPropertyName = "Peso";
-            pesoDataGridViewTextBoxColumn.HeaderText = "Kg Stock";
-            pesoDataGridViewTextBoxColumn.Name = "pesoDataGridViewTextBoxColumn";
-            pesoDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // cantidadDataGridViewTextBoxColumn
-            // 
-            cantidadDataGridViewTextBoxColumn.DataPropertyName = "Cantidad";
-            cantidadDataGridViewTextBoxColumn.HeaderText = "Unidades";
-            cantidadDataGridViewTextBoxColumn.Name = "cantidadDataGridViewTextBoxColumn";
-            cantidadDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // tipoDataGridViewTextBoxColumn
-            // 
-            tipoDataGridViewTextBoxColumn.DataPropertyName = "Tipo";
-            tipoDataGridViewTextBoxColumn.HeaderText = "Tipo";
-            tipoDataGridViewTextBoxColumn.Name = "tipoDataGridViewTextBoxColumn";
-            tipoDataGridViewTextBoxColumn.ReadOnly = true;
-            tipoDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // categoriaDataGridViewTextBoxColumn
-            // 
-            categoriaDataGridViewTextBoxColumn.DataPropertyName = "Categoria";
-            categoriaDataGridViewTextBoxColumn.HeaderText = "Categoria";
-            categoriaDataGridViewTextBoxColumn.Name = "categoriaDataGridViewTextBoxColumn";
-            categoriaDataGridViewTextBoxColumn.ReadOnly = true;
-            categoriaDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // categoriaNombreDataGridViewTextBoxColumn
-            // 
-            categoriaNombreDataGridViewTextBoxColumn.DataPropertyName = "CategoriaNombre";
-            categoriaNombreDataGridViewTextBoxColumn.HeaderText = "CategoriaNombre";
-            categoriaNombreDataGridViewTextBoxColumn.Name = "categoriaNombreDataGridViewTextBoxColumn";
-            categoriaNombreDataGridViewTextBoxColumn.ReadOnly = true;
-            categoriaNombreDataGridViewTextBoxColumn.Visible = false;
             // 
             // FrmPedidoClientes
             // 
@@ -489,5 +505,6 @@
         private DataGridViewTextBoxColumn tipoDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn categoriaDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn categoriaNombreDataGridViewTextBoxColumn;
+        private CheckBox checkBoxPedido;
     }
 }

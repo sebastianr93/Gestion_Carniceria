@@ -17,7 +17,21 @@ namespace Gestion_Carniceria
         public FrmPedidoProveedores()
         {
             InitializeComponent();
+            this.KeyPreview = true; // Captura todas las teclas en el formulario
+            this.KeyPress += FrmPedidoProveedores_KeyPress;
+            this.KeyDown += ManejarEscape;
+
+            dgvProductos.KeyDown += dgvProductos_KeyDown_CustomTab;
+            dgvItemsPedido.KeyDown += dgvItemsPedido_KeyDown_CustomTab;
+            dgvItemsPedido.KeyDown += dgvItemsPedido_KeyDown_Backspace;
+            txtBuscarProducto.KeyDown += txtBuscarProducto_KeyDown;
+            dgvProductos.KeyDown += dgvProductos_KeyDown;
+            // Evento para cuando el formulario se muestra
+            this.Shown += FrmPedidoProveedores_Shown;
         }
+
+
+
         // Listas para almacenar productos e items del pedido
         private List<Producto> productosDisponibles = new List<Producto>();
         private List<ItemPedido> itemsPedido = new List<ItemPedido>();
@@ -34,7 +48,183 @@ namespace Gestion_Carniceria
             txtPagoParcial.Enabled = false;
         }
 
-        // Métodos genéricos
+
+
+        //*****************************CONTROLES TECLADO*****************************//
+        private void ManejarEscape(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                btnVolver.PerformClick();
+                e.Handled = true;
+            }
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (checkPagoParcial.Checked && keyData == Keys.Tab)
+            {
+                if (this.ActiveControl == txtPagoParcial)
+                {
+                    btnConfirmarPedido.Focus();
+                    return true;
+                }
+                else if (this.ActiveControl == btnConfirmarPedido)
+                {
+                    txtPagoParcial.Focus();
+                    return true;
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+        private void dgvProductos_KeyDown_CustomTab(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                e.Handled = true;
+                dgvItemsPedido.Focus();
+            }
+        }
+        private void dgvItemsPedido_KeyDown_CustomTab(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                e.Handled = true;
+                dgvProductos.Focus();
+            }
+        }
+        private void dgvItemsPedido_KeyDown_Backspace(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Back && dgvItemsPedido.CurrentRow != null)
+            {
+                btnQuitarItem.PerformClick();
+                e.Handled = true;
+            }
+
+            if (e.KeyCode == Keys.Return && dgvItemsPedido.CurrentRow != null)
+            {
+                btnConfirmarPedido.PerformClick();
+                e.Handled = true;
+            }
+        }
+        private void dgvProductos_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && dgvProductos.CurrentRow != null)
+            {
+                e.Handled = true; // Muy importante para que no salte a otra fila
+
+                // Obtenemos el producto seleccionado
+                Producto producto = (Producto)dgvProductos.CurrentRow.DataBoundItem;
+
+                // Pedir cantidad al usuario
+                string input = Microsoft.VisualBasic.Interaction.InputBox(
+                    $"Ingrese la cantidad para {producto.Nombre}:",
+                    "Agregar producto",
+                    "1"
+                );
+
+                // Reemplazar punto por coma si viene del numpad
+                input = input.Replace('.', ',');
+
+                if (decimal.TryParse(input, out decimal cantidad) && cantidad > 0)
+                {
+                    txtAgregarProducto.Text = cantidad.ToString();
+                    btnAgregarProducto.PerformClick();
+                }
+            }
+        }
+        private void FrmPedidoProveedores_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (this.ActiveControl == txtBuscarProducto || (this.ActiveControl == txtPagoParcial && checkPagoParcial.Checked))
+                return;
+
+            if (!char.IsControl(e.KeyChar))
+            {
+                txtBuscarProducto.Focus();
+                txtBuscarProducto.Text += e.KeyChar;
+                txtBuscarProducto.SelectionStart = txtBuscarProducto.Text.Length;
+                e.Handled = true;
+            }
+        }
+
+        private void txtBuscarProducto_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnBuscarProducto.PerformClick();
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Tab)
+            {
+                dgvProductos.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void FrmPedidoProveedores_Shown(object sender, EventArgs e)
+        {
+            if (dgvProductos.Rows.Count > 0)
+            {
+                // Buscar la primera columna visible
+                DataGridViewColumn primeraVisible = dgvProductos.Columns
+                    .Cast<DataGridViewColumn>()
+                    .FirstOrDefault(c => c.Visible);
+
+                if (primeraVisible != null)
+                {
+                    dgvProductos.CurrentCell = dgvProductos.Rows[0].Cells[primeraVisible.Index];
+                    dgvProductos.Rows[0].Selected = true;
+                    dgvProductos.Focus();
+                }
+            }
+        }
+
+        private void btnQuitarItem_Click(object sender, EventArgs e)
+        {
+            if (dgvItemsPedido.CurrentRow == null)
+            {
+                MessageBox.Show("Por favor, seleccione un ítem para quitar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int index = dgvItemsPedido.CurrentRow.Index;
+
+            if (index >= 0 && index < itemsPedido.Count)
+            {
+                itemsPedido.RemoveAt(index);
+
+                dgvItemsPedido.DataSource = null;
+                dgvItemsPedido.DataSource = itemsPedido;
+
+                ActualizarMontoTotal();
+                ConfigurarGrillaItemsPedido();
+
+                // Si quedó vacío, devolver foco a dgvProductos
+                if (itemsPedido.Count == 0 && dgvProductos.Rows.Count > 0)
+                {
+                    DataGridViewColumn primeraVisible = dgvProductos.Columns
+                        .Cast<DataGridViewColumn>()
+                        .FirstOrDefault(c => c.Visible);
+
+                    if (primeraVisible != null)
+                    {
+                        dgvProductos.CurrentCell = dgvProductos.Rows[0].Cells[primeraVisible.Index];
+                        dgvProductos.Rows[0].Selected = true;
+                        dgvProductos.Focus();
+                    }
+                }
+            }
+        }
+
+
+
+
+        //*****************************CONTROLES TECLADO***************************//
+
+
+
+
+
 
         private void ActualizarGrillaProductos()
         {
@@ -311,27 +501,7 @@ namespace Gestion_Carniceria
         }
 
 
-        private void btnQuitarItem_Click(object sender, EventArgs e)
-        {
-            if (dgvItemsPedido.CurrentRow == null)
-            {
-                MessageBox.Show("Por favor, seleccione un ítem para quitar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            int index = dgvItemsPedido.CurrentRow.Index;
-
-            if (index >= 0 && index < itemsPedido.Count)
-            {
-                itemsPedido.RemoveAt(index);
-
-                dgvItemsPedido.DataSource = null;
-                dgvItemsPedido.DataSource = itemsPedido;
-
-                ActualizarMontoTotal();
-                ConfigurarGrillaItemsPedido();
-            }
-        }
+        
 
         private void btnVolver_Click(object sender, EventArgs e)
         {

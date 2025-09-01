@@ -23,12 +23,6 @@ namespace Gestion_Carniceria
         {
             components = new System.ComponentModel.Container();
             dgvVentas = new DataGridView();
-            iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            NombreCliente = new DataGridViewTextBoxColumn();
-            fechaDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            valorTotalDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            pagoParcialDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            FormatoPago = new DataGridViewTextBoxColumn();
             ventaBindingSource = new BindingSource(components);
             btnBuscar = new Button();
             btnVolverAlMenu = new Button();
@@ -56,6 +50,13 @@ namespace Gestion_Carniceria
             lblNombreCliente = new Label();
             label6 = new Label();
             label1 = new Label();
+            iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            NombreCliente = new DataGridViewTextBoxColumn();
+            fechaDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            valorTotalDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            pagoParcialDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            DeudaCompra = new DataGridViewTextBoxColumn();
+            FormatoPago = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvVentas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ventaBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ventaDAOBindingSource).BeginInit();
@@ -70,57 +71,15 @@ namespace Gestion_Carniceria
             // 
             dgvVentas.AutoGenerateColumns = false;
             dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, NombreCliente, fechaDataGridViewTextBoxColumn, valorTotalDataGridViewTextBoxColumn, pagoParcialDataGridViewTextBoxColumn, FormatoPago });
+            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, NombreCliente, fechaDataGridViewTextBoxColumn, valorTotalDataGridViewTextBoxColumn, pagoParcialDataGridViewTextBoxColumn, DeudaCompra, FormatoPago });
             dgvVentas.DataSource = ventaBindingSource;
             dgvVentas.Location = new Point(6, 67);
             dgvVentas.Name = "dgvVentas";
             dgvVentas.ReadOnly = true;
-            dgvVentas.Size = new Size(542, 354);
+            dgvVentas.Size = new Size(640, 354);
             dgvVentas.TabIndex = 0;
             dgvVentas.CellContentClick += dgvVentas_CellContentClick;
             dgvVentas.SelectionChanged += dgvVentas_SelectionChanged;
-            // 
-            // iDDataGridViewTextBoxColumn
-            // 
-            iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            iDDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // NombreCliente
-            // 
-            NombreCliente.DataPropertyName = "NombreCliente";
-            NombreCliente.HeaderText = "Cliente";
-            NombreCliente.Name = "NombreCliente";
-            NombreCliente.ReadOnly = true;
-            // 
-            // fechaDataGridViewTextBoxColumn
-            // 
-            fechaDataGridViewTextBoxColumn.DataPropertyName = "Fecha";
-            fechaDataGridViewTextBoxColumn.HeaderText = "Fecha";
-            fechaDataGridViewTextBoxColumn.Name = "fechaDataGridViewTextBoxColumn";
-            fechaDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // valorTotalDataGridViewTextBoxColumn
-            // 
-            valorTotalDataGridViewTextBoxColumn.DataPropertyName = "ValorTotal";
-            valorTotalDataGridViewTextBoxColumn.HeaderText = "ValorTotal";
-            valorTotalDataGridViewTextBoxColumn.Name = "valorTotalDataGridViewTextBoxColumn";
-            valorTotalDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // pagoParcialDataGridViewTextBoxColumn
-            // 
-            pagoParcialDataGridViewTextBoxColumn.DataPropertyName = "PagoParcial";
-            pagoParcialDataGridViewTextBoxColumn.HeaderText = "PagoParcial";
-            pagoParcialDataGridViewTextBoxColumn.Name = "pagoParcialDataGridViewTextBoxColumn";
-            pagoParcialDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // FormatoPago
-            // 
-            FormatoPago.DataPropertyName = "FormatoPago";
-            FormatoPago.HeaderText = "FormatoPago";
-            FormatoPago.Name = "FormatoPago";
-            FormatoPago.ReadOnly = true;
             // 
             // ventaBindingSource
             // 
@@ -262,7 +221,7 @@ namespace Gestion_Carniceria
             groupBox1.Controls.Add(dgvVentas);
             groupBox1.Location = new Point(9, 18);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(557, 456);
+            groupBox1.Size = new Size(652, 456);
             groupBox1.TabIndex = 14;
             groupBox1.TabStop = false;
             // 
@@ -280,6 +239,7 @@ namespace Gestion_Carniceria
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label5.ForeColor = SystemColors.ControlDarkDark;
             label5.Location = new Point(9, 9);
             label5.Name = "label5";
             label5.Size = new Size(263, 25);
@@ -295,7 +255,7 @@ namespace Gestion_Carniceria
             groupBox2.Controls.Add(label6);
             groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(dgvDetalleVentaProducto);
-            groupBox2.Location = new Point(570, 18);
+            groupBox2.Location = new Point(738, 18);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(455, 427);
             groupBox2.TabIndex = 16;
@@ -306,7 +266,7 @@ namespace Gestion_Carniceria
             // 
             lblValorTotal.AutoSize = true;
             lblValorTotal.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            lblValorTotal.Location = new Point(9, 128);
+            lblValorTotal.Location = new Point(6, 95);
             lblValorTotal.Name = "lblValorTotal";
             lblValorTotal.Size = new Size(64, 25);
             lblValorTotal.TabIndex = 11;
@@ -316,7 +276,8 @@ namespace Gestion_Carniceria
             // 
             lblMontoAbonado.AutoSize = true;
             lblMontoAbonado.Font = new Font("Segoe UI Semibold", 15.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            lblMontoAbonado.Location = new Point(9, 165);
+            lblMontoAbonado.ForeColor = Color.Green;
+            lblMontoAbonado.Location = new Point(9, 144);
             lblMontoAbonado.Name = "lblMontoAbonado";
             lblMontoAbonado.Size = new Size(71, 30);
             lblMontoAbonado.TabIndex = 10;
@@ -326,7 +287,7 @@ namespace Gestion_Carniceria
             // 
             lblFechaVenta.AutoSize = true;
             lblFechaVenta.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            lblFechaVenta.Location = new Point(9, 86);
+            lblFechaVenta.Location = new Point(239, 11);
             lblFechaVenta.Name = "lblFechaVenta";
             lblFechaVenta.Size = new Size(64, 25);
             lblFechaVenta.TabIndex = 9;
@@ -356,17 +317,67 @@ namespace Gestion_Carniceria
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.DimGray;
             label1.Location = new Point(3, -6);
             label1.Name = "label1";
             label1.Size = new Size(185, 25);
             label1.TabIndex = 6;
             label1.Text = "Detalles de la Venta";
             // 
+            // iDDataGridViewTextBoxColumn
+            // 
+            iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            iDDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // NombreCliente
+            // 
+            NombreCliente.DataPropertyName = "NombreCliente";
+            NombreCliente.HeaderText = "Cliente";
+            NombreCliente.Name = "NombreCliente";
+            NombreCliente.ReadOnly = true;
+            // 
+            // fechaDataGridViewTextBoxColumn
+            // 
+            fechaDataGridViewTextBoxColumn.DataPropertyName = "Fecha";
+            fechaDataGridViewTextBoxColumn.HeaderText = "Fecha";
+            fechaDataGridViewTextBoxColumn.Name = "fechaDataGridViewTextBoxColumn";
+            fechaDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // valorTotalDataGridViewTextBoxColumn
+            // 
+            valorTotalDataGridViewTextBoxColumn.DataPropertyName = "ValorTotal";
+            valorTotalDataGridViewTextBoxColumn.HeaderText = "ValorTotal";
+            valorTotalDataGridViewTextBoxColumn.Name = "valorTotalDataGridViewTextBoxColumn";
+            valorTotalDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // pagoParcialDataGridViewTextBoxColumn
+            // 
+            pagoParcialDataGridViewTextBoxColumn.DataPropertyName = "PagoParcial";
+            pagoParcialDataGridViewTextBoxColumn.HeaderText = "PagoParcial";
+            pagoParcialDataGridViewTextBoxColumn.Name = "pagoParcialDataGridViewTextBoxColumn";
+            pagoParcialDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // DeudaCompra
+            // 
+            DeudaCompra.DataPropertyName = "DeudaCompra";
+            DeudaCompra.HeaderText = "DeudaCompra";
+            DeudaCompra.Name = "DeudaCompra";
+            DeudaCompra.ReadOnly = true;
+            // 
+            // FormatoPago
+            // 
+            FormatoPago.DataPropertyName = "FormatoPago";
+            FormatoPago.HeaderText = "FormatoPago";
+            FormatoPago.Name = "FormatoPago";
+            FormatoPago.ReadOnly = true;
+            // 
             // FrmRegistroVentas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1031, 480);
+            ClientSize = new Size(1313, 480);
             Controls.Add(groupBox2);
             Controls.Add(label5);
             Controls.Add(groupBox1);
@@ -420,6 +431,7 @@ namespace Gestion_Carniceria
         private DataGridViewTextBoxColumn fechaDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn valorTotalDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn pagoParcialDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn DeudaCompra;
         private DataGridViewTextBoxColumn FormatoPago;
     }
 }

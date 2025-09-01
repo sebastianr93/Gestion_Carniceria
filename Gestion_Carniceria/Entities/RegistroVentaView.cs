@@ -16,5 +16,10 @@ namespace Gestion_Carniceria.Entities
         public string FormatoPago { get; set; }
         public decimal ValorTotal { get; set; }
         public decimal PagoParcial { get; set; }
+
+        public decimal DeudaCompra
+        {
+            get { return Math.Max(0, ValorTotal - PagoParcial); }
+        }
     }
 }
