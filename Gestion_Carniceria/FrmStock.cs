@@ -120,6 +120,7 @@ namespace Gestion_Carniceria
             txtPesoProducto.Text = "";
             txtCantidadProducto.Text = "";
             txtPrecioProducto.Text = "";
+            txtPrecioCosto.Text = "";
             cbCategoriaProducto.SelectedIndex = -1;
         }
 
@@ -137,6 +138,7 @@ namespace Gestion_Carniceria
             if (string.IsNullOrWhiteSpace(txtNombreProducto.Text) ||
                 string.IsNullOrWhiteSpace(txtDescripcionProducto.Text) ||
                 string.IsNullOrWhiteSpace(txtPrecioProducto.Text) ||
+                string.IsNullOrWhiteSpace(txtPrecioCosto.Text) ||
                 cbCategoriaProducto.SelectedItem == null ||
                 (!rbTipoUnidad.Checked && !rbTipoPeso.Checked))
             {
@@ -193,6 +195,15 @@ namespace Gestion_Carniceria
                 return;
             }
 
+
+
+            if (!decimal.TryParse(txtPrecioCosto.Text, out decimal precioCosto) || precioCosto <= 0)
+            {
+                MessageBox.Show("Ingrese un precio de costo válido mayor a 0.");
+                return;
+            }
+
+
             // Crear objeto Categoria y Producto
             Categoria cat = new Categoria { ID = categoriaId };
 
@@ -203,6 +214,7 @@ namespace Gestion_Carniceria
                 Peso = peso,
                 Cantidad = cantidad,
                 Precio = precio,
+                PrecioCosto = precioCosto, // <-- asignar
                 Categoria = cat,
                 Tipo = tipo
             };
@@ -292,7 +304,13 @@ namespace Gestion_Carniceria
             try
             {
                 // Confirmación del usuario
-                DialogResult confirmar = MessageBox.Show("¿Desea guardar los cambios en este producto?", "Confirmar modificación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult confirmar = MessageBox.Show(
+                    "¿Desea guardar los cambios en este producto?",
+                    "Confirmar modificación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
                 if (confirmar != DialogResult.Yes)
                 {
                     CargarProductosEnGrilla();
@@ -304,15 +322,22 @@ namespace Gestion_Carniceria
 
                 // Nombre
                 if (e.ColumnIndex == fila.Cells["Nombre"].ColumnIndex)
-                    productoModificado.Nombre = fila.Cells["Nombre"].Value?.ToString();
+                    productoModificado.Nombre = fila.Cells[e.ColumnIndex].Value?.ToString();
 
                 // Descripción
                 if (e.ColumnIndex == fila.Cells["descripcionDataGridViewTextBoxColumn"].ColumnIndex)
-                    productoModificado.Descripcion = fila.Cells["descripcionDataGridViewTextBoxColumn"].Value?.ToString() ?? "";
+                    productoModificado.Descripcion = fila.Cells[e.ColumnIndex].Value?.ToString() ?? "";
 
-                // Precio
+                // Precio venta
                 if (e.ColumnIndex == fila.Cells["precioDataGridViewTextBoxColumn"].ColumnIndex)
-                    productoModificado.Precio = Convert.ToDecimal(fila.Cells["precioDataGridViewTextBoxColumn"].Value);
+                    productoModificado.Precio = Convert.ToDecimal(fila.Cells[e.ColumnIndex].Value);
+
+                // Precio costo
+                if (fila.Cells["PrecioCosto"] != null &&
+                    e.ColumnIndex == fila.Cells["PrecioCosto"].ColumnIndex)
+                {
+                    productoModificado.PrecioCosto = Convert.ToDecimal(fila.Cells[e.ColumnIndex].Value);
+                }
 
                 // Peso
                 if (e.ColumnIndex == fila.Cells["pesoDataGridViewTextBoxColumn"].ColumnIndex)
@@ -324,7 +349,7 @@ namespace Gestion_Carniceria
                         return;
                     }
 
-                    decimal peso = Convert.ToDecimal(fila.Cells["pesoDataGridViewTextBoxColumn"].Value);
+                    decimal peso = Convert.ToDecimal(fila.Cells[e.ColumnIndex].Value);
                     if (peso <= 0)
                     {
                         MessageBox.Show("Peso inválido para producto tipo 'Peso'.");
@@ -346,7 +371,7 @@ namespace Gestion_Carniceria
                         return;
                     }
 
-                    int cantidad = Convert.ToInt32(fila.Cells["cantidadDataGridViewTextBoxColumn"].Value);
+                    int cantidad = Convert.ToInt32(fila.Cells[e.ColumnIndex].Value);
                     if (cantidad <= 0)
                     {
                         MessageBox.Show("Cantidad inválida para producto tipo 'Unidad'.");
@@ -375,6 +400,8 @@ namespace Gestion_Carniceria
                 CargarProductosEnGrilla();
             }
         }
+
+
 
         private void dgvProductos_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {

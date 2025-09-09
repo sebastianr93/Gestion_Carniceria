@@ -25,6 +25,11 @@ namespace Gestion_Carniceria
             dgvItemsPedido.KeyDown += dgvItemsPedido_KeyDown_CustomTab;
             dgvItemsPedido.KeyDown += dgvItemsPedido_KeyDown_Backspace;
             txtBuscarProducto.KeyDown += txtBuscarProducto_KeyDown;
+            dgvProductos.CellFormatting += dgvProductos_CellFormatting;
+            dgvItemsPedido.CellFormatting += dgvItemsPedido_CellFormatting;
+           
+
+
             dgvProductos.KeyDown += dgvProductos_KeyDown;
             // Evento para cuando el formulario se muestra
             this.Shown += FrmPedidoProveedores_Shown;
@@ -39,6 +44,7 @@ namespace Gestion_Carniceria
         // Instancias de DAOs para acceder a la base de datos
         private ProductoDAO productoDAO = new ProductoDAO();
         private ProveedorDAO proveedorDAO = new ProveedorDAO();
+        private int filaSeleccionadaPostEnter = -1;
 
         private void FrmPedidoProveedores_Load(object sender, EventArgs e)
         {
@@ -51,6 +57,7 @@ namespace Gestion_Carniceria
 
 
         //*****************************CONTROLES TECLADO*****************************//
+
         private void ManejarEscape(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
@@ -151,15 +158,58 @@ namespace Gestion_Carniceria
         {
             if (e.KeyCode == Keys.Enter)
             {
-                btnBuscarProducto.PerformClick();
+                string criterio = txtBuscarProducto.Text.Trim().ToLower();
+
+                var encontrado = productosDisponibles.FirstOrDefault(p =>
+                    p.Nombre.ToLower().Contains(criterio) || p.ID.ToString() == criterio);
+
+                if (encontrado != null)
+                {
+                    int rowIndex = productosDisponibles.IndexOf(encontrado);
+                    dgvProductos.ClearSelection();
+
+                    // Seleccionamos la primera columna visible
+                    var primeraVisible = dgvProductos.Columns
+                        .Cast<DataGridViewColumn>()
+                        .FirstOrDefault(c => c.Visible);
+
+                    if (primeraVisible != null)
+                    {
+                        dgvProductos.CurrentCell = dgvProductos.Rows[rowIndex].Cells[primeraVisible.Index];
+                        dgvProductos.Rows[rowIndex].Selected = true;
+                    }
+
+                    filaSeleccionadaPostEnter = rowIndex; // Guardamos la fila marcada
+                }
+
+                txtBuscarProducto.Clear();
                 e.Handled = true;
             }
             else if (e.KeyCode == Keys.Tab)
             {
-                dgvProductos.Focus();
-                e.Handled = true;
+                if (filaSeleccionadaPostEnter >= 0)
+                {
+                    var primeraVisible = dgvProductos.Columns
+                        .Cast<DataGridViewColumn>()
+                        .FirstOrDefault(c => c.Visible);
+
+                    if (primeraVisible != null)
+                    {
+                        dgvProductos.CurrentCell = dgvProductos.Rows[filaSeleccionadaPostEnter].Cells[primeraVisible.Index];
+                        dgvProductos.Rows[filaSeleccionadaPostEnter].Selected = true;
+                        dgvProductos.Focus();
+                    }
+
+                    filaSeleccionadaPostEnter = -1; // Reseteamos
+                    e.Handled = true; // Evitamos que Tab haga el salto normal
+                }
             }
         }
+
+
+      
+
+
 
         private void FrmPedidoProveedores_Shown(object sender, EventArgs e)
         {
@@ -217,13 +267,7 @@ namespace Gestion_Carniceria
         }
 
 
-
-
         //*****************************CONTROLES TECLADO***************************//
-
-
-
-
 
 
         private void ActualizarGrillaProductos()
@@ -287,6 +331,11 @@ namespace Gestion_Carniceria
                 HeaderText = "Subtotal",
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "C2" }
             });
+            // 🔹 Aumentar el ancho de todas las columnas en 20 puntos
+            foreach (DataGridViewColumn col in dgvItemsPedido.Columns)
+            {
+                col.Width = col.Width + 20;
+            }
         }
 
 
@@ -353,7 +402,8 @@ namespace Gestion_Carniceria
                 {
                     Producto = productoSeleccionado,
                     Cantidad = cantidad,
-                    PrecioUnitario = productoSeleccionado.Precio
+                    PrecioUnitario = productoSeleccionado.PrecioCosto
+
                 };
                 itemsPedido.Add(item);
             }
@@ -373,6 +423,7 @@ namespace Gestion_Carniceria
         private void checkPagoParcial_CheckedChanged(object sender, EventArgs e)
         {
             txtPagoParcial.Enabled = checkPagoParcial.Checked;
+
 
             if (!checkPagoParcial.Checked)
             {
@@ -418,8 +469,13 @@ namespace Gestion_Carniceria
             decimal pagoParcial = 0;
             decimal deuda = 0;
 
-            // Validar pago parcial si está activado
-            if (checkPagoParcial.Checked)
+            // ✅ Si está seleccionada la opción de Cuenta Corriente, todo el monto pasa como deuda
+            if (CheckCuentaCorriente.Checked)
+            {
+                pagoParcial = 0;
+                deuda = montoTotal;
+            }
+            else if (checkPagoParcial.Checked) // ✅ Caso de pago parcial
             {
                 if (!decimal.TryParse(txtPagoParcial.Text.Trim(), out pagoParcial) || pagoParcial <= 0)
                 {
@@ -435,7 +491,7 @@ namespace Gestion_Carniceria
 
                 deuda = montoTotal - pagoParcial;
             }
-            else
+            else // ✅ Caso de pago contado (sin parcial ni cuenta corriente)
             {
                 pagoParcial = montoTotal;
             }
@@ -466,42 +522,40 @@ namespace Gestion_Carniceria
 
             PedidoDAO.InsertarPedido(nuevoPedido);
 
-            // Paso 8: Actualizar Cuenta Corriente del proveedor si hay deuda
+            // ✅ Actualizar Cuenta Corriente del proveedor si hay deuda
             if (deuda > 0)
             {
                 proveedorSeleccionado.CuentaCorriente += deuda;
-                proveedorDAO.ActualizarCuentaCorriente(proveedorSeleccionado); // Método que deberás implementar
+                proveedorDAO.ActualizarCuentaCorriente(proveedorSeleccionado);
             }
 
-            // Paso 9: Limpiar datos del formulario
+            // Limpiar datos del formulario
             itemsPedido.Clear();
             dgvItemsPedido.DataSource = null;
             txtPagoParcial.Clear();
             txtAgregarProducto.Clear();
             checkPagoParcial.Checked = false;
+            CheckCuentaCorriente.Checked = false;
 
             // Actualizar productos en pantalla
             dgvProductos.DataSource = null;
-            dgvProductos.DataSource = productoDAO.ObtenerTodosLosProductos(); // O el método que uses para recargar
+            dgvProductos.DataSource = productoDAO.ObtenerTodosLosProductos();
 
             ActualizarMontoTotal();
             ActualizarGrillaProductos();
 
-            // Paso 10: Mensaje de éxito
+            // Mensaje de éxito
             string mensaje = $"Pedido confirmado de '{proveedorSeleccionado.Nombre}'\n" +
                              $"Fecha: {nuevoPedido.Fecha:dd/MM/yyyy HH:mm}\n" +
                              $"Monto total: {montoTotal:C2}";
 
             if (deuda > 0)
             {
-                mensaje += $"\nMonto abonado: {pagoParcial:C2}\nMonto restante: {deuda:C2}";
+                mensaje += $"\nMonto abonado: {pagoParcial:C2}\nMonto en cuenta corriente: {deuda:C2}";
             }
 
             MessageBox.Show(mensaje, "Pedido Registrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
-
-        
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
@@ -521,5 +575,77 @@ namespace Gestion_Carniceria
                 }
             }
         }
+
+        private void lblMontoTotal_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPagoParcial_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CheckCuentaCorriente_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CheckCuentaCorriente.Checked)
+            {
+                // Deshabilitar pago parcial si está en cuenta corriente
+                checkPagoParcial.Checked = false;
+                checkPagoParcial.Enabled = false;
+                txtPagoParcial.Enabled = false;
+                txtPagoParcial.Clear();
+            }
+            else
+            {
+                checkPagoParcial.Enabled = true;
+            }
+        }
+
+
+        //CODIGO PARA PINTAR DE GRIS LAS CELDAS CON CANTIDAD 0
+
+
+
+        private void dgvProductos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            var col = dgvProductos.Columns[e.ColumnIndex];
+            if (col.DataPropertyName == "Cantidad" || col.DataPropertyName == "Peso")
+            {
+                if (e.Value != null)
+                {
+                    decimal valor;
+                    if (decimal.TryParse(Convert.ToString(e.Value), out valor) && valor == 0m)
+                    {
+                        e.Value = "";                     // o: e.Value = null;
+                        e.CellStyle.ForeColor = Color.Gray;
+                        e.FormattingApplied = true;       // <- clave
+                    }
+                }
+            }
+        }
+
+
+
+        private void dgvItemsPedido_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            var col = dgvItemsPedido.Columns[e.ColumnIndex];
+            if (col.DataPropertyName == "Cantidad" || col.DataPropertyName == "PrecioUnitario" || col.DataPropertyName == "Subtotal")
+            {
+                if (e.Value != null)
+                {
+                    decimal valor;
+                    if (decimal.TryParse(Convert.ToString(e.Value), out valor) && valor == 0m)
+                    {
+                        e.Value = "";                     // o: e.Value = null;
+                        e.CellStyle.ForeColor = Color.Gray;
+                        e.FormattingApplied = true;       // <- clave
+                    }
+                }
+            }
+        }
+
+
+
     }
 }

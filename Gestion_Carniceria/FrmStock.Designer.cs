@@ -55,6 +55,8 @@
             btnModificarCategoría = new Button();
             btnEliminarCategoria = new Button();
             groupBox1 = new GroupBox();
+            label13 = new Label();
+            txtPrecioCosto = new TextBox();
             rbTipoPeso = new RadioButton();
             rbTipoUnidad = new RadioButton();
             label11 = new Label();
@@ -83,6 +85,7 @@
             iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             Nombre = new DataGridViewTextBoxColumn();
             precioDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            PrecioCosto = new DataGridViewTextBoxColumn();
             pesoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             cantidadDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             descripcionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -152,7 +155,7 @@
             // 
             // btnCrearProducto
             // 
-            btnCrearProducto.Location = new Point(10, 312);
+            btnCrearProducto.Location = new Point(4, 357);
             btnCrearProducto.Name = "btnCrearProducto";
             btnCrearProducto.Size = new Size(69, 23);
             btnCrearProducto.TabIndex = 9;
@@ -164,63 +167,14 @@
             // 
             dgvProductos.AutoGenerateColumns = false;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvProductos.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, Nombre, precioDataGridViewTextBoxColumn, pesoDataGridViewTextBoxColumn, cantidadDataGridViewTextBoxColumn, descripcionDataGridViewTextBoxColumn, Categoria });
+            dgvProductos.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, Nombre, precioDataGridViewTextBoxColumn, PrecioCosto, pesoDataGridViewTextBoxColumn, cantidadDataGridViewTextBoxColumn, descripcionDataGridViewTextBoxColumn, Categoria });
             dgvProductos.DataSource = productoBindingSource1;
             dgvProductos.Location = new Point(12, 48);
             dgvProductos.Name = "dgvProductos";
-            dgvProductos.Size = new Size(743, 343);
+            dgvProductos.Size = new Size(843, 343);
             dgvProductos.TabIndex = 10;
             dgvProductos.CellClick += dgvProductos_CellClick;
             dgvProductos.CellEndEdit += dgvProductos_CellEndEdit;
-            // 
-            // iDDataGridViewTextBoxColumn
-            // 
-            iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            iDDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // Nombre
-            // 
-            Nombre.DataPropertyName = "Nombre";
-            Nombre.HeaderText = "Nombre";
-            Nombre.Name = "Nombre";
-            Nombre.ReadOnly = true;
-            // 
-            // descripcionDataGridViewTextBoxColumn
-            // 
-            descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
-            descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
-            descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
-            descripcionDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // pesoDataGridViewTextBoxColumn
-            // 
-            pesoDataGridViewTextBoxColumn.DataPropertyName = "Peso";
-            pesoDataGridViewTextBoxColumn.HeaderText = "Peso";
-            pesoDataGridViewTextBoxColumn.Name = "pesoDataGridViewTextBoxColumn";
-            pesoDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // categoriaDataGridViewTextBoxColumn
-            // 
-            //categoriaDataGridViewTextBoxColumn.DataPropertyName = "Categoria";
-            //categoriaDataGridViewTextBoxColumn.HeaderText = "Categoria";
-            //categoriaDataGridViewTextBoxColumn.Name = "categoriaDataGridViewTextBoxColumn";
-            //categoriaDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // cantidadDataGridViewTextBoxColumn
-            // 
-            cantidadDataGridViewTextBoxColumn.DataPropertyName = "Cantidad";
-            cantidadDataGridViewTextBoxColumn.HeaderText = "Cantidad";
-            cantidadDataGridViewTextBoxColumn.Name = "cantidadDataGridViewTextBoxColumn";
-            cantidadDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // precioDataGridViewTextBoxColumn
-            // 
-            precioDataGridViewTextBoxColumn.DataPropertyName = "Precio";
-            precioDataGridViewTextBoxColumn.HeaderText = "Precio";
-            precioDataGridViewTextBoxColumn.Name = "precioDataGridViewTextBoxColumn";
-            precioDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // productoBindingSource1
             // 
@@ -357,6 +311,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label13);
+            groupBox1.Controls.Add(txtPrecioCosto);
             groupBox1.Controls.Add(rbTipoPeso);
             groupBox1.Controls.Add(rbTipoUnidad);
             groupBox1.Controls.Add(label11);
@@ -375,9 +331,25 @@
             groupBox1.Controls.Add(txtNombreProducto);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(168, 342);
+            groupBox1.Size = new Size(168, 389);
             groupBox1.TabIndex = 25;
             groupBox1.TabStop = false;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(6, 309);
+            label13.Name = "label13";
+            label13.Size = new Size(84, 15);
+            label13.TabIndex = 32;
+            label13.Text = "💲 Precio Costo";
+            // 
+            // txtPrecioCosto
+            // 
+            txtPrecioCosto.Location = new Point(10, 328);
+            txtPrecioCosto.Name = "txtPrecioCosto";
+            txtPrecioCosto.Size = new Size(147, 23);
+            txtPrecioCosto.TabIndex = 31;
             // 
             // rbTipoPeso
             // 
@@ -423,7 +395,7 @@
             groupBox2.Controls.Add(label10);
             groupBox2.Controls.Add(cbListaCategorias);
             groupBox2.Controls.Add(txtNombreCategoria);
-            groupBox2.Location = new Point(12, 372);
+            groupBox2.Location = new Point(12, 398);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(168, 173);
             groupBox2.TabIndex = 26;
@@ -463,7 +435,7 @@
             groupBox3.Controls.Add(btnEliminarProducto);
             groupBox3.Location = new Point(186, 12);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(766, 399);
+            groupBox3.Size = new Size(875, 399);
             groupBox3.TabIndex = 27;
             groupBox3.TabStop = false;
             // 
@@ -652,13 +624,20 @@
             // precioDataGridViewTextBoxColumn
             // 
             precioDataGridViewTextBoxColumn.DataPropertyName = "Precio";
-            precioDataGridViewTextBoxColumn.HeaderText = "Precio";
+            precioDataGridViewTextBoxColumn.HeaderText = "Precio Venta";
             precioDataGridViewTextBoxColumn.Name = "precioDataGridViewTextBoxColumn";
+            precioDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // PrecioCosto
+            // 
+            PrecioCosto.DataPropertyName = "PrecioCosto";
+            PrecioCosto.HeaderText = "Costo $";
+            PrecioCosto.Name = "PrecioCosto";
             // 
             // pesoDataGridViewTextBoxColumn
             // 
             pesoDataGridViewTextBoxColumn.DataPropertyName = "Peso";
-            pesoDataGridViewTextBoxColumn.HeaderText = "Peso (Kg)";
+            pesoDataGridViewTextBoxColumn.HeaderText = "Kg Stock";
             pesoDataGridViewTextBoxColumn.Name = "pesoDataGridViewTextBoxColumn";
             // 
             // cantidadDataGridViewTextBoxColumn
@@ -672,6 +651,7 @@
             descripcionDataGridViewTextBoxColumn.DataPropertyName = "Descripcion";
             descripcionDataGridViewTextBoxColumn.HeaderText = "Descripcion";
             descripcionDataGridViewTextBoxColumn.Name = "descripcionDataGridViewTextBoxColumn";
+            descripcionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // Categoria
             // 
@@ -686,7 +666,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(960, 551);
+            ClientSize = new Size(1147, 583);
             Controls.Add(groupBox3);
             Controls.Add(groupBox4);
             Controls.Add(groupBox2);
@@ -766,9 +746,12 @@
         private Label label12;
         private Button btnOrdenarPrecio;
         private Button btnOrdenarID;
+        private Label label13;
+        private TextBox txtPrecioCosto;
         private DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn Nombre;
         private DataGridViewTextBoxColumn precioDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn PrecioCosto;
         private DataGridViewTextBoxColumn pesoDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn cantidadDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn descripcionDataGridViewTextBoxColumn;

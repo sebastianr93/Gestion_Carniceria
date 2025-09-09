@@ -23,6 +23,9 @@ namespace Gestion_Carniceria
             CargarMediosDePago();
         }
 
+        //lista para guardar busquedas originales
+        private List<RegistroVentaView> ventasOriginales;
+
         private void InicializarLabelsDetalleVenta()
         {
             lblNombreCliente.Text = string.Empty;
@@ -54,30 +57,31 @@ namespace Gestion_Carniceria
             DateTime fechaBuscada = dtpFechaBuscar.Value.Date;
             string mdpBuscado = cmbMDP.SelectedItem?.ToString();
 
-            dgvVentas.ClearSelection();
+            // Filtramos desde ventasOriginales
+            var listaFiltrada = ventasOriginales.Where(v =>
+                (string.IsNullOrEmpty(textoBuscado) || v.NombreCliente.ToLower().Contains(textoBuscado)) &&
+                (!dtpFechaBuscar.Checked || v.Fecha.Date == fechaBuscada) &&
+                (string.IsNullOrEmpty(mdpBuscado) || v.FormatoPago == mdpBuscado)
+            ).ToList();
 
-            foreach (DataGridViewRow fila in dgvVentas.Rows)
+            // Mostramos en el DataGridView
+            dgvVentas.DataSource = null;
+            dgvVentas.DataSource = listaFiltrada;
+
+            // Si no hay resultados, aviso
+            if (listaFiltrada.Count == 0)
             {
-                string nombreCliente = fila.Cells["NombreCliente"].Value.ToString().ToLower();
-
-                bool coincideNombreApellido = string.IsNullOrEmpty(textoBuscado)
-                    || nombreCliente.Contains(textoBuscado);
-
-                bool coincideFecha = !dtpFechaBuscar.Checked
-                    || Convert.ToDateTime(fila.Cells["fechaDataGridViewTextBoxColumn"].Value).Date == fechaBuscada;
-
-                bool coincideMDP = string.IsNullOrEmpty(mdpBuscado)
-                    || fila.Cells["FormatoPago"].Value.ToString() == mdpBuscado;
-
-                if (coincideNombreApellido && coincideFecha && coincideMDP)
-                {
-                    fila.Selected = true;
-                }
+                MessageBox.Show("No se encontraron coincidencias con los criterios de búsqueda.",
+                    "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            if (dgvVentas.SelectedRows.Count == 0)
-                MessageBox.Show("No se encontraron coincidencias con los criterios de búsqueda.", "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // Ocultar columna ID
+            if (dgvVentas.Columns["ID"] != null)
+            {
+                dgvVentas.Columns["ID"].Visible = false;
+            }
         }
+
 
 
         // Botón Volver: cierra el formulario
@@ -92,7 +96,8 @@ namespace Gestion_Carniceria
             VentaDAO dao = new VentaDAO();
             List<Venta> ventas = dao.ObtenerTodasLasVentas();
 
-            List<RegistroVentaView> listaMostrar = ventas.Select(v => new RegistroVentaView
+            // Convertimos a la lista que vas a mostrar
+            ventasOriginales = ventas.Select(v => new RegistroVentaView
             {
                 ID = v.ID,
                 Fecha = v.Fecha,
@@ -100,13 +105,13 @@ namespace Gestion_Carniceria
                 FormatoPago = v.FormatoPago,
                 ValorTotal = v.ValorTotal,
                 PagoParcial = v.PagoParcial
-              
             }).ToList();
 
+            // Enlazamos al DataGridView
             dgvVentas.DataSource = null;
-            dgvVentas.DataSource = listaMostrar;
+            dgvVentas.DataSource = ventasOriginales;
 
-            // 🔴 Ocultar la columna ID
+            // Ocultamos columna ID si existe
             if (dgvVentas.Columns["ID"] != null)
             {
                 dgvVentas.Columns["ID"].Visible = false;

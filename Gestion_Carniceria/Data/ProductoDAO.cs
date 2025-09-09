@@ -16,10 +16,10 @@ namespace Gestion_Carniceria.Data
 
             using (MySqlConnection conn = ConexionBD.ObtenerConexion())
             {
-                string query = @"SELECT p.ID, p.Nombre, p.Descripcion, p.Peso, p.Cantidad, p.Precio, p.Tipo,
-                                c.ID AS CategoriaID, c.Nombre AS CategoriaNombre
-                         FROM producto p
-                         INNER JOIN categoria c ON p.CategoriaID = c.ID";
+                string query = @"SELECT p.ID, p.Nombre, p.Descripcion, p.Peso, p.Cantidad, p.Precio, p.PrecioCosto, p.Tipo,
+                c.ID AS CategoriaID, c.Nombre AS CategoriaNombre
+         FROM producto p
+         INNER JOIN categoria c ON p.CategoriaID = c.ID";
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -40,6 +40,7 @@ namespace Gestion_Carniceria.Data
                         Peso = Convert.ToDecimal(reader["Peso"]),
                         Cantidad = Convert.ToInt32(reader["Cantidad"]),
                         Precio = Convert.ToDecimal(reader["Precio"]),
+                        PrecioCosto = reader["PrecioCosto"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["PrecioCosto"]),
                         Categoria = categoria,
                         Tipo = Enum.TryParse<TipoProducto>(reader["Tipo"].ToString(), out var tipo) ? tipo : TipoProducto.Unidad
                     };
@@ -57,8 +58,9 @@ namespace Gestion_Carniceria.Data
         {
             using (MySqlConnection conn = ConexionBD.ObtenerConexion())
             {
-                string query = @"INSERT INTO producto (Nombre, Descripcion, Peso, Cantidad, Precio, CategoriaID, Tipo)
-                 VALUES (@Nombre, @Descripcion, @Peso, @Cantidad, @Precio, @CategoriaID, @Tipo)";
+                string query = @"INSERT INTO producto (Nombre, Descripcion, Peso, Cantidad, Precio, PrecioCosto, CategoriaID, Tipo)
+                VALUES (@Nombre, @Descripcion, @Peso, @Cantidad, @Precio, @PrecioCosto, @CategoriaID, @Tipo)";
+
 
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
@@ -69,6 +71,7 @@ namespace Gestion_Carniceria.Data
                 cmd.Parameters.AddWithValue("@Precio", p.Precio);
                 cmd.Parameters.AddWithValue("@CategoriaID", p.Categoria.ID);
                 cmd.Parameters.AddWithValue("@Tipo", p.Tipo.ToString());
+                cmd.Parameters.AddWithValue("@PrecioCosto", p.PrecioCosto);
 
                 int filas = cmd.ExecuteNonQuery();
                 return filas > 0;
@@ -82,9 +85,9 @@ namespace Gestion_Carniceria.Data
                 using (MySqlConnection conn = ConexionBD.ObtenerConexion())
                 {
                     string query = @"UPDATE producto
-                 SET Nombre = @Nombre, Descripcion = @Descripcion, Peso = @Peso,
-                     Cantidad = @Cantidad, Precio = @Precio, CategoriaID = @CategoriaId, Tipo = @Tipo
-                 WHERE ID = @ID";
+ SET Nombre = @Nombre, Descripcion = @Descripcion, Peso = @Peso,
+     Cantidad = @Cantidad, Precio = @Precio, PrecioCosto = @PrecioCosto, CategoriaID = @CategoriaID, Tipo = @Tipo
+ WHERE ID = @ID";
 
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@ID", p.ID);
@@ -93,8 +96,10 @@ namespace Gestion_Carniceria.Data
                     cmd.Parameters.AddWithValue("@Peso", p.Peso);
                     cmd.Parameters.AddWithValue("@Cantidad", p.Cantidad);
                     cmd.Parameters.AddWithValue("@Precio", p.Precio);
-                    cmd.Parameters.AddWithValue("@CategoriaId", p.Categoria.ID); // ← aquí da el error
+                    cmd.Parameters.AddWithValue("@CategoriaID", p.Categoria.ID);
                     cmd.Parameters.AddWithValue("@Tipo", p.Tipo.ToString());
+                    cmd.Parameters.AddWithValue("@PrecioCosto", p.PrecioCosto);
+                    
 
                     int filas = cmd.ExecuteNonQuery();
                     return filas > 0;

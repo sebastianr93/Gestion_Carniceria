@@ -38,12 +38,12 @@
             pagoParcialDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             proveedorDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             pedidoBindingSource = new BindingSource(components);
-            cmbMDP = new ComboBox();
+            MetodoDePagoLabel = new ComboBox();
             dtpFechaBuscar = new DateTimePicker();
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
-            txtNombreCliente = new TextBox();
+            txtNombreProveedor = new TextBox();
             btnBuscar = new Button();
             btnExportar = new Button();
             groupBox2 = new GroupBox();
@@ -54,12 +54,12 @@
             label6 = new Label();
             label1 = new Label();
             dataGridViewDetallePedido = new DataGridView();
-            itemPedidoBindingSource = new BindingSource(components);
             productoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             cantidadDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             precioUnitarioDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             subtotalDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             nombreProductoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            itemPedidoBindingSource = new BindingSource(components);
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewPedidosHistorial).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pedidoBindingSource).BeginInit();
@@ -81,12 +81,12 @@
             // groupBox1
             // 
             groupBox1.Controls.Add(dataGridViewPedidosHistorial);
-            groupBox1.Controls.Add(cmbMDP);
+            groupBox1.Controls.Add(MetodoDePagoLabel);
             groupBox1.Controls.Add(dtpFechaBuscar);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(txtNombreCliente);
+            groupBox1.Controls.Add(txtNombreProveedor);
             groupBox1.Controls.Add(btnBuscar);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
@@ -140,13 +140,14 @@
             // 
             pedidoBindingSource.DataSource = typeof(Entities.Pedido);
             // 
-            // cmbMDP
+            // MetodoDePagoLabel
             // 
-            cmbMDP.FormattingEnabled = true;
-            cmbMDP.Location = new Point(346, 38);
-            cmbMDP.Name = "cmbMDP";
-            cmbMDP.Size = new Size(121, 23);
-            cmbMDP.TabIndex = 13;
+            MetodoDePagoLabel.FormattingEnabled = true;
+            MetodoDePagoLabel.Location = new Point(346, 38);
+            MetodoDePagoLabel.Name = "MetodoDePagoLabel";
+            MetodoDePagoLabel.Size = new Size(121, 23);
+            MetodoDePagoLabel.TabIndex = 13;
+            MetodoDePagoLabel.SelectedIndexChanged += MetodoDePagoLabel_SelectedIndexChanged;
             // 
             // dtpFechaBuscar
             // 
@@ -155,6 +156,7 @@
             dtpFechaBuscar.Name = "dtpFechaBuscar";
             dtpFechaBuscar.Size = new Size(211, 23);
             dtpFechaBuscar.TabIndex = 12;
+            dtpFechaBuscar.ValueChanged += dtpFechaBuscar_ValueChanged;
             // 
             // label4
             // 
@@ -183,12 +185,13 @@
             label2.TabIndex = 9;
             label2.Text = "Proveedor:";
             // 
-            // txtNombreCliente
+            // txtNombreProveedor
             // 
-            txtNombreCliente.Location = new Point(6, 38);
-            txtNombreCliente.Name = "txtNombreCliente";
-            txtNombreCliente.Size = new Size(117, 23);
-            txtNombreCliente.TabIndex = 6;
+            txtNombreProveedor.Location = new Point(6, 38);
+            txtNombreProveedor.Name = "txtNombreProveedor";
+            txtNombreProveedor.Size = new Size(117, 23);
+            txtNombreProveedor.TabIndex = 6;
+            txtNombreProveedor.TextChanged += txtNombreProveedor_TextChanged;
             // 
             // btnBuscar
             // 
@@ -297,10 +300,6 @@
             dataGridViewDetallePedido.Size = new Size(443, 202);
             dataGridViewDetallePedido.TabIndex = 4;
             // 
-            // itemPedidoBindingSource
-            // 
-            itemPedidoBindingSource.DataSource = typeof(Entities.ItemPedido);
-            // 
             // productoDataGridViewTextBoxColumn
             // 
             productoDataGridViewTextBoxColumn.DataPropertyName = "Producto";
@@ -336,6 +335,10 @@
             nombreProductoDataGridViewTextBoxColumn.Name = "nombreProductoDataGridViewTextBoxColumn";
             nombreProductoDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // itemPedidoBindingSource
+            // 
+            itemPedidoBindingSource.DataSource = typeof(Entities.ItemPedido);
+            // 
             // FrmRegistroPedidos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -364,12 +367,12 @@
         private Label label5;
         private GroupBox groupBox1;
         private Button btnExportar;
-        private ComboBox cmbMDP;
+        private ComboBox MetodoDePagoLabel;
         private DateTimePicker dtpFechaBuscar;
         private Label label4;
         private Label label3;
         private Label label2;
-        private TextBox txtNombreCliente;
+        private TextBox txtNombreProveedor;
         private Button btnBuscar;
         private DataGridView dataGridViewPedidosHistorial;
         private DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;

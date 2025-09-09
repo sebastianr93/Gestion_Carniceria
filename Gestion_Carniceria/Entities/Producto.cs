@@ -13,6 +13,8 @@ public class Producto : ICloneable
     public string Nombre { get; set; }
     public string Descripcion { get; set; }
     public decimal Precio { get; set; }
+
+    public decimal PrecioCosto { get; set; } // nueva propiedad
     public decimal Peso { get; set; }
     public int Cantidad { get; set; }
     public TipoProducto Tipo { get; set; }
@@ -45,6 +47,7 @@ public class Producto : ICloneable
             Nombre = this.Nombre,
             Descripcion = this.Descripcion,
             Precio = this.Precio,
+            PrecioCosto = this.PrecioCosto, // <- esto faltaba
             Cantidad = this.Cantidad,
             Peso = this.Peso,
             Tipo = this.Tipo,

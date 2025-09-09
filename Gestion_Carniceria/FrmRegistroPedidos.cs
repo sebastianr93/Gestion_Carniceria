@@ -20,6 +20,9 @@ namespace Gestion_Carniceria
         {
             CargarTodosLosPedidos();
             InicializarLabelsDetallePedido();
+            PedidoDAO dao = new PedidoDAO();
+            pedidosCache = dao.ObtenerTodosLosPedidos();
+            CargarPedidosEnGrilla(pedidosCache);
         }
 
         private void InicializarLabelsDetallePedido()
@@ -65,8 +68,6 @@ namespace Gestion_Carniceria
             }
         }
 
-
-
         private void CargarDetallePedido(int pedidoID)
         {
             PedidoDAO pedidoDAO = new PedidoDAO();
@@ -103,6 +104,54 @@ namespace Gestion_Carniceria
         private void dataGridViewPedidosHistorial_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // Podés dejarlo vacío si no lo usás
+        }
+
+        private void txtNombreProveedor_TextChanged(object sender, EventArgs e)
+        {
+            FiltrarPedidos();
+        }
+
+        List<Pedido> pedidosCache;
+        private void FiltrarPedidos()
+        {
+            string nombreBuscado = txtNombreProveedor.Text.Trim().ToLower();
+            DateTime? fechaBuscada = dtpFechaBuscar.Checked ? dtpFechaBuscar.Value.Date : (DateTime?)null;
+
+            var filtrados = pedidosCache
+                .Where(p =>
+                    (string.IsNullOrEmpty(nombreBuscado) ||
+                     (p.Proveedor != null && p.Proveedor.Nombre.ToLower().Contains(nombreBuscado))) &&
+                    (!fechaBuscada.HasValue || p.Fecha.Date == fechaBuscada.Value)
+                )
+                .ToList();
+
+            CargarPedidosEnGrilla(filtrados);
+        }
+
+        private void dtpFechaBuscar_ValueChanged(object sender, EventArgs e)
+        {
+            FiltrarPedidos();
+        }
+
+
+        private void MetodoDePagoLabel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CargarPedidosEnGrilla(List<Pedido> lista)
+        {
+            var listaMostrar = lista.Select(p => new
+            {
+                ID = p.ID,
+                Fecha = p.Fecha.ToString("dd/MM/yyyy"),
+                Proveedor = p.Proveedor.Nombre,
+                Total = p.ValorTotal,
+                PagoParcial = p.PagoParcial
+            }).ToList();
+
+            dataGridViewPedidosHistorial.DataSource = null;
+            dataGridViewPedidosHistorial.DataSource = listaMostrar;
         }
     }
 }

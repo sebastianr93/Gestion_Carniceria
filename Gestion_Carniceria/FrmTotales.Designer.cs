@@ -58,6 +58,16 @@
             resources.ApplyResources(totalesventastext, "totalesventastext");
             totalesventastext.Name = "totalesventastext";
             // 
+            // titulo
+            // 
+            resources.ApplyResources(titulo, "titulo");
+            titulo.Name = "titulo";
+            // 
+            // costoproductostext
+            // 
+            resources.ApplyResources(costoproductostext, "costoproductostext");
+            costoproductostext.Name = "costoproductostext";
+            // 
             // labelTotalVentasValor
             // 
             resources.ApplyResources(labelTotalVentasValor, "labelTotalVentasValor");

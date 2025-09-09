@@ -123,13 +123,13 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="totalesventastext.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 11.25pt, style=Italic</value>
+    <value>Segoe UI, 13pt, style=Italic</value>
   </data>
   <data name="totalesventastext.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 26</value>
+    <value>-3, 43</value>
   </data>
   <data name="totalesventastext.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 20</value>
+    <value>160, 25</value>
   </data>
   <data name="totalesventastext.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -149,17 +149,47 @@
   <data name="&gt;&gt;totalesventastext.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="titulo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="titulo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="titulo.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;titulo.Name" xml:space="preserve">
+    <value>titulo</value>
+  </data>
+  <data name="&gt;&gt;titulo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="costoproductostext.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="costoproductostext.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="costoproductostext.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;costoproductostext.Name" xml:space="preserve">
+    <value>costoproductostext</value>
+  </data>
+  <data name="&gt;&gt;costoproductostext.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="labelTotalVentasValor.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="labelTotalVentasValor.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 11.25pt, style=Italic</value>
+    <value>Segoe UI, 13pt, style=Italic</value>
   </data>
   <data name="labelTotalVentasValor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>224, 26</value>
+    <value>277, 43</value>
   </data>
   <data name="labelTotalVentasValor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 20</value>
+    <value>61, 25</value>
   </data>
   <data name="labelTotalVentasValor.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -183,13 +213,13 @@
     <value>True</value>
   </data>
   <data name="labelTotalACobrarValor.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 11.25pt, style=Italic</value>
+    <value>Segoe UI, 13pt, style=Italic</value>
   </data>
   <data name="labelTotalACobrarValor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>224, 64</value>
+    <value>277, 106</value>
   </data>
   <data name="labelTotalACobrarValor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 20</value>
+    <value>61, 25</value>
   </data>
   <data name="labelTotalACobrarValor.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -213,13 +243,13 @@
     <value>True</value>
   </data>
   <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 11.25pt, style=Italic</value>
+    <value>Segoe UI, 13pt, style=Italic</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 64</value>
+    <value>0, 106</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 20</value>
+    <value>177, 25</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -243,13 +273,13 @@
     <value>True</value>
   </data>
   <data name="labelDeudaProveedoresValor.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 11.25pt, style=Italic</value>
+    <value>Segoe UI, 13pt, style=Italic</value>
   </data>
   <data name="labelDeudaProveedoresValor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>224, 103</value>
+    <value>277, 172</value>
   </data>
   <data name="labelDeudaProveedoresValor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 20</value>
+    <value>61, 25</value>
   </data>
   <data name="labelDeudaProveedoresValor.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -273,13 +303,13 @@
     <value>True</value>
   </data>
   <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 11.25pt, style=Italic</value>
+    <value>Segoe UI, 13pt, style=Italic</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 103</value>
+    <value>0, 172</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 20</value>
+    <value>173, 25</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -299,11 +329,14 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="dateTimePicker1Inicio.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 14pt</value>
+  </data>
   <data name="dateTimePicker1Inicio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 35</value>
+    <value>0, 48</value>
   </data>
   <data name="dateTimePicker1Inicio.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 23</value>
+    <value>350, 32</value>
   </data>
   <data name="dateTimePicker1Inicio.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -320,11 +353,14 @@
   <data name="&gt;&gt;dateTimePicker1Inicio.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="dateTimePicker2Final.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 14pt</value>
+  </data>
   <data name="dateTimePicker2Final.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 82</value>
+    <value>0, 125</value>
   </data>
   <data name="dateTimePicker2Final.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 23</value>
+    <value>350, 32</value>
   </data>
   <data name="dateTimePicker2Final.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -341,11 +377,14 @@
   <data name="&gt;&gt;dateTimePicker2Final.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="ButtonBuscarEntreFechas.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 13pt</value>
+  </data>
   <data name="ButtonBuscarEntreFechas.Location" type="System.Drawing.Point, System.Drawing">
-    <value>281, 111</value>
+    <value>434, 139</value>
   </data>
   <data name="ButtonBuscarEntreFechas.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>81, 36</value>
   </data>
   <data name="ButtonBuscarEntreFechas.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -368,11 +407,14 @@
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 17</value>
+    <value>0, 17</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 15</value>
+    <value>56, 21</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -395,11 +437,14 @@
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label4.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 64</value>
+    <value>4, 101</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 15</value>
+    <value>52, 21</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -423,7 +468,7 @@
     <value>12, 24</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>362, 151</value>
+    <value>521, 181</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -474,13 +519,13 @@
     <value>True</value>
   </data>
   <data name="BalanceLabel.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 14.25pt, style=Bold</value>
+    <value>Segoe UI, 15pt, style=Bold</value>
   </data>
   <data name="BalanceLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>164, 152</value>
+    <value>240, 262</value>
   </data>
   <data name="BalanceLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 25</value>
+    <value>65, 28</value>
   </data>
   <data name="BalanceLabel.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -504,13 +549,13 @@
     <value>True</value>
   </data>
   <data name="label6.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 12pt, style=Bold</value>
+    <value>Segoe UI, 15pt, style=Bold</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>49, 156</value>
+    <value>6, 262</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 21</value>
+    <value>86, 28</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -534,7 +579,7 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="btnExportar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>281, 181</value>
+    <value>367, 322</value>
   </data>
   <data name="btnExportar.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -558,13 +603,13 @@
     <value>2</value>
   </data>
   <data name="groupBox2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt, style=Italic</value>
+    <value>Segoe UI, 13pt, style=Italic</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 183</value>
+    <value>12, 211</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>362, 210</value>
+    <value>455, 351</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -585,7 +630,7 @@
     <value>1</value>
   </data>
   <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>293, 399</value>
+    <value>537, 593</value>
   </data>
   <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -615,7 +660,7 @@
     <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>379, 428</value>
+    <value>624, 628</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Totales</value>
